@@ -7,6 +7,9 @@ import OtherInfo from "./details/OtherInfo";
 import SessionInfo from "./details/SessionInfo";
 import { Person } from "../type";
 import { useState } from "react";
+import ConfirmFlag from "./ConfirmFlag";
+import RejectFlag from "./RejectFlag";
+
 
 interface DataPersonProps {
     selectedPerson: Person | null;
@@ -67,6 +70,12 @@ export default function DataPerson({ selectedPerson }: DataPersonProps) {
                     <div>
                         <hr/>
                         {renderContent()}
+                    </div>
+                    <div>
+                    <div className="flex items-center justify-center 2xl:justify-start 2xl:pl-20 space-x-10">
+                    <RejectFlag/>
+                    <ConfirmFlag/>
+                </div>
                     </div>
                 </>
             ) : (

@@ -1,12 +1,9 @@
 import Image from "next/image"
-import person1 from "../example/images/person1.svg"
 import { Calendar, Hash } from "lucide-react"
 import Badges from "./Badges"
 import Pictures from "./Pictures"
 import { Person } from "../type"
 import { Button } from "@/components/ui/button"
-import InconfirmFlag from "./InconfirmFlag"
-import ConfirmFlag from "./ConfirmFlag"
 
 interface ResumeProps{
     person: Person
@@ -30,10 +27,6 @@ export default function Resume({person}: ResumeProps) {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-center 2xl:justify-start 2xl:pl-20 space-x-10">
-                    <InconfirmFlag/>
-                    <ConfirmFlag/>
-                </div>
             <Badges />
             <Pictures />
         </div>
