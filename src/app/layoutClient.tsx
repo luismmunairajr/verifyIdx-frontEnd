@@ -11,7 +11,13 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
         <div>
           {children}
         </div>
-      ) : pathname === "/verifications" || "/fraudflag" ? (
+      ) : pathname === "/verifications" ? (
+        <div className="flex h-screen">
+          <SidebarDemo>
+            {children}
+          </SidebarDemo>
+        </div>
+      ) : pathname === "/fraudflag" ? (
         <div className="flex h-screen">
           <SidebarDemo>
             {children}

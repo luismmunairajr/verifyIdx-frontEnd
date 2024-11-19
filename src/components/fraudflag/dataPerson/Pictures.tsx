@@ -15,7 +15,7 @@ export default function Pictures() {
     };
     return (
         <div>
-            <div className="flex w-full space-x-5 items-center justify-center">
+            <div className="flex w-full space-x-5 2xl:justify-start 2xl:pl-20 justify-center">
                 <Image className="cursor-pointer" src={bifront} alt="foto" onClick={() => handleClick(bifront)} />
                 <Image className="cursor-pointer" src={biback} alt="foto" onClick={() => handleClick(biback)} />
                 <Image className="cursor-pointer" src={biface} alt="foto" onClick={() => handleClick(biface)} />

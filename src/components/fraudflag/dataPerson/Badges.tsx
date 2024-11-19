@@ -1,6 +1,6 @@
 export default function Badges() {
     return (
-        <div className="w-full flex space-x-2 items-center justify-center text-neutral-100 text-sm">
+        <div className="w-full flex space-x-2 justify-center 2xl:justify-start 2xl:pl-20 text-neutral-100 text-sm">
             <div className="bg-blue-500 p-2 rounded-lg">
                 Liveness verified
             </div>

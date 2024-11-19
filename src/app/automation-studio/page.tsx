@@ -6,7 +6,7 @@ import '@xyflow/react/dist/style.css';
 import Toolbar from '@/components/automation-studio/sidebar/Toolbar';
 import EDGE_TYPES from '@/components/automation-studio/edges/DefaultEdge';
 import { ScanEye, Fingerprint,Sparkles, List } from 'lucide-react';
-
+import { MarkerType } from '@xyflow/react';
 
 export default function App() {
   const NODE_TYPES = {
@@ -37,9 +37,14 @@ export default function App() {
 
   const initialEdges = [
     {
-      type:'default'
-    }
-  ]
+      id: 'edge-1',
+      source: 'start',
+      target: 'node-1',
+      animated: true,
+      markerEnd: { type: MarkerType.ArrowClosed }, // Seta no final
+      style: { stroke: "#3b82f6" }, // Cor azul
+    },
+  ];
 
 
   const [nodes, setNodes, onNodesChange] = useNodesState(INITIAL_NODES)
@@ -62,7 +67,7 @@ export default function App() {
   }
 
   return (
-    <div className='h-[85vh] w-full flex bg-zinc-100/50'>
+    <div className='h-[85vh] w-full flex bg-zinc-100/50 dark:bg-zinc-900'>
       <ReactFlow
         nodeTypes={NODE_TYPES}
         edgeTypes={EDGE_TYPES}

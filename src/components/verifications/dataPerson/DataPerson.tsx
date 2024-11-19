@@ -52,7 +52,7 @@ export default function DataPerson({ selectedPerson }: DataPersonProps) {
             {selectedPerson ? (
                 <>
                     <Resume person={selectedPerson} />
-                    <div className="w-full flex text-sm text-zinc-500 items-center justify-around">
+                    <div className="w-full flex text-sm text-zinc-500 items-center justify-around 2xl:justify-start 2xl:pl-10 2xl:space-x-14">
                         {details.map((option) => (
                             <p
                                 key={option}

@@ -36,7 +36,7 @@ export default function Toolbar({onClick}: ToolbarProps) {
   }
 
   return (
-    <div className="right-0 h-full w-[450px] bg-white border flex flex-col p-2 space-y-2">
+    <div className="right-0 h-full w-[450px] bg-white dark:bg-black border flex flex-col p-2 space-y-2">
       {selectedNode === null ? (
         nodes.map((node) => (
           <div key={node.id} onClick={() => setSelectedNode(node.id)}>

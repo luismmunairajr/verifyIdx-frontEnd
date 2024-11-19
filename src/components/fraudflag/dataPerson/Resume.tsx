@@ -5,6 +5,8 @@ import Badges from "./Badges"
 import Pictures from "./Pictures"
 import { Person } from "../type"
 import { Button } from "@/components/ui/button"
+import InconfirmFlag from "./InconfirmFlag"
+import ConfirmFlag from "./ConfirmFlag"
 
 interface ResumeProps{
     person: Person
@@ -28,9 +30,9 @@ export default function Resume({person}: ResumeProps) {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-center space-x-10">
-                    <Button variant={"destructive"} className="w-44 hover:bg-transparent hover:border hover:border-red-500 hover:text-red-500">Not Confirm Fraudflag</Button>
-                    <Button className="w-44 hover:bg-transparent hover:border hover:border-blue-500 hover:text-blue-500 dark:bg-blue-800 dark:hover:bg-transparent dark:hover:text-blue-500 dark:text-white">Confirm Fraudflag</Button>
+            <div className="flex items-center justify-center 2xl:justify-start 2xl:pl-20 space-x-10">
+                    <InconfirmFlag/>
+                    <ConfirmFlag/>
                 </div>
             <Badges />
             <Pictures />
