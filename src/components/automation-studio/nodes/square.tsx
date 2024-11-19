@@ -11,7 +11,7 @@ export default function Square(props: NodeProps) {
             "bg-green-100 border-green-500 text-green-700": label === "AI Assistant",
             "bg-yellow-100 border-yellow-500 text-yellow-700": label === "Digital Signature",
             "bg-red-100 border-red-500 text-red-700": label === "Watchlist",
-            "bg-gray-100 border-gray-500 text-gray-700": !label, 
+            "bg-gray-100 border-gray-500 text-gray-700": !label,
         }
     );
 
