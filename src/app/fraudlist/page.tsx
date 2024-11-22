@@ -1,29 +1,22 @@
-'use client'
-
+'use client';
 import { useState } from "react";
-import CardList from "@/components/fraudlist/cardList";
 import { Input } from "@/components/ui/input";
 import { profiles } from "@/components/fraudlist/profile";
+import DataTable from "@/components/fraudlist/dataTable";
 
 export default function Fraudlist() {
-  const [search, setSearch] = useState("")
-
+  const [filter, setFilter] = useState("");
   const filteredProfiles = profiles.filter((profile) =>
-    profile.name.toLowerCase().includes(search.toLowerCase())
-  )
-
+    profile.name.toLowerCase().includes(filter.toLowerCase())
+  );
   return (
-    <div className="w-full h-screen flex flex-col p-6">
-      <div className="mb-4 w-full items-ce">
-        <Input
-          type="text"
-          placeholder="Search by name"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full p-3 border rounded-md items-center flex justify-center"
-        />
-      </div>
-      <CardList profiles={filteredProfiles} />
+    <div className="w-full h-screen flex flex-col p-6 gap-4">
+      <Input
+        placeholder="Search name..."
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        className="max-w-sm"/>
+      <DataTable profiles={filteredProfiles} />
     </div>
   );
 }
