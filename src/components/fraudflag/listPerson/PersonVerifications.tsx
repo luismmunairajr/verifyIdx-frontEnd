@@ -13,7 +13,6 @@ export default function PersonVerifications({name,status, image, onclick}: Perso
             <Image src={image} alt={name} className="size-16 rounded-full"/>
             <div className="flex flex-col items-start">
                 <p className="font-medium">{name}</p>
-                <p className="text-sm">{status}</p>
             </div>
         </div>
     )

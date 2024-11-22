@@ -10,17 +10,10 @@ interface ListPersonProps {
 
 export default function ListPerson({ onSelectPerson }: ListPersonProps) {
   const [filterText, setFilterText] = useState<string>("")
-  const [showPending, setShowPending] = useState<boolean>(true)
-  const [showApproved, setShowApproved] = useState<boolean>(true)
-  const [showRejected, setShowRejected] = useState<boolean>(true)
 
   const filteredProfiles = profiles.filter((person: Person) => {
     const matchesText = person.name.toLowerCase().includes(filterText.toLowerCase())
-    const matchesStatus =
-      (showPending && person.status === "Pending") ||
-      (showApproved && person.status === "Approved") ||
-      (showRejected && person.status === "Rejected")
-    return matchesText && matchesStatus
+    return matchesText
   })
 
 
@@ -28,13 +21,7 @@ export default function ListPerson({ onSelectPerson }: ListPersonProps) {
     <div className="bg-zinc-100 flex w-96 text-black flex-col items-start p-4 space-y-6 overflow-y-auto dark:text-white dark:bg-zinc-900">
       <InputSeatch
         filterText={filterText}
-        setFilterText={setFilterText}
-        showPending={showPending}
-        showApproved={showApproved}
-        showRejected={showRejected}
-        setShowPending={setShowPending}
-        setShowApproved={setShowApproved}
-        setShowRejected={setShowRejected} />
+        setFilterText={setFilterText} />
       <h2 className="text-lg font-medium">Fraudflag</h2>
       <ListVerifications onSelectPerson={onSelectPerson} profiles={filteredProfiles}/>
     </div>

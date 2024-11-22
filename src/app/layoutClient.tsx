@@ -2,6 +2,8 @@
 import { SidebarDemo } from "@/components/sidebar/SidebarDemo";
 import { usePathname } from "next/navigation";
 import { Header } from "@/components/header";
+import IaAgent from "@/components/ia/iaAgent";
+import SupportButton from "@/components/supportButton/supportButton";
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -15,6 +17,8 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="flex h-screen">
           <SidebarDemo>
             {children}
+            <IaAgent/>
+            <SupportButton/>
           </SidebarDemo>
         </div>
       ) : pathname === "/fraudflag" ? (
@@ -36,6 +40,7 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
         <SidebarDemo>
           <Header />
           {children}
+          <SupportButton/>
         </SidebarDemo>
       )}
     </>
