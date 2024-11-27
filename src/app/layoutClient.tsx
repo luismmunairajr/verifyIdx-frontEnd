@@ -17,20 +17,30 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="flex h-screen">
           <SidebarDemo>
             {children}
-            <IaAgent/>
-            <SupportButton/>
+            <IaAgent />
+            <SupportButton />
           </SidebarDemo>
         </div>
       ) : pathname === "/fraudflag" ? (
         <div className="flex h-screen">
           <SidebarDemo>
             {children}
+            <SupportButton />
+          </SidebarDemo>
+        </div>
+      ) : pathname === "/fraudlist" ? (
+        <div className="flex h-screen">
+          <SidebarDemo>
+            <Header/>
+            {children}
+            <SupportButton />
           </SidebarDemo>
         </div>
       ) : pathname === "/automation-studio" ? (
         <SidebarDemo>
           <Header />
           {children}
+          <SupportButton />
         </SidebarDemo>
       ) : pathname === "/about/terms-of-service" ? (
         <div>
@@ -40,7 +50,7 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
         <SidebarDemo>
           <Header />
           {children}
-          <SupportButton/>
+          <SupportButton />
         </SidebarDemo>
       )}
     </>

@@ -1,8 +1,8 @@
 'use client'
-import DataPerson from "../../components/verifications/dataPerson/DataPerson";
-import ListPerson from "../../components/verifications/listPerson/ListPerson";
+import DataPerson from "@/components/verifications/dataPerson/DataPerson";
+import ListPerson from "@/components/verifications/listPerson/ListPerson";
 import { useState } from "react";
-import { Person } from "../../components/verifications/type";
+import { Person } from "@/components/data/type";
 import { Header } from "@/components/header";
 
 export default function Verifications() {

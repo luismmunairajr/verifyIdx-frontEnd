@@ -48,12 +48,12 @@ export default function SupportButton() {
     return (
         <div>
             {isExpanded ? (
-                <div className="p-4 bg-blue-800 rounded-full absolute bottom-10 right-10 hover:-translate-y-2 duration-200 transition ease-in-out">
+                <div className="p-4 bg-blue-800 rounded-full absolute bottom-10 right-10 hover:-translate-y-2 duration-200 transition ease-in-out dark:bg-zinc-700">
                     <MessagesSquare className="text-white" strokeWidth={1} onClick={toggleExpand} />
                 </div>
             ) : (
-                <div className="right-10 bottom-10 absolute rounded-xl border bg-white text-card-foreground shadow h-[450px] w-[350px] duration-500 transition ease-in-out flex flex-col space-y-2">
-                    <div className="w-full flex justify-between bg-blue-800 p-3 text-white  rounded-t-xl">
+                <div className="right-10 bottom-10 absolute rounded-xl border bg-white text-card-foreground shadow h-[450px] w-[350px] duration-500 transition ease-in-out flex flex-col space-y-2 dark:bg-black">
+                    <div className="w-full flex justify-between bg-blue-800 p-3 text-white  rounded-t-xl dark:bg-zinc-800">
                         <p>Chatbot</p>
                         <ChevronDown strokeWidth={2} onClick={toggleExpand} className="cursor-pointer" />
                     </div>
@@ -66,8 +66,8 @@ export default function SupportButton() {
                             >
                                 <div
                                     className={`inline-block p-2 rounded-lg ${message.isUser
-                                        ? 'bg-blue-800 text-sm text-white'
-                                        : 'bg-zinc-200 text-sm text-black'
+                                        ? 'bg-blue-800 text-sm text-white dark:bg-zinc-800'
+                                        : 'bg-zinc-200 text-sm text-black dark:bg-white'
                                         }`}
                                 >
                                     {message.text}
@@ -79,7 +79,7 @@ export default function SupportButton() {
                     
                     <form className="flex w-full space-x-1 p-3" onSubmit={handleSubmit}>
                         <textarea placeholder="Type your message" className="w-full border border-zinc-500 rind rounded placeholder:text-sm p-1 outline-none h-10" value={input} onChange={(e) => setInput(e.target.value)}/>
-                        <button className="bg-blue-800 text-white rounded p-1" type="submit"><Send/></button>
+                        <button className="bg-blue-800 dark:bg-zinc-800 text-white rounded p-1" type="submit"><Send/></button>
                     </form>
                 </div>
             )

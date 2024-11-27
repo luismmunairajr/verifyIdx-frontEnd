@@ -14,7 +14,7 @@ export const profiles = [
     {
         name: "Joao Mateus",
         status: "Pending",
-        image: person1,
+        image: person1, 
         details: {
             firstName: "Joao",
             lastName: "Mateus",

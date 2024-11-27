@@ -1,9 +1,8 @@
 import Image from "next/image"
-import person1 from "../example/images/person1.svg"
 import { Calendar, Hash } from "lucide-react"
 import Badges from "./Badges"
 import Pictures from "./Pictures"
-import { Person } from "../type"
+import { Person } from "@/components/data/type"
 
 interface ResumeProps{
     person: Person

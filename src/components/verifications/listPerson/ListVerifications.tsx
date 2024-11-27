@@ -1,4 +1,4 @@
-import { Person } from "../type";
+import { Person } from "@/components/data/type";
 import PersonVerifications from "./PersonVerifications"
 
 interface ListVerificationsProps {

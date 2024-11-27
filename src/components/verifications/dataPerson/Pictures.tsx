@@ -1,8 +1,8 @@
 import { useState } from "react";
-import bifront from "../example/images/bifront.svg";
-import biback from "../example/images/biback.svg";
-import biface from "../example/images/biface.svg";
-import biassign from "../example/images/biassign.svg";
+import bifront from "@/components/data/images/bifront.svg";
+import biback from "@/components/data/images/biback.svg";
+import biface from "@/components/data/images/biface.svg";
+import biassign from "@/components/data/images/biassign.svg";
 import Image from "next/image";
 
 export default function Pictures() {

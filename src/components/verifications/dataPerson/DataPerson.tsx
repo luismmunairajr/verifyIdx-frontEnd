@@ -5,7 +5,7 @@ import SanctionScreening from "./details/SanctionScreening";
 import AddressVerification from "./details/AddressVerification";
 import OtherInfo from "./details/OtherInfo";
 import SessionInfo from "./details/SessionInfo";
-import { Person } from "../type";
+import { Person } from "@/components/data/type";
 import { useState } from "react";
 
 interface DataPersonProps {

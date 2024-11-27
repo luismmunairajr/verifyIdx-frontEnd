@@ -1,8 +1,8 @@
 import InputSeatch from "./Input";
 import ListVerifications from "./ListVerifications";
-import { Person } from "../type";
+import { Person } from "@/components/data/type";
 import { useState } from "react";
-import { profiles } from "../example/profile";
+import { profiles } from "@/components/data/profile";
 
 interface ListPersonProps {
   onSelectPerson: (person: Person) => void;

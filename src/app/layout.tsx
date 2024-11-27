@@ -4,7 +4,7 @@ import ClientLayout from "./layoutClient";
 import { Poppins } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 
-const inter = Poppins({ subsets: ['latin'], weight: ["400"] })
+const poppins = Poppins({ subsets: ['latin'], weight: ["400"] })
 
 export const metadata: Metadata = {
   title: "Verify IDX",
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} antialiased`}>
+        className={`${poppins.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientLayout>{children}</ClientLayout>
         </ThemeProvider>
