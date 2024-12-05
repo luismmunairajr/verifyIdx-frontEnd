@@ -81,9 +81,9 @@ export default function DataTable({ profiles }: DataTableProps) {
                 className="rounded-full"
               />
               <p className="text-lg font-semibold mt-2">{selectedProfile.name}</p>
-              <p className="text-gray-500">Address: {selectedProfile.details.address}</p>
-              <p className="text-gray-500">Date of Birth: {selectedProfile.details.dateOfBirth}</p>
-              <p className="text-gray-500">Sex: {selectedProfile.details.sex}</p>
+              <p>Address: {selectedProfile.details.address}</p>
+              <p>Date of Birth: {selectedProfile.details.dateOfBirth}</p>
+              <p>Sex: {selectedProfile.details.sex}</p>
             </div>
             <DialogFooter>
               <Button onClick={handleCloseModal}>Close</Button>

@@ -1,83 +1,67 @@
 'use client'
-import React, { useCallback } from 'react';
-import {ReactFlow,MiniMap,Controls,Background,useNodesState,useEdgesState,addEdge,ConnectionMode,Connection} from '@xyflow/react';
-import Square from '@/components/automation-studio/nodes/square';
-import '@xyflow/react/dist/style.css';
-import Toolbar from '@/components/automation-studio/sidebar/Toolbar';
-import EDGE_TYPES from '@/components/automation-studio/edges/DefaultEdge';
-import { ScanEye, Fingerprint,Sparkles, List } from 'lucide-react';
+import ButtonAddWorkflow from "@/components/automation-studio/ButtonAddWorkflow";
+import { PackageOpen } from "lucide-react";
+import React, { useState } from "react";
+import { Workflow } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import ButtonRenameWorkflow from "@/components/automation-studio/ButtonRenameWorkflow";
 
+type Workflow = {
+  id: string
+  name: string
+  description: string
+}
 
-export default function App() {
-  const NODE_TYPES = {
-    square: Square,
-  };
+export default function AutomationStudio() {
+  const router = useRouter()
+  const editor = () => {
+    router.push('/automation-studio/editor')
+  }
+  const [workflows, setWorkflows] = useState<Workflow[]>([])
 
-  const INITIAL_NODES = [
-    {
-      id: crypto.randomUUID(),
-      type: 'square',
-      position: { x: 200, y: 400 },
-      data: {label: 'Digital Signature', icon:Fingerprint},
-    },
-    {
-      id: crypto.randomUUID(),
-      type: 'square',
-      position: { x: 200, y: 800 },
-      data: {label:'AI Assistant', icon:Sparkles},
-    },
-    {
-      id: crypto.randomUUID(),
-      type: 'square',
-      position: { x: 800, y: 400 },
-      data: {label:'Watchlist', icon:List},
-    },
-    
-  ];
-
-  const initialEdges = [
-    {
-      type:'default'
-    }
-  ]
-
-
-  const [nodes, setNodes, onNodesChange] = useNodesState(INITIAL_NODES)
-  const [edges, setEdges, onEdgesChange] = useEdgesState([])
-
-  const onConnect = useCallback((connection: Connection)=> {
-    return setEdges(edges => addEdge(connection, edges))
-  }, [])
-
-  function addSquareNode() {
-      setNodes(nodes => [
-        ...nodes,
-        {
-          id: crypto.randomUUID(),
-          type: 'square',
-          position: { x: 650, y: 650 },
-          data: {label:'Identity Verification', icon:ScanEye},
-        }
-      ])
+  const handleAddWorkflow = (name: string, description: string) => {
+    setWorkflows((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), name, description }
+    ])
   }
 
+  const handleEditWorkflow = (id: string, name: string, description: string) => {
+    setWorkflows((prev) =>
+      prev.map((workflow) =>
+        workflow.id === id ? { ...workflow, name, description } : workflow
+      )
+    );
+  };
+
   return (
-    <div className='h-[85vh] w-full flex bg-zinc-100/50 dark:bg-zinc-900'>
-      <ReactFlow
-        nodeTypes={NODE_TYPES}
-        edgeTypes={EDGE_TYPES}
-        nodes={nodes}
-        edges={edges}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        onNodesChange={onNodesChange}
-        connectionMode={ConnectionMode.Loose}
-        >
-        <Controls />
-        <MiniMap />
-        <Background gap={12} size={1}/>
-      </ReactFlow>
-      <Toolbar onClick={addSquareNode}/>
+    <div className="w-full min-h-screen p-6 space-y-4">
+      <div className="flex flex-col items-center border shadow rounded-lg w-full h-40 justify-center space-y-4">
+        <PackageOpen strokeWidth={1} className="size-10" />
+        <ButtonAddWorkflow onAddWorkflow={handleAddWorkflow} />
+      </div>
+      <div className="space-y-4">
+        {workflows.map((workflow) => (
+          <div key={workflow.id} className="w-full h-44 shadow rounded-lg p-4 border space-y-2">
+            <div className="flex items-center space-x-4">
+              <Workflow />
+            </div>
+            <div>
+              <h3 className="text-2xl font-semibold">{workflow.name}</h3>
+              <p className="text-sm text-gray-600">{workflow.description}</p>
+            </div>
+            <div className="flex space-x-4">
+              <Button onClick={editor}>Open</Button>
+              <ButtonRenameWorkflow
+                initialName={workflow.name}
+                initialDescription={workflow.description}
+                onSaveWorkflow={(name, description) => handleEditWorkflow(workflow.id, name, description)}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  );
+  )
 }
