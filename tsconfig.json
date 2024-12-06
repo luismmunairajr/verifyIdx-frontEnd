@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/automation-studio/flowcanvas/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/automation-studio/flowcanvas/page.jsx", "src/components/automation-studio/nodes/customNode.jsx"],
   "exclude": ["node_modules"]
 }

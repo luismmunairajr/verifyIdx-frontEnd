@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useRef, useCallback } from 'react';
 import {
@@ -13,10 +13,10 @@ import {
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
-import "@/app/automation-studio/flowcanvas/index.css"
-
 import Sidebar from './Sidebar';
 import { DnDProvider, useDnD } from './DnDContext';
+import CustomNode from '@/components/automation-studio/nodes/customNode';
+
 
 const initialNodes = [
   {
@@ -27,6 +27,7 @@ const initialNodes = [
   },
 ];
 
+
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
@@ -36,11 +37,21 @@ const DnDFlow = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
-
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [],
+    (params) =>
+      setEdges((eds) =>
+        addEdge(
+          {
+            ...params,
+            animated: true,
+            style: { stroke: '#3b82f6', strokeWidth: 2 },
+          },
+          eds
+        )
+      ),
+    []
   );
+  
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -51,14 +62,10 @@ const DnDFlow = () => {
     (event) => {
       event.preventDefault();
 
-      // check if the dropped element is valid
       if (!type) {
         return;
       }
 
-      // project was renamed to screenToFlowPosition
-      // and you don't need to subtract the reactFlowBounds.left/top anymore
-      // details: https://reactflow.dev/whats-new/2023-11-10
       const position = screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
@@ -76,8 +83,10 @@ const DnDFlow = () => {
   );
 
   return (
-    <div className="dndflow">
-      <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+    <div className="flex h-screen">
+      <div
+        className="flex-grow h-full bg-gray-50"
+        ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -87,8 +96,7 @@ const DnDFlow = () => {
           onDrop={onDrop}
           onDragOver={onDragOver}
           fitView
-          style={{ backgroundColor: "#F7F9FB" }}
-        >
+          className="bg-gray-200">
           <Controls />
           <Background />
         </ReactFlow>

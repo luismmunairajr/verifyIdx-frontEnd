@@ -16,7 +16,7 @@ type Workflow = {
 export default function AutomationStudio() {
   const router = useRouter()
   const editor = () => {
-    router.push('/automation-studio/editor')
+    router.push('/automation-studio/flowcanvas')
   }
   const [workflows, setWorkflows] = useState<Workflow[]>([])
 
