@@ -1,11 +1,31 @@
-export default function CustomNode({data}) {
-    return (
-        <div className="relative p-4 bg-white border rounded shadow-md">
-            <div className="absolute top-0 left-0 w-4 h-4 bg-blue-500" style={{ top: '-5px', left: '50%' }} /> {/* Handle top */}
-            <div className="absolute bottom-0 left-0 w-4 h-4 bg-blue-500" style={{ bottom: '-5px', left: '50%' }} /> {/* Handle bottom */}
-            <div className="absolute top-0 left-0 w-4 h-4 bg-blue-500" style={{ top: '50%', left: '-5px' }} /> {/* Handle left */}
-            <div className="absolute top-0 right-0 w-4 h-4 bg-blue-500" style={{ top: '50%', right: '-5px' }} /> {/* Handle right */}
-            {data.label}
+import React, { memo } from 'react';
+import { Handle, Position } from '@xyflow/react';
+ 
+function CustomNode({ data }) {
+  return (
+    <div className="px-4 py-2 shadow-md rounded-md bg-white border border-stone-400">
+      <div className="flex">
+        <div className="rounded-full w-12 h-12 flex justify-center items-center bg-gray-100">
+          {data.icon}
         </div>
-    )
+        <div className="ml-2">
+          <div className="text-lg font-bold">{data.title}</div>
+          <div className="text-gray-500">{data.description}</div>
+        </div>
+      </div>
+ 
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="w-16 !bg-teal-500"
+      />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        className="w-16 !bg-teal-500"
+      />
+    </div>
+  );
 }
+ 
+export default memo(CustomNode);
