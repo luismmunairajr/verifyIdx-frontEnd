@@ -18,23 +18,13 @@ type ButtonAddWorkflowProps = {
     onAddWorkflow: (name: string, description: string) => void
 }
 
-export default function ButtonAddWorkflow({onAddWorkflow}: ButtonAddWorkflowProps) {
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
-    
-    const handleSave = () => {
-        if(name.trim() && description.trim()) {
-            onAddWorkflow(name, description)
-            setName("")
-            setDescription("")
-        }
-    }
+export default function ButtonAddWorkflow() {
 
 
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <Button>Add Workflow</Button>
+                <Button>Save Workflow</Button>
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
@@ -45,15 +35,15 @@ export default function ButtonAddWorkflow({onAddWorkflow}: ButtonAddWorkflowProp
                 </SheetHeader>
                 <div className="pt-4">
                     <Label className="text-sm">Workflow Name</Label>
-                    <Input value={name} onChange={(e)=> setName(e.target.value)}/>
+                    <Input />
                 </div>
                 <div className="pt-4 pb-4">
                     <Label>Description</Label>
-                    <Textarea value={description} onChange={(e)=> setDescription(e.target.value)} />
+                    <Textarea/>
                 </div>
                 <SheetFooter>
                     <SheetClose asChild>
-                        <Button type="submit" onClick={handleSave}>Save changes</Button>
+                        <Button>Save changes</Button>
                     </SheetClose>
                 </SheetFooter>
             </SheetContent>

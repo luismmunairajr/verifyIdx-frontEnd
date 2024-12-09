@@ -11,18 +11,20 @@ import {
   useReactFlow,
   Background,
   MarkerType,
+  BackgroundVariant,
+  MiniMap
 } from '@xyflow/react';
-
 import '@xyflow/react/dist/style.css';
 import Sidebar from './Sidebar';
 import { DnDProvider, useDnD } from './DnDContext';
 import CustomNode from '@/components/automation-studio/nodes/CustomNode';
+import { TabSidebar } from './TabSidebar';
 
 const initialNodes = [
   {
     id: '1',
     type: 'input',
-    data: { label: 'Input Node' },
+    data: { label: 'start' },
     position: { x: 250, y: 5 },
   },
 ];
@@ -75,7 +77,7 @@ const DnDFlow = () => {
 
       const newNode = {
         id: getId(),
-        type: 'custom', // Usa o CustomNode
+        type: 'custom',
         position,
         data: {
           title: type.title,
@@ -90,11 +92,10 @@ const DnDFlow = () => {
   );
 
   return (
-    <div className="flex h-screen ">
+    <div className="flex h-full items-center justify-center">
       <div
-        className="h-full w-full bg-gray-50"
-        ref={reactFlowWrapper}
-      >
+        className="h-full overflow-hidden w-full bg-zinc-100 dark:bg-zinc-950"
+        ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -104,16 +105,16 @@ const DnDFlow = () => {
           onDrop={onDrop}
           onDragOver={onDragOver}
           fitView
-          className="bg-gray-200"
           nodeTypes={{
-            custom: CustomNode, // Registra o CustomNode
+            custom: CustomNode,
           }}
         >
-          <Controls />
-          <Background />
+          <Controls className='dark:bg-black' />
+          <Background variant={BackgroundVariant.Dots}/>
+          <MiniMap/>
         </ReactFlow>
       </div>
-      <Sidebar />
+      <TabSidebar/>
     </div>
   );
 };
