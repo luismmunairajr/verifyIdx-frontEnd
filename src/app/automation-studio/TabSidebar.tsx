@@ -15,7 +15,7 @@ export function TabSidebar() {
         <ButtonAddWorkflow/>
         <Button>Publish</Button>
       </div>
-      <TabsList className="grid w-full grid-cols-2">
+      <TabsList className="dark:bg-zinc-950 bg-white">
         <TabsTrigger value="actions">Actions</TabsTrigger>
         <TabsTrigger value="settings">Settings</TabsTrigger>
       </TabsList>

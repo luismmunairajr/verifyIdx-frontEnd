@@ -15,26 +15,17 @@ import {
   MiniMap
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import Sidebar from './Sidebar';
 import { DnDProvider, useDnD } from './DnDContext';
 import CustomNode from '@/components/automation-studio/nodes/CustomNode';
 import { TabSidebar } from './TabSidebar';
-
-const initialNodes = [
-  {
-    id: '1',
-    type: 'input',
-    data: { label: 'start' },
-    position: { x: 250, y: 5 },
-  },
-];
+import "@/components/automation-studio/nodes/index.css"
 
 let id = 0;
 const getId = () => `node_${id++}`;
 
 const DnDFlow = () => {
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
@@ -92,7 +83,7 @@ const DnDFlow = () => {
   );
 
   return (
-    <div className="flex h-full items-center justify-center">
+    <div className="flex h-full items-center justify-center" style={{ height: "85vh" }}>
       <div
         className="h-full overflow-hidden w-full bg-zinc-100 dark:bg-zinc-950"
         ref={reactFlowWrapper}>
@@ -107,14 +98,13 @@ const DnDFlow = () => {
           fitView
           nodeTypes={{
             custom: CustomNode,
-          }}
-        >
-          <Controls className='dark:bg-black' />
-          <Background variant={BackgroundVariant.Dots}/>
-          <MiniMap/>
+          }}>
+          <Controls className='controls' />
+          <Background variant={BackgroundVariant.Dots} />
+          <MiniMap className='minimap' />
         </ReactFlow>
       </div>
-      <TabSidebar/>
+      <TabSidebar />
     </div>
   );
 };

@@ -1,9 +1,6 @@
 import React from 'react';
 import { useDnD } from './DnDContext';
-import { ScanEye, Fingerprint, Sparkles, List } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import ButtonAddWorkflow from '@/components/automation-studio/ButtonAddWorkflow';
-
+import nodes from '@/components/automation-studio/NodeData';
 export default function Sidebar() {
   const [_, setType] = useDnD();
 
@@ -12,33 +9,7 @@ export default function Sidebar() {
     event.dataTransfer.effectAllowed = 'move';
   };
 
-  const nodes = [
-    {
-      id: 'identity',
-      icon: <ScanEye size={40} />,
-      title: 'Identity Verification',
-      description: 'Confirms identity using biometric and document checks to prevent fraud.',
-    },
-    {
-      id: 'signature',
-      icon: <Fingerprint size={40} />,
-      title: 'Digital Signature',
-      description: 'Authenticates documents securely, ensuring integrity and trust.',
-    },
-    {
-      id: 'assistant',
-      icon: <Sparkles size={40} />,
-      title: 'AI Assistant',
-      description: 'Provides smart insights and recommendations using AI.',
-    },
-    {
-      id: 'watchlist',
-      icon: <List size={40} />,
-      title: 'Watchlist',
-      description: 'Monitors entities in real-time for compliance and risk control.',
-    },
-  ];
-
+  
   return (
     <aside className="bg-white border border-gray-200 p-4 text-xs h-full overflow-hidden w-full flex flex-col gap-2 dark:bg-black">
       <div className="mb-4 text-gray-700">Drag these nodes to create your flow:</div>
@@ -49,7 +20,7 @@ export default function Sidebar() {
           onDragStart={(event) => onDragStart(event, node)}
           draggable
         >
-          <div className="flex items-center justify-center h-full bg-blue-800 dark:bg-black rounded text-white">
+          <div className="flex items-center justify-center h-full text-black rounded dark:text-white">
             {node.icon}
           </div>
           <div className="flex flex-col items-start w-full">

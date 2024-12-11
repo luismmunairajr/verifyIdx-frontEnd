@@ -24,7 +24,7 @@ export default function ButtonAddWorkflow() {
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <Button>Save Workflow</Button>
+                <Button>Save</Button>
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>

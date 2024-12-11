@@ -1,0 +1,59 @@
+:root {
+    color-scheme: light dark;
+}
+
+.custom-node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: light-dark(#ffffff,#000000);
+    border: 1px solid;
+    border-color: light-dark(black,white);
+    color: light-dark(black,white);
+    height: 125px;
+    width: 400px;
+    padding: 5px;
+}
+  
+  .custom-node-content {
+    gap: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .custom-node-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: light-dark(black,white);
+    margin-left: 10px;
+  }
+  
+  .custom-node-title {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: light-dark(black,white);
+    margin-bottom: 5px;
+  }
+  
+  .custom-node-description {
+    color: light-dark(#52525b,#d4d4d8);
+    text-align: left;
+  }
+  
+  .handle {
+    width: 15px;
+    height: 15px;
+  }
+  
+  .controls {
+    color: light-dark(black,white);
+    background-color: light-dark(black,white);
+  }
+  
+  .minimap {
+    color: light-dark(black,white);
+    background-color: light-dark(white,black);
+  }

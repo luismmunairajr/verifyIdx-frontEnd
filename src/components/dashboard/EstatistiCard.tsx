@@ -18,7 +18,7 @@ export default function EstatistiCard({title, number, icon, variance}: Estatisti
     )
 
     return (
-        <div className="rounded-xl border bg-card text-card-foreground shadow w-1/3 p-4 flex items-center justify-between dark:bg-zinc-900">
+        <div className="rounded-xl border bg-card text-card-foreground shadow w-1/3 p-4 flex items-center justify-between dark:bg-zinc-950">
             <div>
                 <h2 className="text-sm">{title}</h2>
                 <p className="text-3xl font-bold">{number}</p>
