@@ -11,7 +11,7 @@ export default function Sidebar() {
 
   
   return (
-    <aside className="bg-white border border-gray-200 p-4 text-xs h-full overflow-hidden w-full flex flex-col gap-2 dark:bg-black">
+    <aside className="bg-white border border-gray-200 p-4 text-xs h-full overflow-y-auto w-full flex flex-col gap-2 dark:bg-black">
       <div className="mb-4 text-gray-700">Drag these nodes to create your flow:</div>
       {nodes.map((node) => (
         <div

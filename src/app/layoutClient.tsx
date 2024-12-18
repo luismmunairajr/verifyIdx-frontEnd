@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import IaAgent from "@/components/ia/iaAgent";
 import SupportButton from "@/components/supportButton/supportButton";
 
+
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 

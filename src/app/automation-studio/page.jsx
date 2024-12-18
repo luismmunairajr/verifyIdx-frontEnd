@@ -1,27 +1,18 @@
 'use client';
-
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import {
-  ReactFlow,
-  ReactFlowProvider,
-  addEdge,
-  useNodesState,
-  useEdgesState,
-  Controls,
-  useReactFlow,
-  Background,
-  MarkerType,
-  BackgroundVariant,
-  MiniMap
+  ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState, Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { DnDProvider, useDnD } from './DnDContext';
 import CustomNode from '@/components/automation-studio/nodes/CustomNode';
-import { TabSidebar } from './TabSidebar';
-import "@/components/automation-studio/nodes/index.css"
+import { TabSidebar } from './TabSidebar.jsx';
+import "@/components/automation-studio/nodes/index.css";
 
 let id = 0;
 const getId = () => `node_${id++}`;
+
+const flowKey = 'workflows';
 
 const DnDFlow = () => {
   const reactFlowWrapper = useRef(null);
@@ -29,6 +20,7 @@ const DnDFlow = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
+  const [workflowName, setWorkflowName] = useState('');
 
   const onConnect = useCallback(
     (params) =>
@@ -39,13 +31,13 @@ const DnDFlow = () => {
             animated: true,
             style: { stroke: '#3b82f6', strokeWidth: 2 },
             markerEnd: {
-              type: MarkerType.ArrowClosed
-            }
+              type: MarkerType.ArrowClosed,
+            },
           },
           eds
         )
       ),
-    []
+    [setEdges]
   );
 
   const onDragOver = useCallback((event) => {
@@ -79,8 +71,29 @@ const DnDFlow = () => {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [screenToFlowPosition, type]
+    [screenToFlowPosition, type, setNodes]
   );
+
+  const handleSaveWorkflow = () => {
+    if (!workflowName.trim()) {
+      alert('Please provide a name for your workflow.');
+      return;
+    }
+
+    const savedWorkflows = JSON.parse(localStorage.getItem(flowKey) || '[]');
+
+    const newWorkflow = {
+      id: Date.now(),
+      name: workflowName,
+      nodes,
+      edges,
+    };
+
+    localStorage.setItem(flowKey, JSON.stringify([...savedWorkflows, newWorkflow]));
+    alert(`Workflow "${workflowName}" saved successfully!`);
+    setWorkflowName('');
+  };
+
 
   return (
     <div className="flex h-full items-center justify-center" style={{ height: "85vh" }}>
@@ -104,7 +117,7 @@ const DnDFlow = () => {
           <MiniMap className='minimap' />
         </ReactFlow>
       </div>
-      <TabSidebar />
+      <TabSidebar nodes={nodes} edges={edges} />
     </div>
   );
 };

@@ -48,12 +48,10 @@
     height: 15px;
   }
   
-  .controls {
-    color: light-dark(black,white);
-    background-color: light-dark(black,white);
+  .controls { 
+    background-color: light-dark(white,black);
   }
   
   .minimap {
-    color: light-dark(black,white);
     background-color: light-dark(white,black);
   }

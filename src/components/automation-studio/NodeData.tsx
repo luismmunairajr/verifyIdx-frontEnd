@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScanEye, Fingerprint, Sparkles, List } from 'lucide-react';
+import { ScanEye, Fingerprint, Sparkles, List, Bot } from 'lucide-react';
 
 const nodes = [
   {
@@ -25,6 +25,11 @@ const nodes = [
     icon: <List size={40} />,
     title: 'Watchlist',
     description: 'Monitors entities in real-time for compliance and risk control.',
+  },{
+    id: 'support',
+    icon: <Bot size={40} />,
+    title: 'Support',
+    description: 'Provides recomendations about how you see in screen',
   },
 ];
 
