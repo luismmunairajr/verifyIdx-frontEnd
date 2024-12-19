@@ -1,131 +1,109 @@
-'use client';
-import React, { useRef, useCallback, useState, useEffect } from 'react';
-import {
-  ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState, Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap
-} from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
-import { DnDProvider, useDnD } from './DnDContext';
-import CustomNode from '@/components/automation-studio/nodes/CustomNode';
-import { TabSidebar } from './TabSidebar.jsx';
-import "@/components/automation-studio/nodes/index.css";
+  'use client';
+  import React, { useRef, useCallback, useState, useEffect } from 'react';
+  import {
+    ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState, Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap
+  } from '@xyflow/react';
+  import '@xyflow/react/dist/style.css';
+  import { DnDProvider, useDnD } from './DnDContext';
+  import CustomNode from '@/components/automation-studio/nodes/CustomNode';
+  import { TabSidebar } from './TabSidebar.jsx';
+  import "@/components/automation-studio/nodes/index.css";
 
-let id = 0;
-const getId = () => `node_${id++}`;
+  let id = 0;
+  const getId = () => `node_${id++}`;
 
-const flowKey = 'workflows';
+  const DnDFlow = () => {
+    const reactFlowWrapper = useRef(null);
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const { screenToFlowPosition } = useReactFlow();
+    const [type] = useDnD();
 
-const DnDFlow = () => {
-  const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { screenToFlowPosition } = useReactFlow();
-  const [type] = useDnD();
-  const [workflowName, setWorkflowName] = useState('');
-
-  const onConnect = useCallback(
-    (params) =>
-      setEdges((eds) =>
-        addEdge(
-          {
-            ...params,
-            animated: true,
-            style: { stroke: '#3b82f6', strokeWidth: 2 },
-            markerEnd: {
-              type: MarkerType.ArrowClosed,
+    const onConnect = useCallback(
+      (params) =>
+        setEdges((eds) =>
+          addEdge(
+            {
+              ...params,
+              animated: true,
+              style: { stroke: '#3b82f6', strokeWidth: 2 },
+              markerEnd: {
+                type: MarkerType.ArrowClosed,
+              },
             },
-          },
-          eds
-        )
-      ),
-    [setEdges]
-  );
+            eds
+          )
+        ),
+      [setEdges]
+    );
 
-  const onDragOver = useCallback((event) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
-  }, []);
-
-  const onDrop = useCallback(
-    (event) => {
+    const onDragOver = useCallback((event) => {
       event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+    }, []);
 
-      if (!type) {
-        return;
-      }
+    const onDrop = useCallback(
+      (event) => {
+        event.preventDefault();
 
-      const position = screenToFlowPosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
+        if (!type) {
+          return;
+        }
 
-      const newNode = {
-        id: getId(),
-        type: 'custom',
-        position,
-        data: {
-          title: type.title,
-          description: type.description,
-          icon: type.icon,
-        },
-      };
+        const position = screenToFlowPosition({
+          x: event.clientX,
+          y: event.clientY,
+        });
 
-      setNodes((nds) => nds.concat(newNode));
-    },
-    [screenToFlowPosition, type, setNodes]
-  );
+        const newNode = {
+          id: getId(),
+          type: 'custom',
+          position,
+          data: {
+            title: type.title,
+            description: type.description,
+            icon: type.icon,
+          },
+        };
 
-  const handleSaveWorkflow = () => {
-    if (!workflowName.trim()) {
-      alert('Please provide a name for your workflow.');
-      return;
-    }
+        setNodes((nds) => nds.concat(newNode));
+      },
+      [screenToFlowPosition, type, setNodes]
+    );
 
-    const savedWorkflows = JSON.parse(localStorage.getItem(flowKey) || '[]');
+    
 
-    const newWorkflow = {
-      id: Date.now(),
-      name: workflowName,
-      nodes,
-      edges,
-    };
-
-    localStorage.setItem(flowKey, JSON.stringify([...savedWorkflows, newWorkflow]));
-    alert(`Workflow "${workflowName}" saved successfully!`);
-    setWorkflowName('');
+    return (
+      <div className="flex h-full items-center justify-center" style={{ height: "85vh" }}>
+        <div
+          className="h-full overflow-hidden w-full bg-zinc-100 dark:bg-zinc-950"
+          ref={reactFlowWrapper}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            fitView
+            nodeTypes={{
+              custom: CustomNode,
+            }}>
+            <Controls className='controls' />
+            <Background variant={BackgroundVariant.Dots} />
+            <MiniMap className='minimap' />
+          </ReactFlow>
+        </div>
+        <TabSidebar nodes={nodes} edges={edges} />
+      </div>
+    );
   };
 
-
-  return (
-    <div className="flex h-full items-center justify-center" style={{ height: "85vh" }}>
-      <div
-        className="h-full overflow-hidden w-full bg-zinc-100 dark:bg-zinc-950"
-        ref={reactFlowWrapper}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          fitView
-          nodeTypes={{
-            custom: CustomNode,
-          }}>
-          <Controls className='controls' />
-          <Background variant={BackgroundVariant.Dots} />
-          <MiniMap className='minimap' />
-        </ReactFlow>
-      </div>
-      <TabSidebar nodes={nodes} edges={edges} />
-    </div>
+  export default () => (
+    <ReactFlowProvider>
+      <DnDProvider>
+        <DnDFlow />
+      </DnDProvider>
+    </ReactFlowProvider>
   );
-};
-
-export default () => (
-  <ReactFlowProvider>
-    <DnDProvider>
-      <DnDFlow />
-    </DnDProvider>
-  </ReactFlowProvider>
-);

@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { useDnD } from './DnDContext';
 import nodes from '@/components/automation-studio/NodeData';
@@ -15,7 +17,7 @@ export default function Sidebar() {
       <div className="mb-4 text-gray-700">Drag these nodes to create your flow:</div>
       {nodes.map((node) => (
         <div
-          className="border p-2 rounded-sm border-black dark:border-white  ite text-center mb-2 cursor-grab flex h-20 gap-2"
+          className="border p-2 rounded-sm border-black dark:border-white mb-2 cursor-grab flex h-20 gap-2"
           key={node.id}
           onDragStart={(event) => onDragStart(event, node)}
           draggable
@@ -25,7 +27,7 @@ export default function Sidebar() {
           </div>
           <div className="flex flex-col items-start w-full">
             <h1 className="font-semibold">{node.title}</h1>
-            <p className="text-justify">{node.description}</p>
+            <p>{node.description}</p>
           </div>
         </div>
       ))}

@@ -1,7 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { Input } from '@/components/ui/input';
+import FilterButtons from '@/components/templates/FilterButtons';
+import CardTemplate from '@/components/templates/CardTemplate';
 
 type Workflow = {
   id: number;
@@ -27,22 +29,20 @@ export default function TemplatesPage() {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Saved Workflows</h1>
-      <ul className="space-y-4">
+    <div className="w-full min-h-screen flex flex-col p-6 px-40 space-y-10">
+      <div className='w-full flex flex-col items-center mt-10 space-y-4'>
+        <h1 className="text-5xl font-bold">Workflow Templates</h1>
+        <p className="text-lg">
+          Choose from our ready-made templates to start building your workflow quickly.
+        </p>
+        <Input placeholder="Search a Workflow" />
+      </div>
+      <FilterButtons />
+      <div className='grid grid-cols-2 gap-4 p-4'>
         {workflows.map((workflow) => (
-          <li key={workflow.id} className="border p-4 rounded-md shadow-sm">
-            <h2 className="text-lg font-semibold">{workflow.name}</h2>
-            {workflow.description && <p className="text-sm text-gray-600">{workflow.description}</p>}
-            <Link
-              href={`/templates/${workflow.id}`}
-              className="text-blue-500 hover:underline mt-2 inline-block"
-            >
-              Open Workflow
-            </Link>
-          </li>
+          <CardTemplate key={workflow.id} id={workflow.id} name={workflow.name} description={workflow.description}/>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

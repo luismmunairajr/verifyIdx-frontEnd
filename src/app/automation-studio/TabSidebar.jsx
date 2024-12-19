@@ -13,7 +13,6 @@ export function TabSidebar({ nodes, edges }) {
   return (
     <Tabs defaultValue="actions" className="h-full w-2/5 space-y-2 p-2">
       <div className="flex gap-2 w-full">
-        {/* Passando nodes e edges para o ButtonSaveWorkflow */}
         <ButtonSaveWorkflow nodes={nodes} edges={edges} />
         <Button>Publish</Button>
       </div>

@@ -4,15 +4,15 @@ import { ScanEye, Fingerprint, Sparkles, List, Bot } from 'lucide-react';
 import { useRouter } from "next/navigation";
 
 interface CardTemplateProps {
-    id:string
-    name:string
-    description:string
+    id:any
+    name:any
+    description:any
 }
 
 export default function CardTemplate({id,name,description}:CardTemplateProps) {
     const router = useRouter()
     const handleClick = () => {
-        router.push(`/workflow/${id}`)
+        router.push(`/templates/${id}`)
     }
     
     return (

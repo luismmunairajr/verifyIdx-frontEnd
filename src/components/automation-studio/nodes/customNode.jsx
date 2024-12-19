@@ -7,7 +7,11 @@ function CustomNode({ data }) {
     <div className={"custom-node"}>
       <div className="custom-node-content">
         <div className="custom-node-icon">
-          {data.icon}
+        {React.isValidElement(data.icon) ? (
+            data.icon
+          ) : (
+            <span>Invalid Icon</span>
+          )}
         </div>
         <div className='custon-none-text'>
           <div className={"custom-node-title"}>

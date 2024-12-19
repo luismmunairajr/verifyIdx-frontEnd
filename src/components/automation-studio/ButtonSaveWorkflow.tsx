@@ -16,9 +16,11 @@ import {
 import { useState } from "react";
 
 type ButtonSaveWorkflowProps = {
-  nodes: any[]; // Incluindo todos os dados customizados do nó
-  edges: any[];
+  nodes: any[]; 
+  edges: any[]; 
 };
+
+const flowKey = 'workflows';
 
 export default function ButtonSaveWorkflow({ nodes, edges }: ButtonSaveWorkflowProps) {
   const [workflowName, setWorkflowName] = useState("");
@@ -35,23 +37,25 @@ export default function ButtonSaveWorkflow({ nodes, edges }: ButtonSaveWorkflowP
       return;
     }
 
-    // Verifica se há dados personalizados e inclui
-    const serializedNodes = nodes.map((node) => ({
+    const processNodes = nodes.map((node)=> ({
       ...node,
-      data: { ...node.data }, // Mantém as propriedades customizadas (title, description, icon, etc.)
-    }));
+      data: {
+        ...node.data,
+        icon: node.data.icon,
+      }
+    }))
 
-    const savedWorkflows = JSON.parse(localStorage.getItem("workflows") || "[]");
+    const savedWorkflows = JSON.parse(localStorage.getItem(flowKey) || "[]");
 
     const newWorkflow = {
       id: Date.now(),
       name: workflowName,
       description: workflowDescription,
-      nodes: serializedNodes, // Inclui os dados do nó
+      nodes: processNodes,
       edges,
     };
 
-    localStorage.setItem("workflows", JSON.stringify([...savedWorkflows, newWorkflow]));
+    localStorage.setItem(flowKey, JSON.stringify([...savedWorkflows, newWorkflow]));
 
     setWorkflowName("");
     setWorkflowDescription("");
