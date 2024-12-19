@@ -21,15 +21,21 @@ export default function TemplatesPage() {
 
   if (workflows.length === 0) {
     return (
-      <div className="p-6">
-        <h1 className="text-xl font-bold">No workflows saved</h1>
-        <p>Start creating workflows to see them listed here.</p>
+      <div className="w-full flex flex-col p-6 px-40 space-y-10">
+        <div className='w-full flex flex-col items-center mt-10 space-y-4'>
+          <h1 className="text-5xl font-bold">Workflow Templates</h1>
+          <p className="text-lg">
+            Choose from our ready-made templates to start building your workflow quickly.
+          </p>
+          <h1 className="text-4xl font-bold pt-10">No workflows saved</h1>
+          <p>Start creating workflows to see them listed here.</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full min-h-screen flex flex-col p-6 px-40 space-y-10">
+    <div className="w-full flex flex-col p-6 px-40 space-y-10">
       <div className='w-full flex flex-col items-center mt-10 space-y-4'>
         <h1 className="text-5xl font-bold">Workflow Templates</h1>
         <p className="text-lg">
@@ -40,7 +46,7 @@ export default function TemplatesPage() {
       <FilterButtons />
       <div className='grid grid-cols-2 gap-4 p-4'>
         {workflows.map((workflow) => (
-          <CardTemplate key={workflow.id} id={workflow.id} name={workflow.name} description={workflow.description}/>
+          <CardTemplate key={workflow.id} id={workflow.id} name={workflow.name} description={workflow.description} />
         ))}
       </div>
     </div>
