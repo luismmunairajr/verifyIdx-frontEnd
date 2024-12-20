@@ -3,13 +3,9 @@ import { Card } from "@/components/ui/card"
 import { ScanEye, Fingerprint, Sparkles, List, Bot } from 'lucide-react';
 import { useRouter } from "next/navigation";
 
-interface CardTemplateProps {
-    id:any
-    name:any
-    description:any
-}
 
-export default function CardTemplate({id,name,description}:CardTemplateProps) {
+
+export default function CardTemplate({id,name,description}) {
     const router = useRouter()
     const handleClick = () => {
         router.push(`/templates/${id}`)

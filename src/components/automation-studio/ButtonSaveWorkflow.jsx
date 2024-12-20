@@ -15,14 +15,9 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 
-type ButtonSaveWorkflowProps = {
-  nodes: any[]; 
-  edges: any[]; 
-};
+const flowKey = "workflows";
 
-const flowKey = 'workflows';
-
-export default function ButtonSaveWorkflow({ nodes, edges }: ButtonSaveWorkflowProps) {
+export default function ButtonSaveWorkflow({ nodes, edges }) {
   const [workflowName, setWorkflowName] = useState("");
   const [workflowDescription, setWorkflowDescription] = useState("");
 
@@ -37,13 +32,13 @@ export default function ButtonSaveWorkflow({ nodes, edges }: ButtonSaveWorkflowP
       return;
     }
 
-    const processNodes = nodes.map((node)=> ({
+    const processNodes = nodes.map((node) => ({
       ...node,
       data: {
         ...node.data,
         icon: node.data.icon,
-      }
-    }))
+      },
+    }));
 
     const savedWorkflows = JSON.parse(localStorage.getItem(flowKey) || "[]");
 

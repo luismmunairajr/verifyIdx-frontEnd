@@ -2,17 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
-import FilterButtons from '@/components/templates/FilterButtons';
-import CardTemplate from '@/components/templates/CardTemplate';
-
-type Workflow = {
-  id: number;
-  name: string;
-  description?: string;
-};
+import FilterButtons from '@/components/templates/FilterButtons.jsx';
+import CardTemplate from '@/components/templates/CardTemplate.jsx';
 
 export default function TemplatesPage() {
-  const [workflows, setWorkflows] = useState<Workflow[]>([]);
+  const [workflows, setWorkflows] = useState([]);
 
   useEffect(() => {
     const savedWorkflows = JSON.parse(localStorage.getItem('workflows') || '[]');
@@ -22,8 +16,8 @@ export default function TemplatesPage() {
   if (workflows.length === 0) {
     return (
       <div className="w-full flex flex-col p-6 px-40 space-y-10">
-        <div className='w-full flex flex-col items-center mt-10 space-y-4'>
-          <h1 className="text-5xl font-bold">Workflow Templates</h1>
+        <div className="w-full flex flex-col items-center mt-10 space-y-4">
+          <h1 className="font-bold text-5xl">Workflow Templates</h1>
           <p className="text-lg">
             Choose from our ready-made templates to start building your workflow quickly.
           </p>
@@ -37,7 +31,7 @@ export default function TemplatesPage() {
   return (
     <div className="w-full flex flex-col p-6 px-40 space-y-10">
       <div className='w-full flex flex-col items-center mt-10 space-y-4'>
-        <h1 className="text-5xl font-bold">Workflow Templates</h1>
+        <h1 className="font-bold text-5xl">Workflow Templates</h1>
         <p className="text-lg">
           Choose from our ready-made templates to start building your workflow quickly.
         </p>

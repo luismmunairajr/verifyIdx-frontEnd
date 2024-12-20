@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/automation-studio/page.jsx", "src/components/automation-studio/nodes/CustomNode.jsx", "src/app/automation-studio/BottomBar.jsx", "src/app/automation-studio/TabSidebar.jsx", "src/components/workflow/[id].jsx", "src/app/workflow/[id]/page.jsx", "src/app/templates/[id]/page.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/automation-studio/page.jsx", "src/components/automation-studio/nodes/CustomNode.jsx", "src/app/automation-studio/BottomBar.jsx", "src/app/automation-studio/TabSidebar.jsx", "src/components/workflow/[id].jsx", "src/app/workflow/[id]/page.jsx", "src/app/templates/[id]/page.jsx", "src/components/automation-studio/NodeData.jsx", "src/components/automation-studio/ButtonSaveWorkflow.jsx", "src/components/templates/FilterButtons.jsx", "src/components/templates/CardTemplate.jsx", "src/app/templates/page.jsx"],
   "exclude": ["node_modules"]
 }

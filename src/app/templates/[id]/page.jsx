@@ -9,48 +9,22 @@ import "@/components/automation-studio/nodes/index.css";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
-type Workflow = {
-  id: number; // Identificador interno para facilitar a cópia, mas não na rota
-  name: string;
-  description?: string;
-  nodes: any[];
-  edges: any[];
-};
-
-export default function WorkflowPage() {
-  const [workflow, setWorkflow] = useState<Workflow | null>(null);
+export default function WorkflowPage({ params }) {
+  const { id } = params;
+  const [workflow, setWorkflow] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    // Obter o workflow atual do localStorage (pode ser o último selecionado)
     const savedWorkflows = JSON.parse(localStorage.getItem('workflows') || '[]');
-    const currentWorkflow = savedWorkflows[savedWorkflows.length - 1]; // Simulação do último workflow acessado
+    const foundWorkflow = savedWorkflows.find((wf) => wf.id === Number(id));
 
-    if (!currentWorkflow) {
-      alert('No workflow available.');
-      router.push('/templates'); // Redirecionar para templates se não houver workflow
+    if (!foundWorkflow) {
+      alert('Workflow not found.');
+      router.push('/templates');
     } else {
-      setWorkflow(currentWorkflow);
+      setWorkflow(foundWorkflow);
     }
-  }, [router]);
-
-  const handleCopyWorkflow = () => {
-    if (workflow) {
-      const newWorkflow = {
-        ...workflow,
-        id: Date.now(), // Gerar um novo ID único para controle interno
-        name: `${workflow.name} (Copy)`,
-      };
-
-      // Salvar o novo workflow no localStorage
-      const savedWorkflows = JSON.parse(localStorage.getItem('workflows') || '[]');
-      localStorage.setItem('workflows', JSON.stringify([...savedWorkflows, newWorkflow]));
-
-      // Redirecionar para o editor (rota fixa "/workflow")
-      localStorage.setItem('currentWorkflow', JSON.stringify(newWorkflow));
-      router.push('/workflow');
-    }
-  };
+  }, [id, router]);
 
   if (!workflow) {
     return <div>Loading...</div>;
@@ -65,11 +39,11 @@ export default function WorkflowPage() {
           <h1>CATEGORIES</h1>
           <div className='flex gap-2'>
             <Badge>My Template</Badge>
-            <Badge>Artificial Intelligence</Badge>
+            <Badge>Artificial Inteligence</Badge>
           </div>
         </div>
         <Button>Use Workflow</Button>
-        <Button variant={"secondary"} onClick={handleCopyWorkflow}>Copy Workflow</Button>
+        <Button variant={"secondary"}>Copy Workflow</Button>
       </div>
       <div className="h-full overflow-hidden w-2/3 bg-zinc-100 dark:bg-zinc-950 border-2 border-blue-900 rounded-xl">
         <ReactFlow
@@ -77,7 +51,8 @@ export default function WorkflowPage() {
           edges={workflow.edges}
           fitView
           nodeTypes={{ custom: CustomNode }}
-          style={{ width: '100%', height: '100%' }}>
+          style={{ width: '100%', height: '100%' }}
+        >
           <Background />
           <Controls className='controls' />
           <MiniMap className='minimap' />

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useDnD } from './DnDContext';
-import nodes from '@/components/automation-studio/NodeData';
+import nodes from '@/components/automation-studio/NodeData.jsx';
 export default function Sidebar() {
   const [_, setType] = useDnD();
 

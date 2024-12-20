@@ -5,7 +5,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import Sidebar from "./Sidebar";
-import ButtonSaveWorkflow from "@/components/automation-studio/ButtonSaveWorkflow";
+import ButtonSaveWorkflow from "@/components/automation-studio/ButtonSaveWorkflow.jsx";
 import { Button } from "@/components/ui/button";
 import SettingsBar from "./SettingsBar";
 
