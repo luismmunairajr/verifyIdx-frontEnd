@@ -9,7 +9,7 @@ import "@/components/automation-studio/nodes/index.css";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
-export default function WorkflowPage({ params }) {
+export default function TemplatePage({ params }) {
   const { id } = params;
   const [workflow, setWorkflow] = useState(null);
   const router = useRouter();
@@ -43,9 +43,13 @@ export default function WorkflowPage({ params }) {
           </div>
         </div>
         <Button>Use Workflow</Button>
-        <Button variant={"secondary"}>Copy Workflow</Button>
+        <Button
+          variant="secondary"
+          onClick={() => router.push(`/automation-studio?workflowId=${workflow.id}`)}>
+          Copy Workflow
+        </Button>
       </div>
-      <div className="h-full overflow-hidden w-2/3 bg-zinc-100 dark:bg-zinc-950 border-2 border-blue-900 rounded-xl">
+      <div className="h-full overflow-hidden w-2/3 bg-zinc-100 dark:bg-zinc-950 border-2 rounded-xl">
         <ReactFlow
           nodes={workflow.nodes}
           edges={workflow.edges}

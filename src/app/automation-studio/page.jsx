@@ -1,5 +1,6 @@
 'use client';
-import React, { useRef, useCallback} from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState, Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap
 } from '@xyflow/react';
@@ -10,15 +11,36 @@ import { TabSidebar } from './TabSidebar.jsx';
 import "@/components/automation-studio/nodes/index.css";
 
 let id = 0;
-const getId = () => `node_${id++}`;
+const getId = () => `node_${id++}`
 
 const DnDFlow = () => {
+  const searchParams = useSearchParams();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { screenToFlowPosition} = useReactFlow();
+  const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
-  
+
+  // Load workflow from localStorage if workflowId is present
+  useEffect(() => {
+    const workflowId = searchParams.get('workflowId');
+    
+    if (workflowId) {
+      const savedWorkflows = JSON.parse(localStorage.getItem('workflows') || '[]');
+      const workflow = savedWorkflows.find(wf => wf.id === Number(workflowId));
+      
+      if (workflow) {
+        const highestId = Math.max(...workflow.nodes.map(node => {
+          const numericId = parseInt(node.id.replace('node_', ''));
+          return isNaN(numericId) ? 0 : numericId;
+        }));
+        id = highestId + 1;
+
+        setNodes(workflow.nodes);
+        setEdges(workflow.edges);
+      }
+    }
+  }, [searchParams, setNodes, setEdges]);
 
   const onConnect = useCallback(
     (params) =>
@@ -67,13 +89,10 @@ const DnDFlow = () => {
         },
       };
 
-      console.log("New Node Data:", newNode.data);
-
       setNodes((nds) => nds.concat(newNode));
     },
     [screenToFlowPosition, type, setNodes]
   );
-
 
   return (
     <div className="flex h-full items-center justify-center" style={{ height: "85vh" }}>
