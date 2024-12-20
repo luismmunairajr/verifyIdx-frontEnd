@@ -1,38 +1,27 @@
 import React, { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import './index.css';
+import iconMap from "@/components/automation-studio/iconMap"
+
 
 function CustomNode({ data }) {
+  const { title, description, iconName } = data
+  const IconComponent = iconMap[iconName] || <span>Invalid Icon</span>
+
   return (
-    <div className={"custom-node"}>
+    <div className="custom-node">
       <div className="custom-node-content">
         <div className="custom-node-icon">
-        {React.isValidElement(data.icon) ? (
-            data.icon
-          ) : (
-            <span>Invalid Icon</span>
-          )}
+          {IconComponent}
         </div>
-        <div className='custon-none-text'>
-          <div className={"custom-node-title"}>
-            {data.title}
-          </div>
-          <div className="custom-node-description">
-            {data.description}
-          </div>
+        <div className="custom-node-text">
+          <div className="custom-node-title">{title}</div>
+          <div className="custom-node-description">{description}</div>
         </div>
       </div>
 
-      <Handle
-        type="target"
-        position={Position.Top}
-        className="handle"
-      />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        className="handle"
-      />
+      <Handle type="target" position={Position.Top} className="handle" />
+      <Handle type="source" position={Position.Bottom} className="handle" />
     </div>
   );
 }

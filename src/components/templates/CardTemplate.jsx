@@ -12,7 +12,7 @@ export default function CardTemplate({id,name,description}) {
     }
     
     return (
-        <Card className="p-5 rounded-xl h-60 space-y-5 hover:border-blue-500 ease-in-out transition duration-300 hover:cursor-pointer"
+        <Card className="p-5 rounded-xl space-y-5 h-60 hover:border-blue-500 ease-in-out transition duration-300 hover:cursor-pointer"
         onClick={handleClick}>
             <div className="flex space-x-2">
                 <div className="rounded-full p-2 bg-zinc-100 dark:bg-zinc-900">
@@ -32,7 +32,7 @@ export default function CardTemplate({id,name,description}) {
                 </div>
             </div>
             <h2 className="font-semibold">{name}</h2>
-            <p className="text-zinc-900 dark:text-zinc-100">{description}</p>
+            <p className="text-zinc-900 dark:text-zinc-100 text-xs">{description}</p>
         </Card>
     )
 }

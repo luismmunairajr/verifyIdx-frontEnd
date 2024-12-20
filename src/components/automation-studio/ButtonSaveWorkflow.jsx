@@ -36,7 +36,7 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
       ...node,
       data: {
         ...node.data,
-        icon: node.data.icon,
+        iconName: node.data.iconName,
       },
     }));
 

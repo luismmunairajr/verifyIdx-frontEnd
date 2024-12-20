@@ -32,9 +32,9 @@ export default function WorkflowPage({ params }) {
 
   return (
     <div className="flex items-center justify-center gap-2 w-full" style={{ height: "85vh" }}>
-      <div className='border-2 h-full rounded-xl shadow-xl p-4 flex flex-col gap-4'>
+      <div className='border-2 h-full w-1/4 rounded-xl shadow-xl p-4 flex flex-col gap-4'>
         <h1 className="text-xl font-bold mb-4">{workflow.name}</h1>
-        {workflow.description && <p className="text-gray-600">{workflow.description}</p>}
+        {workflow.description && <p className="text-gray-600 text-xs">{workflow.description}</p>}
         <div>
           <h1>CATEGORIES</h1>
           <div className='flex gap-2'>

@@ -7,7 +7,7 @@ import {
 import Sidebar from "./Sidebar";
 import ButtonSaveWorkflow from "@/components/automation-studio/ButtonSaveWorkflow.jsx";
 import { Button } from "@/components/ui/button";
-import SettingsBar from "./SettingsBar";
+import SettingsBar from "./SettingsBar.jsx";
 
 export function TabSidebar({ nodes, edges }) {
   return (

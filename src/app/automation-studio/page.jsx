@@ -9,8 +9,6 @@ import CustomNode from '@/components/automation-studio/nodes/CustomNode';
 import { TabSidebar } from './TabSidebar.jsx';
 import "@/components/automation-studio/nodes/index.css";
 
-
-
 let id = 0;
 const getId = () => `node_${id++}`;
 
@@ -65,9 +63,11 @@ const DnDFlow = () => {
         data: {
           title: type.title,
           description: type.description,
-          icon: type.icon,
+          iconName: type.iconName,
         },
       };
+
+      console.log("New Node Data:", newNode.data);
 
       setNodes((nds) => nds.concat(newNode));
     },
