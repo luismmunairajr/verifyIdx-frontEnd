@@ -1,15 +1,11 @@
-// components/DnDFlow.tsx
 "use client";
 import React, { useRef, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import {
-  ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState,
-  Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap
-} from '@xyflow/react';
+import {ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState,Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { DnDProvider, useDnD } from './DnDContext';
+import { DnDProvider, useDnD } from '@/components/automation-studio/DnDContext';
 import CustomNode from '@/components/automation-studio/nodes/CustomNode';
-import { TabSidebar } from './TabSidebar';
+import { TabSidebar } from '@/components/automation-studio/TabSidebar';
 import "@/components/automation-studio/nodes/index.css";
 
 let id = 0;

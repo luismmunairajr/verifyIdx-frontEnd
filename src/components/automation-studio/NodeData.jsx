@@ -1,34 +1,39 @@
 
 const nodes = [
   {
+    id: 'address',
+    iconName:"MapPin",
+    title: 'Address Lookup',
+    description: 'Ensure the location provided is real and associated with the individual.',
+  },
+  {
+    id: 'kyc',
+    iconName: "ShieldCheck",
+    title: 'KYC/AML',
+    description: 'Verify customers identities and prevent illegal activities.',
+  },
+  {
     id: 'identity',
-    iconName:"ScanEye",
+    iconName: "ScanEye",
     title: 'Identity Verification',
-    description: 'Confirms identity using biometric and document checks to prevent fraud. ',
+    description: 'Confirm that an individuals identity is authentic by verifying documents.',
   },
   {
-    id: 'signature',
-    iconName: "Fingerprint",
-    title: 'Digital Signature',
-    description: 'Authenticates documents securely, ensuring integrity and trust.',
-  },
-  {
-    id: 'assistant',
-    iconName: "Sparkles",
-    title: 'AI Assistant',
-    description: 'Provides smart insights and recommendations using AI.',
-  },
-  {
-    id: 'watchlist',
-    iconName: "List",
-    title: 'Watchlist',
-    description: 'Monitors entities in real-time for compliance and risk control.',
+    id: 'government',
+    iconName: "Building",
+    title: 'Government Screening',
+    description: 'Checking individuals against government or restricted.',
   },{
-    id: 'support',
-    iconName: "Bot",
-    title: 'Support',
-    description: 'Provides recomendations about how you see in screen',
-  },
+    id: 'digital',
+    iconName: "Signature",
+    title: 'Digital Signature',
+    description: 'Authenticate digital documents and transactions, ensuring legal validity.',
+  },{
+    id: 'deceased',
+    iconName: "Skull",
+    title: 'Deceased API',
+    description: 'Checks whether a person is registered as deceased in reliable databases.',
+  }
 ];
 
 export default nodes;

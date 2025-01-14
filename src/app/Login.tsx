@@ -50,7 +50,7 @@ export default function Home() {
         </div>
       </div>
       <div className="w-1/2 h-full  flex items-center justify-center">
-        <Image src={image} alt={"image"} className={"h-full"}/>
+        <Image src={image} alt={"image"}/>
       </div>
     </div>
   )
