@@ -16,7 +16,7 @@ export const Header = () => {
     if (currentLink) {
       setPageTitle(currentLink.label);
     }
-  }, [pathname]);
+  }, [pathname])
 
   const [user, setUser] = useState<{ name: string; role: string } | null>(null);
   useEffect(() => {

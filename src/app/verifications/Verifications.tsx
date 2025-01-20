@@ -4,6 +4,7 @@ import ListPerson from "@/components/verifications/listPerson/ListPerson";
 import { useState } from "react";
 import { Person } from "@/components/data/type";
 import { Header } from "@/components/header";
+import axiosInstance from "@/app/api/axios/axiosInstance"
 
 export default function Verifications() {
 

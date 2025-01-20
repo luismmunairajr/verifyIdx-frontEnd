@@ -1,0 +1,16 @@
+[
+    {
+        "workflowName": "Testando workflow",
+        "priority": "Medium",
+        "dueDate": "2025-01-03T13:47",
+        "initiatedBy": "fictitious@example.com",
+        "clientId": "client123",
+        "tenantId": "tenant456",
+        "requiredProducts": [
+            "Address Lookup",
+            "Digital Signature",
+            "Deceased API"
+        ],
+        "tags": []
+    }
+]

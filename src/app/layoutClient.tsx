@@ -4,9 +4,9 @@ import { usePathname } from "next/navigation";
 import { Header } from "@/components/header";
 import IaAgent from "@/components/ia/iaAgent";
 import SupportButton from "@/components/supportButton/supportButton";
+import react from "react"
 
-
-const ClientLayout = ({ children }: { children: React.ReactNode }) => {
+const ClientLayout = ({ children }: { children: react.ReactNode }) => {
   const pathname = usePathname();
 
   const layouts: Record<string, JSX.Element> = {
@@ -47,7 +47,6 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
     "/about/terms-of-service": <div>{children}</div>,
   };
 
-  // Retorno do layout correspondente ou um padrão
   return (
   layouts[pathname] || (
     

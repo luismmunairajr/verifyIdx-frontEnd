@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/tabs";
 import Sidebar from "./Sidebar";
 import ButtonSaveWorkflow from "@/components/automation-studio/ButtonSaveWorkflow.jsx";
-import { Button } from "@/components/ui/button";
+import ButtonPublishWorkflow from "@/components/automation-studio/ButtonPublishWorkflow"
 import SettingsBar from "./SettingsBar.jsx";
 
 export function TabSidebar({ nodes, edges }) {
@@ -14,7 +14,7 @@ export function TabSidebar({ nodes, edges }) {
     <Tabs defaultValue="actions" className="h-full w-2/5 space-y-2 p-2">
       <div className="flex gap-2 w-full">
         <ButtonSaveWorkflow nodes={nodes} edges={edges} />
-        <Button>Publish</Button>
+        <ButtonPublishWorkflow nodes={nodes}/>
       </div>
       <TabsList className="dark:bg-zinc-950 bg-white">
         <TabsTrigger value="actions">Actions</TabsTrigger>

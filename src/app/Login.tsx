@@ -9,7 +9,7 @@ import microsoft from "../../public/microsoft.svg"
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import logo from "../../public/logo.svg"
-import image from "../../public/image.png"
+import image from "../../public/image.svg"
 
 export default function Home() {
   const router = useRouter()

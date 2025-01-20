@@ -2,21 +2,20 @@ import { ReactNode } from "react"
 import { ChartColumn } from "lucide-react"
 import clsx from "clsx"
 
-interface EstatistiCardProps{
+interface StatisticCardProps{
     title: string
     number: number
     icon: ReactNode
     variance: number
 }
-export default function EstatistiCard({title, number, icon, variance}: EstatistiCardProps) {
- 
+export default function StatisticCard({title, number, icon, variance}: StatisticCardProps) {
+
     const containerClass = clsx(
         "flex items-center justify-start gap-1 text-sm ", {
             "text-red-500": variance<0,
             "text-green-500": variance>0
         }
     )
-
     return (
         <div className="rounded-xl border bg-card text-card-foreground shadow w-1/3 p-4 flex items-center justify-between dark:bg-zinc-950">
             <div>
