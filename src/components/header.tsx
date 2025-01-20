@@ -5,7 +5,6 @@ import {links} from "@/components/sidebar/links";
 import Person from "@/components/Person";
 import NotificationButton from "./Notifications/NotificationButton";
 import {ModeToggle} from "./modeToggle";
-import axiosInstace from "@/app/api/axios/axiosInstance"
 
 export const Header = () => {
   const pathname = usePathname();
@@ -17,20 +16,6 @@ export const Header = () => {
       setPageTitle(currentLink.label);
     }
   }, [pathname])
-
-  const [user, setUser] = useState<{ name: string; role: string } | null>(null);
-  useEffect(() => {
-    const fetchUser = async () => {
-      try{
-        const response = await axiosInstace.get("/user")
-        setUser(response.data)
-      }catch (err) {
-        setUser({role:"admin",name:"Nome Ficticio"})
-      }
-    }
-    fetchUser()
-  },[])
-
   return (
     <header className="text-black flex justify-between md:p-6 pt-6 px-1 dark:text-white">
       <div className={"flex gap-2 items-end"}>

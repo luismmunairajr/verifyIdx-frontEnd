@@ -21,7 +21,7 @@ export default function ButtonPublishWorkflow({ nodes }) {
   const [priority, setPriority] = useState("Low");
   const [dueDate, setDueDate] = useState("");
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     if (!workflowName.trim()) {
       toast.error("Workflow name is required.");
       return;
@@ -32,7 +32,9 @@ export default function ButtonPublishWorkflow({ nodes }) {
       return;
     }
   
-    const requiredProducts = nodes.map((node) => node.data.title);
+    const requiredProducts = nodes.map((node) =>
+      node.data.title.toLowerCase().replace(/\s+/g, "_")
+    );
   
     const newWorkflow = {
       workflowName,
@@ -45,13 +47,19 @@ export default function ButtonPublishWorkflow({ nodes }) {
       tags: [],
     };
   
-    // Recuperar workflows existentes do localStorage
-    const savedWorkflows = JSON.parse(localStorage.getItem("publishedWorkflows") || "[]");
+    try {
+      const response = await axiosInstance.post("/api/v1/workflows", newWorkflow);
+      if (response.status === 201 || response.status === 200) {
+        toast.success(`Workflow "${workflowName}" has been published successfully.`);
+        console.log(response.data)
+      } else {
+        toast.error(`Failed to publish workflow. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while publishing the workflow.");
+    }
   
-    // Adicionar o novo workflow
-    localStorage.setItem("publishedWorkflows", JSON.stringify([...savedWorkflows, newWorkflow]));
-  
-    toast.success(`Workflow "${workflowName}" has been published successfully.`);
     setWorkflowName("");
     setPriority("Low");
     setDueDate("");
