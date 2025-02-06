@@ -5,10 +5,10 @@ interface InputProps {
     filterText: string;
     setFilterText: (text: string) => void;
     showPending: boolean;
-    showApproved: boolean;
+    showComplete: boolean;
     showRejected: boolean;
     setShowPending: (value: boolean) => void;
-    setShowApproved: (value: boolean) => void;
+    setShowComplete: (value: boolean) => void;
     setShowRejected: (value: boolean) => void;
 }
 
@@ -16,10 +16,10 @@ export default function InputSearch({
     filterText,
     setFilterText,
     showPending,
-    showApproved,
+    showComplete,
     showRejected,
     setShowPending,
-    setShowApproved,
+    setShowComplete,
     setShowRejected,
 }: InputProps) {
     return (
@@ -33,10 +33,10 @@ export default function InputSearch({
             <div className="flex items-center justify-center space-x-2">
                 <DropdownMenuCheckboxes
                     showPending={showPending}
-                    showApproved={showApproved}
+                    showComplete={showComplete}
                     showRejected={showRejected}
                     setShowPending={setShowPending}
-                    setShowApproved={setShowApproved}
+                    setShowComplete={setShowComplete}
                     setShowRejected={setShowRejected} />
             </div>
         </div>

@@ -1,19 +1,14 @@
-import Resume from "./Resume";
-import PersonDetails from "./details/PersonDetails";
-import ThirdPartVerification from "./details/ThirdPartVerification";
-import SanctionScreening from "./details/SanctionScreening";
-import AddressVerification from "./details/AddressVerification";
-import OtherInfo from "./details/OtherInfo";
-import SessionInfo from "./details/SessionInfo";
-import { Person } from "@/components/data/type";
+import Resume from "./Resume.jsx";
+import PersonDetails from "./details/PersonDetails.jsx";
+import ThirdPartVerification from "./details/ThirdPartVerification.jsx";
+import SanctionScreening from "./details/SanctionScreening.jsx";
+import AddressVerification from "./details/AddressVerification.jsx";
+import OtherInfo from "./details/OtherInfo.jsx";
+import SessionInfo from "./details/SessionInfo.jsx";
 import { useState } from "react";
 
-interface DataPersonProps {
-    selectedPerson: Person | null;
-}
-
-export default function DataPerson({ selectedPerson }: DataPersonProps) {
-        const [activeTab, setActiveTab] = useState("Person Details");
+export default function DataPerson({ selectedPerson }) {
+    const [activeTab, setActiveTab] = useState("Person Details");
 
     const renderContent = () => {
         if (!selectedPerson) {
@@ -24,15 +19,15 @@ export default function DataPerson({ selectedPerson }: DataPersonProps) {
             case "Person Details":
                 return <PersonDetails person={selectedPerson} />;
             case "Third-Party Verification":
-                return <ThirdPartVerification person={selectedPerson}/>;
+                return <ThirdPartVerification person={selectedPerson} />;
             case "Sanction Screening":
-                return <SanctionScreening person={selectedPerson}/>;
+                return <SanctionScreening person={selectedPerson} />;
             case "Address Verification":
-                return <AddressVerification person={selectedPerson}/>;
+                return <AddressVerification person={selectedPerson} />;
             case "Other Info":
-                return <OtherInfo person={selectedPerson}/>;
+                return <OtherInfo person={selectedPerson} />;
             case "Session Info":
-                return <SessionInfo person={selectedPerson}/>;
+                return <SessionInfo person={selectedPerson} />;
             default:
                 return <PersonDetails person={selectedPerson} />;
         }
@@ -65,12 +60,12 @@ export default function DataPerson({ selectedPerson }: DataPersonProps) {
                         ))}
                     </div>
                     <div>
-                        <hr/>
+                        <hr />
                         {renderContent()}
                     </div>
                 </>
             ) : (
-                <div className="w-full h-full flex mt-52 items-center justify-center  dark:text-white">
+                <div className="w-full h-full flex mt-52 items-center justify-center dark:text-white">
                     <p>Select a person to see the details</p>
                 </div>
             )}

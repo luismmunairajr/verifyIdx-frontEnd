@@ -2,11 +2,11 @@
 
 import "./globals.css";
 import ClientLayout from "./layoutClient";
-import { Poppins } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner";
 
-const poppins = Poppins({ subsets: ['latin'], weight: ["400"] })
+const inter = Inter({ subsets: ['latin'], weight: ["400"] })
 
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${poppins.className} antialiased`}>
+        className={`${inter.className} antialiased`}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
             <ClientLayout>{children}</ClientLayout>
           </ThemeProvider>

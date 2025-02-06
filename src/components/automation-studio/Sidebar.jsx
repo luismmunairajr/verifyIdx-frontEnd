@@ -16,10 +16,9 @@ export default function Sidebar() {
       <div className="mb-4 text-gray-700">Drag these nodes to create your flow:</div>
       {nodes.map((node) => {
         const IconComponent = iconMap[node.iconName] || <span>Invalid Icon</span>;
-
         return (
           <div
-            className="border p-2 rounded-sm border-black dark:border-white mb-2 cursor-grab flex gap-2 overflow-y-auto"
+            className="border p-2 rounded-sm border-black dark:border-white mb-2 cursor-grab flex gap-2"
             key={node.id}
             onDragStart={(event) => onDragStart(event, node)}
             draggable

@@ -1,33 +1,28 @@
 import Image from "next/image"
 import { Calendar, Hash } from "lucide-react"
 import Badges from "./Badges"
-import Pictures from "./Pictures"
-import { Person } from "@/components/data/type"
+import Pictures from "./Pictures.jsx"
+import unknow from "../../../../public/unknowProfile.svg"
 
-interface ResumeProps{
-    person: Person
-}
-
-
-export default function Resume({person}: ResumeProps) {
+export default function Resume({ person }) {
     return (
         <div className="flex flex-col space-y-10 dark:text-white">
             <div className="flex space-x-10 w-full">
-                <Image src={person.image} alt="avatar" className="size-40" />
+                <Image src={person.auditTrailImage? `data:image/png;base64,${person.auditTrailImage}` : unknow}  alt="avatar" width={100} height={100} className="size-40" />
                 <div className="space-y-4 flex flex-col items-start justify-center w-full">
-                    <h2 className="font-semibold text-lg">{person.name}</h2>
+                    <h2 className="font-semibold text-lg">{person.fullName}</h2>
                     <div className="flex space-x-4">
                         <Calendar strokeWidth={1} />
-                        <p>05/05/2024</p>
+                        <p>{person.startedAt}</p>
                     </div>
                     <div className="flex space-x-4">
                         <Hash strokeWidth={1} />
-                        <p>AA5227058 </p>
+                        <p>{person.idNumber}</p>
                     </div>
                 </div>
             </div>
-            <Badges />
-            <Pictures />
+            <Badges person={person} />
+            <Pictures person={person} />
         </div>
     )
 }

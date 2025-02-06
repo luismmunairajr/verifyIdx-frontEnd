@@ -10,11 +10,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import logo from "../../public/logo.svg"
 import image from "../../public/image.svg"
+import { useState } from "react";
+import Loading from "@/components/Loading";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter()
-  const dashboard = () => {
-    router.push("/dashboard")
+
+  const handleLogin = async () => {
+    setIsLoading(true); 
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 500);
   }
   return (
     <div className="h-screen flex">
@@ -22,7 +29,7 @@ export default function Home() {
         <div className="flex flex-col w-96 space-y-8 items-center justify-center">
           <div className="w-full space-y-2">
             <div className="pb-2">
-              <Image src={logo} alt="logo"/>
+              <Image src={logo} alt="logo" />
             </div>
             <h2 className="text-2xl font-bold">Log in to your Account</h2>
             <p className="text-sm">Welcome Back! Select method to log in:</p>
@@ -45,12 +52,16 @@ export default function Home() {
             </div>
             <Link href={"#"} className="text-blue-500 text-sm">Forgot Password</Link>
           </div>
-          <Button className="w-full" onClick={dashboard}>Log in</Button>
+          <Button className="w-full" onClick={handleLogin}>
+            {isLoading ? (
+              <Loading/>
+            ) : "Log in"}
+            </Button>
           <p className="text-sm">Dont have an account? <Link href={"#"} className="text-blue-500 font-semibold">Create an account</Link></p>
         </div>
       </div>
       <div className="w-1/2 h-full  flex items-center justify-center">
-        <Image src={image} alt={"image"}/>
+        <Image src={image} alt={"image"} />
       </div>
     </div>
   )

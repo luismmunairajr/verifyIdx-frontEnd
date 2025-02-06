@@ -1,4 +1,4 @@
-import { LayoutGrid, Drama, ShieldAlert, Contact, Settings, UserCog, Files, Layers, Workflow } from "lucide-react";
+import { LayoutGrid, Drama, ShieldAlert, Contact, Settings, UserCog, Layers, Workflow } from "lucide-react";
 
 export const links = (pathname: string) => [
   {

@@ -17,7 +17,7 @@ export const Header = () => {
     }
   }, [pathname])
   return (
-    <header className="text-black flex justify-between md:p-6 pt-6 px-1 dark:text-white">
+    <header className="text-black flex justify-between md:p-6 pt-6 px-1 h-24 dark:text-white">
       <div className={"flex gap-2 items-end"}>
         <h1 className="md:text-3xl font-bold text-lg">{pageTitle}</h1>
         <div className={"bg-blue-300 px-1 mb-2 rounded-full text-xs text-blue-800"}>

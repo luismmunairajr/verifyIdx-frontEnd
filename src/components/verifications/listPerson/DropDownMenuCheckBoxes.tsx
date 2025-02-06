@@ -5,19 +5,19 @@ import { SlidersHorizontal } from "lucide-react";
 
 interface DropdownMenuCheckboxesProps {
   showPending: boolean;
-  showApproved: boolean;
+  showComplete: boolean;
   showRejected: boolean;
   setShowPending: (value: boolean) => void;
-  setShowApproved: (value: boolean) => void;
+  setShowComplete: (value: boolean) => void;
   setShowRejected: (value: boolean) => void;
 }
 
 export function DropdownMenuCheckboxes({
   showPending,
-  showApproved,
+  showComplete,
   showRejected,
   setShowPending,
-  setShowApproved,
+  setShowComplete,
   setShowRejected,
 }: DropdownMenuCheckboxesProps) {
   return (
@@ -31,8 +31,8 @@ export function DropdownMenuCheckboxes({
         <DropdownMenuCheckboxItem checked={showPending} onCheckedChange={setShowPending}>
           Pending
         </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem checked={showApproved} onCheckedChange={setShowApproved}>
-          Approved
+        <DropdownMenuCheckboxItem checked={showComplete} onCheckedChange={setShowComplete}>
+          Complete
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem checked={showRejected} onCheckedChange={setShowRejected}>
           Rejected

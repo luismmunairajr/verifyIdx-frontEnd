@@ -92,7 +92,7 @@ const DnDFlow = () => {
   );
 
   return (
-    <div className="flex h-full items-center justify-center" style={{ height: "85vh" }}>
+    <div className="flex items-center justify-center h-[calc(100vh-96px)]">
       <div
         className="h-full overflow-hidden w-full bg-zinc-100 dark:bg-zinc-950"
         ref={reactFlowWrapper}>

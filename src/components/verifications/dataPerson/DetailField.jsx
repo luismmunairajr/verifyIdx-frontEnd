@@ -1,11 +1,6 @@
 import { Label } from "@/components/ui/label";
 
-interface DetailFieldProps {
-    label: string;
-    value: string;
-  }
-  
-  export default function DetailField({ label, value }: DetailFieldProps) {
+  export default function DetailField({ label, value }) {
     return (
       <div className="space-y-1">
         <Label className="uppercase text-zinc-600 text-xs">{label}</Label>
