@@ -45,14 +45,14 @@ export default function SanctionScreening({ person }) {
                     <Label className="uppercase text-zinc-600 text-xs">{"Date of Birth"}</Label>
                     <div className="flex gap-2 items-center">
                         <p className="dark:text-white">{person.matchedDateOfBirth}</p>
-                        {getStatusIcon(person.DateOfBirthResult ==="MATCHED")}
+                        {getStatusIcon(person.dateOfBirthResult ==="MATCHED")}
                     </div>
                 </div>
                 <div className="space-y-1">
                     <Label className="uppercase text-zinc-600 text-xs">{"Gender"}</Label>
                     <div className="flex gap-2 items-center">
                         <p className="dark:text-white">{person.matchedGender}</p>
-                        {getStatusIcon(person.GenderResult ==="MATCHED")}
+                        {getStatusIcon(person.genderResult ==="MATCHED")}
                     </div>
                 </div>
 
@@ -62,7 +62,7 @@ export default function SanctionScreening({ person }) {
                     <Label className="uppercase text-zinc-600 text-xs">{"Location"}</Label>
                     <div className="flex gap-2 items-center">
                         <p className="dark:text-white">{person.matchedLocation}</p>
-                        {getStatusIcon(person.LocationResult ==="MATCHED")}
+                        {getStatusIcon(person.locationResult ==="MATCHED")}
                     </div>
                 </div>
 
@@ -70,7 +70,7 @@ export default function SanctionScreening({ person }) {
                     <Label className="uppercase text-zinc-600 text-xs">{"Nacionality"}</Label>
                     <div className="flex gap-2 items-center">
                         <p className="dark:text-white">{person.matchedNacionality}</p>
-                        {getStatusIcon(person.NacionalityResult ==="MATCHED")}
+                        {getStatusIcon(person.nacionalityResult ==="MATCHED")}
                     </div>
                 </div>
                 <div className="space-y-1">

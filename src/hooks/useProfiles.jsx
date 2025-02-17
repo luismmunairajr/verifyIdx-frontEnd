@@ -14,7 +14,7 @@ export function useProfiles() {
         const response = await axiosInstance.get("api/v1/workflows/678e826ac7b9fccfc2998e10");
         const verifications = response.data.verifications || [];
         const profilesData = verifications.map((verification) => {
-          const documentData = verification?.products?.identity_verification?.results?.[0]?.idscanOnly.documentData? JSON.parse(verification.products.identity_verification.results[0].idscanOnly.documentData) : null
+          const documentData = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.documentData? JSON.parse(verification.products.identity_verification.results[0].idscanOnly.documentData) : null
 
           //ids
           const verificationId = verification?.verificationId || "N/A";
@@ -22,12 +22,11 @@ export function useProfiles() {
           const thirdPartyReference = verification?.thirdPartyReference || "N/A";
           const externalDatabaseRefID = verification?.products?.identity_verification?.results?.[0]?.photoIdScanMatch?.externalDatabaseRefID || "N/A";
           
-
-
           const startedAt = verification?.products.identity_verification.startedAt || "N/A";
 
           //session info
-          const platform = verification?.auditTrail?.[0]?.["device-info"]?.platform || "N/A";
+
+          const platform = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.platform || "N/A";
           const deviceModel = verification?.auditTrail?.[0]?.["device-info"]?.deviceModel || "N/A";
           const userAgent = verification?.auditTrail?.[0]?.["device-info"]?.userAgent || "N/A";
           const ipAddress = verification?.auditTrail?.[0]?.["device-info"]?.ipAddress || "N/A";
@@ -39,18 +38,15 @@ export function useProfiles() {
           const photoIDPrimarySignatureCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDPrimarySignatureCrop || unknow;
           const auditTrailImage = verification?.products?.identity_verification?.results?.[0]?.liveness?.auditTrailImage || null;
 
-
           const status = verification?.products?.identity_verification?.status || "N/A";
 
           //documentData
-          // Grupo "Your Information"
+          //Person Details
           const fullName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "fullName")?.value || "N/A";
           const dateOfBirth = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "dateOfBirth")?.value || "N/A";
           const placeOfBirth = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "placeOfBirth")?.value || "N/A";
           const fatherFirstName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "fatherFirstName")?.value || "N/A";
           const motherFirstName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "motherFirstName")?.value || "N/A";
-
-          // Grupo "Photo ID Details"
           const idNumber = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "idNumber")?.value || "N/A";
           const mrzLine1 = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "mrzLine1")?.value || "N/A";
           const mrzLine2 = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "mrzLine2")?.value || "N/A";
@@ -58,24 +54,34 @@ export function useProfiles() {
           const issuingAuthority = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "issuingAuthority")?.value || "N/A";
           const dateOfExpiration = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "dateOfExpiration")?.value || "N/A";
           const dateOfIssue = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "dateOfIssue")?.value || "N/A";
-
-          // Grupo "Your Address"
           const address1 = documentData?.userConfirmedValues?.groups[2]?.fields.find(field => field.fieldKey === "address1")?.value || "N/A";
           const address2 = documentData?.userConfirmedValues?.groups[2]?.fields.find(field => field.fieldKey === "address2")?.value || "N/A";
           const address3 = documentData?.userConfirmedValues?.groups[2]?.fields.find(field => field.fieldKey === "address3")?.value || "N/A";
-
-          // Grupo "Physical Traits & Misc"
           const height = documentData?.userConfirmedValues?.groups[3]?.fields.find(field => field.fieldKey === "height")?.value || "N/A";
           const sex = documentData?.userConfirmedValues?.groups[3]?.fields.find(field => field.fieldKey === "sex")?.value || "N/A";
-
-          // Grupo "Additional Info"
           const customField1 = documentData?.userConfirmedValues?.groups[4]?.fields.find(field => field.fieldKey === "customField1")?.value || "N/A";
-
-          // Informações do Template
           const documentCountry = documentData?.templateInfo?.documentCountry || "N/A";
           const documentState = documentData?.templateInfo?.documentState || "N/A";
           const templateName = documentData?.templateInfo?.templateName || "N/A";
           const templateType = documentData?.templateInfo?.templateType || "N/A";
+
+          //Sanction screening
+          //Watchlist
+          const watchlistStatus = verification?.products?.watchlist?.status || "N/A"
+          const matchScore = verification?.products?.watchlist?.results?.matchScore || "N/A"
+          const matchStrength = verification?.products?.watchlist?.results?.matchStrength || "N/A"
+          const primaryName = verification?.products?.watchlist?.results?.primaryName || "N/A"
+          const categories = verification?.products?.watchlist?.results?.categories || "N/A"
+          const category = verification?.products?.watchlist?.results?.category || "N/A"
+          const pepStatus = verification?.products?.watchlist?.results?.pepStatus || "N/A"
+          const matchedDateOfBirth = verification?.products?.watchlist?.results?.secondaryFieldResults[0]?.matchedDateTimeValue || "N/A"
+          const dateOfBirthResult = verification?.products?.watchlist?.results?.secondaryFieldResults[0]?.fieldResult || "N/A"
+          const matchedLocation = verification?.products?.watchlist?.results?.secondaryFieldResults[1]?.matchedValue || "N/A"
+          const locationResult = verification?.products?.watchlist?.results?.secondaryFieldResults[1]?.fieldResult || "N/A"
+          const matchedGender = verification?.products?.watchlist?.results?.secondaryFieldResults[2]?.matchedValue || "N/A"
+          const genderResult = verification?.products?.watchlist?.results?.secondaryFieldResults[2]?.fieldResult || "N/A"
+          const matchedNacionality = verification?.products?.watchlist?.results?.secondaryFieldResults[4]?.matchedValue || "N/A"
+          const nacionalityResult = verification?.products?.watchlist?.results?.secondaryFieldResults[4]?.fieldResult || "N/A"
 
           return {
             fullName,
@@ -114,7 +120,22 @@ export function useProfiles() {
             platform,
             deviceModel,
             userAgent,
-            ipAddress
+            ipAddress,
+            watchlistStatus,
+            matchScore,
+            matchStrength,
+            primaryName,
+            categories,
+            category,
+            pepStatus,
+            matchedDateOfBirth,
+            dateOfBirthResult,
+            matchedLocation,
+            locationResult,
+            matchedGender,
+            genderResult,
+            matchedNacionality,
+            nacionalityResult
           };
         });
 

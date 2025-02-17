@@ -37,6 +37,19 @@ const ClientLayout = ({ children }: { children: react.ReactNode }) => {
         </SidebarDemo>
       </div>
     ),
+    "/settings": (
+      <div className="flex h-screen">
+        <SidebarDemo>
+          {children}
+        </SidebarDemo>
+      </div>
+    ),"/admin-settings": (
+      <div className="flex h-screen">
+        <SidebarDemo>
+          {children}
+        </SidebarDemo>
+      </div>
+    ),
     "/automation-studio": (
       <SidebarDemo>
         <Header />

@@ -1,5 +1,4 @@
 import React from "react";
-
 export default function Loading() {
   return (
     <section className="bg-transparent py-20 dark:bg-dark">
@@ -9,7 +8,7 @@ export default function Loading() {
             <svg
               width="28"
               height="29"
-              viewBox="0 0 28 29"
+              viewBox="0 0a 28 29"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               className="animate-spin"

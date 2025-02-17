@@ -38,6 +38,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18",
     "react-flow-renderer": "^10.3.17",
+    "react-spinners": "^0.15.0",
     "recharts": "^2.13.3",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.4",
