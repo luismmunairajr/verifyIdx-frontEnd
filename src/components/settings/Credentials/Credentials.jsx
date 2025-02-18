@@ -7,7 +7,7 @@ export default function Credentials() {
     const [isReset, setIsReset] = useState(false);
 
     return (
-        <div className="p-6">
+        <div className="p-6 dark:bg-zinc-900">
             <div className="border px-10 py-5 rounded-2xl space-y-10 w-[800px]">
                 <h2 className="text-2xl font-semibold">Reset Password</h2>
                 <div className="space-y-2">

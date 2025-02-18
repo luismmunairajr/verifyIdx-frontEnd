@@ -11,7 +11,7 @@ const customers = [
 
 export default function GeneralSettings() {
     return(
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-6 dark:bg-zinc-900">
             <h2 className="text-2xl">General</h2>
             <div className="flex justify-between w-[600px]">
                 <div>

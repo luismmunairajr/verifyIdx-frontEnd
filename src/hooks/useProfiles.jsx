@@ -27,10 +27,11 @@ export function useProfiles() {
           //session info
 
           const platform = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.platform || "N/A";
-          const deviceModel = verification?.auditTrail?.[0]?.["device-info"]?.deviceModel || "N/A";
-          const userAgent = verification?.auditTrail?.[0]?.["device-info"]?.userAgent || "N/A";
-          const ipAddress = verification?.auditTrail?.[0]?.["device-info"]?.ipAddress || "N/A";
-
+          const deviceModel = verification.products?.identity_verification?.results[0]?.additionalSessionData?.deviceModel || "N/A";
+          const userAgent = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.userAgent || "N/A";
+          const ipAddress = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.ipAddress || "N/A";
+          const appID = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.appID || "N/A";
+          const deviceSDKVersion = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.deviceSDKVersion || "N/A";
           //fotografias
           const photoIDBackCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDBackCrop || unknow;
           const photoIDFaceCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDFaceCrop || unknow;
@@ -121,6 +122,8 @@ export function useProfiles() {
             deviceModel,
             userAgent,
             ipAddress,
+            appID,
+            deviceSDKVersion,
             watchlistStatus,
             matchScore,
             matchStrength,

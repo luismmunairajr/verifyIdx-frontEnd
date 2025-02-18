@@ -24,14 +24,14 @@ export default function SidebarLayout() {
   return (
     <div className="flex h-screen">
       <div
-        className={`bg-zinc-100 text-black flex flex-col p-2 transition-all duration-300 gap-2 fixed h-full ${isHovered ? 'w-64' : 'w-16'}`}
+        className={`bg-zinc-100 dark:bg-zinc-800 text-black flex flex-col p-2 transition-all duration-300 gap-2 fixed h-full ${isHovered ? 'w-64' : 'w-16'}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {menuItems.map((item) => (
           <div
             key={item.id}
-            className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-blue-800 hover:text-white h-14 ${activeItem === item.id ? 'bg-blue-800 text-white' : ''}`}
+            className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-blue-800 hover:text-white dark:text-white h-14 ${activeItem === item.id ? 'bg-blue-800 text-white' : ''}`}
             onClick={() => setActiveItem(item.id)}
           >
             {item.icon}
@@ -39,8 +39,8 @@ export default function SidebarLayout() {
           </div>
         ))}
       </div>
-      
-      <div className={`flex-1 bg-white transition-all duration-300 ${isHovered ? 'ml-64' : 'ml-16'}`}>
+
+      <div className={`flex-1 dark:bg-zinc-900 bg-white transition-all duration-300 ${isHovered ? 'ml-64' : 'ml-16'}`}>
         <Header />
         {menuItems.find((item) => item.id === activeItem)?.component}
       </div>

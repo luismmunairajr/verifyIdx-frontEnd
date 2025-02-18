@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 
 export default function CompanyInformation() {
     return (
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-4 dark:zinc-900">
             <div className="border grid grid-cols-2 p-4 rounded-xl w-3/4 gap-2">
                 <div className="space-y-4">
                     <h4 className="text-xl font-semibold">Company Information</h4>
@@ -51,8 +51,10 @@ export default function CompanyInformation() {
                         <Input type="text" placeholder="Time Zone" defaultValue="GMT+2" />
                     </div>
                 </div>
+                <div className="pt-10 w-full">
+                    <Button>Update</Button>
+                </div>
             </div>
-            <Button>Update</Button>
         </div>
     )
 }
