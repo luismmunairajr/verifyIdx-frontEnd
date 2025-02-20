@@ -13,14 +13,11 @@ const menuItems = [
 
 export default function SidebarLayout() {
   const [activeItem, setActiveItem] = useState('personalDetails');
-  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="flex h-full">
       <div
-        className={`bg-zinc-100 dark:bg-zinc-800 text-black flex flex-col p-2 transition-all duration-300 gap-2 ${isHovered ? 'w-64' : 'w-16'}`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        className={"bg-zinc-100 dark:bg-zinc-800 text-black flex flex-col p-2 transition-all duration-300 gap-2 w-64"}
       >
         {menuItems.map((item) => (
           <div
@@ -29,7 +26,7 @@ export default function SidebarLayout() {
             onClick={() => setActiveItem(item.id)}
           >
             {item.icon}
-            {isHovered && <span>{item.label}</span>}
+            <span>{item.label}</span>
           </div>
         ))}
       </div>

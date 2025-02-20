@@ -6,7 +6,7 @@ import { TriangleAlert, Check } from "lucide-react"
 
 export default function Authentication() {
     return (
-        <div className="px-6 space-y-6 dark:bg-zinc-900">
+        <div className="px-6 space-y-6 dark:bg-zinc-900 w-full 2xl:w-[1280px]">
             <h3 className="text-xl font-semibold">Methods</h3>
             <div className="border flex rounded-xl p-4 items-start justify-between">
                 <div className="flex items-start gap-4">

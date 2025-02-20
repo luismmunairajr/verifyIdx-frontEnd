@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import {
   Sheet,
@@ -16,96 +15,75 @@ import {
 } from "@/components/ui/sheet";
 import axiosInstance from "@/app/api/axios/axiosInstance";
 
-export default function ButtonPublishWorkflow({ nodes }) {
+export default function ButtonPublishWorkflow({ nodes = [] }) {
   const [workflowName, setWorkflowName] = useState("");
-  const [priority, setPriority] = useState("Low");
-  const [dueDate, setDueDate] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handlePublish = async () => {
     if (!workflowName.trim()) {
       toast.error("Workflow name is required.");
       return;
     }
-  
-    if (!dueDate.trim()) {
-      toast.error("Due date is required.");
+
+    if (!Array.isArray(nodes) || nodes.length === 0) {
+      toast.error("No nodes found to create a workflow.");
       return;
     }
-  
-    const requiredProducts = nodes.map((node) =>
-      node.data.title.toLowerCase().replace(/\s+/g, "_")
-    );
-  
+
+    const requiredProducts = nodes
+      .map((node) => node?.data?.title?.toLowerCase().replace(/\s+/g, "_"))
+      .filter(Boolean);
+
     const newWorkflow = {
       workflowName,
-      priority,
-      dueDate,
-      initiatedBy: "fictitious@example.com",
       clientId: "client123",
       tenantId: "tenant456",
       requiredProducts,
       tags: [],
     };
-  
+
     try {
+      setLoading(true);
       const response = await axiosInstance.post("/api/v1/workflows", newWorkflow);
+
       if (response.status === 201 || response.status === 200) {
         toast.success(`Workflow "${workflowName}" has been published successfully.`);
-        console.log(response.data)
+        setWorkflowName("");
       } else {
         toast.error(`Failed to publish workflow. Status: ${response.status}`);
       }
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred while publishing the workflow.");
+      const errorMessage = error?.response?.data?.message || "An error occurred while publishing the workflow.";
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
-  
-    setWorkflowName("");
-    setPriority("Low");
-    setDueDate("");
   };
-  
-  
+
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button>Publish</Button>
+        <Button disabled={loading}>{loading ? "Publishing..." : "Publish"}</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Publish Workflow</SheetTitle>
-          <SheetDescription>
-            Fill in the details to publish your workflow.
-          </SheetDescription>
+          <SheetDescription>Fill in the details to publish your workflow.</SheetDescription>
         </SheetHeader>
         <div className="pt-4">
           <Label className="text-sm">Workflow Name</Label>
-          <Input value={workflowName} onChange={(e) => setWorkflowName(e.target.value)} />
-        </div>
-        <div className="pt-4">
-          <Label className="text-sm">Priority</Label>
-          <Select value={priority} onValueChange={setPriority}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select priority" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Low">Low</SelectItem>
-              <SelectItem value="Medium">Medium</SelectItem>
-              <SelectItem value="High">High</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="pt-4 pb-4">
-          <Label className="text-sm">Due Date</Label>
           <Input
-            type="datetime-local"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
+            value={workflowName}
+            onChange={(e) => setWorkflowName(e.target.value)}
+            disabled={loading}
           />
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button onClick={handlePublish}>Publish Workflow</Button>
+            <Button onClick={handlePublish} disabled={loading}>
+              {loading ? "Publishing..." : "Publish Workflow"}
+            </Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

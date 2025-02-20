@@ -1,11 +1,10 @@
-import { Button } from "@/components/ui/button";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import cubeicon from "../../../../public/cubeicon.svg"
 import Image from "next/image";
 import CreateKey from "@/components/admin-settings/apiKeys/CreateKey"
 export default function ApiKeys() {
     return(
-        <div className="p-6 space-y-6 bg-zinc-900">
+        <div className="p-6 space-y-6 dark:bg-zinc-900 w-full 2xl:w-[1280px]">
             <div className="border flex rounded-xl p-4">
                 <div className="flex space-x-4 p-2">
                     <Image src={cubeicon} alt=""/>
@@ -21,7 +20,7 @@ export default function ApiKeys() {
                         </div>
                     </div>
                     <div className="border-l border-gray-400 h-full"/>
-                    <p className="text-sm">Staging is a fully-featured environment used for developing and testing your application. Use the <span className="text-blue-800">Production environment</span> for your live application.</p>
+                    <p className="text-sm">Staging is a fully-featured environment used for developing and testing your application. Use the <span className="text-blue-800 underline">Production environment</span> for your live application.</p>
                 </div>
             </div>
             <div className="flex items-center justify-between px-2">

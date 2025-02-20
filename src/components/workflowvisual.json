@@ -1,0 +1,94 @@
+[
+	{
+		"id": 1739966455203,
+		"name": "Workflow para verificação",
+		"description": "1234414",
+		"nodes": [
+			{
+				"id": "node_0",
+				"type": "custom",
+				"position": {
+					"x": -206,
+					"y": -128
+				},
+				"data": {
+					"title": "Address Lookup",
+					"description": "Ensure the location provided is real and associated with the individual.",
+					"iconName": "MapPin"
+				},
+				"measured": {
+					"width": 400,
+					"height": 125
+				},
+				"selected": false,
+				"dragging": false
+			},
+			{
+				"id": "node_1",
+				"type": "custom",
+				"position": {
+					"x": -472,
+					"y": 115
+				},
+				"data": {
+					"title": "Identity Verification",
+					"description": "Confirm that an individuals identity is authentic by verifying documents.",
+					"iconName": "ScanEye"
+				},
+				"measured": {
+					"width": 400,
+					"height": 125
+				},
+				"selected": false,
+				"dragging": false
+			},
+			{
+				"id": "node_2",
+				"type": "custom",
+				"position": {
+					"x": -13,
+					"y": 330.99999999999994
+				},
+				"data": {
+					"title": "Watchlist",
+					"description": "Verify customers identities and prevent illegal activities.",
+					"iconName": "ShieldCheck"
+				},
+				"measured": {
+					"width": 400,
+					"height": 125
+				},
+				"selected": true,
+				"dragging": false
+			}
+		],
+		"edges": [
+			{
+				"source": "node_0",
+				"target": "node_1",
+				"animated": true,
+				"style": {
+					"stroke": "#3b82f6",
+					"strokeWidth": 2
+				},
+				"markerEnd": {
+					"type": "arrowclosed"
+				},
+				"id": "xy-edge__node_0-node_1"
+			},
+			{
+				"source": "node_1",
+				"target": "node_2",
+				"animated": true,
+				"style": {
+					"stroke": "#3b82f6",
+					"strokeWidth": 2
+				},
+				"markerEnd": {
+					"type": "arrowclosed"
+				},
+				"id": "xy-edge__node_1-node_2"
+			}
+		]
+	}
+]

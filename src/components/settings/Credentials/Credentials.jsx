@@ -8,7 +8,7 @@ export default function Credentials() {
 
     return (
         <div className="p-6 dark:bg-zinc-900">
-            <div className="border px-10 py-5 rounded-2xl space-y-10 w-[800px]">
+            <div className="border px-10 py-5 rounded-2xl space-y-10 w-full 2xl:w-[1280px]">
                 <h2 className="text-2xl font-semibold">Reset Password</h2>
                 <div className="space-y-2">
                     <Button className="bg-blue-800" onClick={() => setIsReset(!isReset)}>

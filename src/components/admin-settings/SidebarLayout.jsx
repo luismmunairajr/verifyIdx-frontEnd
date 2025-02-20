@@ -19,14 +19,10 @@ const menuItems = [
 
 export default function SidebarLayout() {
   const [activeItem, setActiveItem] = useState('companyinformation');
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <div className="flex h-screen">
       <div
-        className={`bg-zinc-100 dark:bg-zinc-800 text-black flex flex-col p-2 transition-all duration-300 gap-2 fixed h-full ${isHovered ? 'w-64' : 'w-16'}`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        className={"bg-zinc-100 dark:bg-zinc-800 text-black flex flex-col p-2 transition-all duration-300 gap-2 fixed h-full w-64"}
       >
         {menuItems.map((item) => (
           <div
@@ -35,12 +31,12 @@ export default function SidebarLayout() {
             onClick={() => setActiveItem(item.id)}
           >
             {item.icon}
-            {isHovered && <span>{item.label}</span>}
+            <span>{item.label}</span>
           </div>
         ))}
       </div>
 
-      <div className={`flex-1 dark:bg-zinc-900 bg-white transition-all duration-300 ${isHovered ? 'ml-64' : 'ml-16'}`}>
+      <div className={"flex-1 dark:bg-zinc-900 bg-white transition-all duration-300 ml-64"}>
         <Header />
         {menuItems.find((item) => item.id === activeItem)?.component}
       </div>

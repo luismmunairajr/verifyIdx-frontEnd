@@ -11,30 +11,7 @@ const customers = [
 
 export default function GeneralSettings() {
     return(
-        <div className="p-6 space-y-6 dark:bg-zinc-900">
-            <h2 className="text-2xl">General</h2>
-            <div className="flex justify-between w-[600px]">
-                <div>
-                    <h4 className="font-semibold text-zinc-500">Username</h4>
-                    <p>myusername</p>
-                    <Button>Change Username</Button>
-                </div>
-                <div className="w-40">
-                    <h4 className="font-semibold text-zinc-500">Email</h4>
-                    <p>username@gmail.com</p>
-                </div>
-            </div>
-            <div className="flex justify-between w-[600px]">
-                <div>
-                    <h4 className="font-semibold text-zinc-500">Password</h4>
-                    <Button>Change Password</Button>
-                </div>
-                <div className="w-40">
-                    <h4 className="font-semibold text-zinc-500">Admin (Y/N)</h4>
-                    <p>No</p>
-                </div>
-            </div>
-            <hr />
+        <div className="p-6 space-y-6 dark:bg-zinc-900 w-full 2xl:w-[1280px]">
             <h3 className="text-xl">Personal Data</h3>
             <p>You can clear all of your data stored in the browser, including your identity and draft records. Make a backup copy of your identity key if you are choosing to do so. You will be logged out after doing this.</p>
             <Button className="bg-blue-950">Clear Data</Button>

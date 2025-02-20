@@ -19,7 +19,7 @@ export default function HomeComponent() {
     };
 
     return (
-        <div className="p-6 space-y-5 dark:zinc-900">
+        <div className="p-6 space-y-5 dark:zinc-900 w-full 2xl:w-[1280px]">
             <div className="flex justify-between">
                 <div className="flex space-x-4 relative">
                     <Avatar className="md:size-12 size-6 relative">
@@ -67,13 +67,12 @@ export default function HomeComponent() {
                     <Input type="text" placeholder="Your Time Zone" defaultValue="GMT+2" disabled={!isEditing} />
                 </div>
             </div>
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center w-1/2 pr-2">
                 <div className="bg-blue-500 rounded-full p-2 text-white">
                     <Mail strokeWidth={1} size={15} />
                 </div>
-                <h3 className="text-xs">samuelnha@gmail.com</h3>
+                <Input type="text" placeholder="Email" defaultValue="samuelnha@gmail.com" disabled={!isEditing} />
             </div>
-            <Button variant={"secondary"}>Add Email Address</Button>
         </div>
     );
 }

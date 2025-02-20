@@ -7,9 +7,9 @@ const nodes = [
     description: 'Ensure the location provided is real and associated with the individual.',
   },
   {
-    id: 'kyc',
+    id: 'watchlist',
     iconName: "ShieldCheck",
-    title: 'KYC/AML',
+    title: 'Watchlist',
     description: 'Verify customers identities and prevent illegal activities.',
   },
   {
