@@ -8,10 +8,10 @@ import Loading from '@/components/Loading';
 
 export default function TemplatesPage() {
   const [workflows, setWorkflows] = useState([]);
-  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Função para buscar workflows da API
+    
     const fetchWorkflows = async () => {
       try {
         const response = await fetch('/api/workflows');
@@ -19,15 +19,15 @@ export default function TemplatesPage() {
           throw new Error('Failed to fetch workflows');
         }
         const data = await response.json();
-        setWorkflows(data); // Atualiza o estado com os workflows
+        setWorkflows(data); 
       } catch (error) {
         console.error('Error fetching workflows:', error);
       } finally {
-        setLoading(false); // Finaliza o carregamento
+        setLoading(false); 
       }
     };
 
-    fetchWorkflows(); // Chama a função ao montar o componente
+    fetchWorkflows(); 
   }, []);
 
   if (loading) {

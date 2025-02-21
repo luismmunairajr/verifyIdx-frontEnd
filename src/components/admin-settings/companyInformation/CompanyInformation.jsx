@@ -5,8 +5,8 @@ import { Label } from "@/components/ui/label";
 export default function CompanyInformation() {
     return (
         <div className="p-6 space-y-4 dark:zinc-900">
-            <div className="grid grid-cols-2 p-4 rounded-xl w-full 2xl:w-[1280px] gap-2">
-                <div className="space-y-4 border p-4 rounded-xl">
+            <div className="grid grid-cols-1 p-4 rounded-xl w-full 2xl:w-[1280px] gap-4">
+                <div className="space-y-4 border px-4 py-6 rounded-xl">
                     <h4 className="text-xl font-semibold">Company Information</h4>
                     <div className="grid w-full items-center gap-1.5">
                         <Label>Legal Name</Label>
