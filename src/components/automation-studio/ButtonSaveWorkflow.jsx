@@ -15,23 +15,22 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 
-const flowKey = "workflows";
 
 export default function ButtonSaveWorkflow({ nodes, edges }) {
   const [workflowName, setWorkflowName] = useState("");
   const [workflowDescription, setWorkflowDescription] = useState("");
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!workflowName.trim()) {
       toast.error("Workflow name is required.");
       return;
     }
-
+  
     if (nodes.length === 0 || edges.length === 0) {
       toast.error("Cannot save an empty workflow.");
       return;
     }
-
+  
     const processNodes = nodes.map((node) => ({
       ...node,
       data: {
@@ -39,23 +38,35 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
         iconName: node.data.iconName,
       },
     }));
-
-    const savedWorkflows = JSON.parse(localStorage.getItem(flowKey) || "[]");
-
-    const newWorkflow = {
-      id: Date.now(),
-      name: workflowName,
-      description: workflowDescription,
-      nodes: processNodes,
-      edges,
-    };
-
-    localStorage.setItem(flowKey, JSON.stringify([...savedWorkflows, newWorkflow]));
-
-    setWorkflowName("");
-    setWorkflowDescription("");
-
-    toast.success(`Workflow "${newWorkflow.name}" has been successfully saved.`);
+  
+    try {
+      const response = await fetch('/api/workflows', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: workflowName,
+          description: workflowDescription,
+          nodes: processNodes,
+          edges,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to save workflow');
+      }
+  
+      const savedWorkflow = await response.json();
+  
+      setWorkflowName("");
+      setWorkflowDescription("");
+  
+      toast.success(`Workflow "${savedWorkflow.name}" saved successfully!`);
+    } catch (error) {
+      console.error('Error saving workflow:', error);
+      toast.error("Error saving workflow. Please try again.");
+    }
   };
 
   return (

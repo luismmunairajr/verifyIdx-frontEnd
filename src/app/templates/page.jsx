@@ -1,4 +1,4 @@
-import TemplatesPage from "./Templates"
+import TemplatesPage from "./Templates.jsx"
 
 export const metadata = {
   title: "Templates - Verify IDX",
