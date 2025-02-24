@@ -9,9 +9,9 @@ import Loading from '@/components/Loading';
 export default function TemplatesPage() {
   const [workflows, setWorkflows] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState(""); 
 
   useEffect(() => {
-    
     const fetchWorkflows = async () => {
       try {
         const response = await fetch('/api/workflows');
@@ -19,16 +19,21 @@ export default function TemplatesPage() {
           throw new Error('Failed to fetch workflows');
         }
         const data = await response.json();
-        setWorkflows(data); 
+        setWorkflows(data);
       } catch (error) {
         console.error('Error fetching workflows:', error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
-    fetchWorkflows(); 
+    fetchWorkflows();
   }, []);
+
+
+  const filteredWorkflows = workflows.filter((workflow) =>
+    workflow.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -38,22 +43,7 @@ export default function TemplatesPage() {
           <p className="text-lg">
             Choose from our ready-made templates to start building your workflow quickly.
           </p>
-          <Loading/>
-        </div>
-      </div>
-    );
-  }
-
-  if (workflows.length === 0) {
-    return (
-      <div className="w-full flex flex-col p-6 px-40 space-y-10">
-        <div className="w-full flex flex-col items-center mt-10 space-y-4">
-          <h1 className="font-bold text-5xl">Workflow Templates</h1>
-          <p className="text-lg">
-            Choose from our ready-made templates to start building your workflow quickly.
-          </p>
-          <h1 className="text-4xl font-bold pt-10">No workflows saved</h1>
-          <p>Start creating workflows to see them listed here.</p>
+          <Loading />
         </div>
       </div>
     );
@@ -66,19 +56,31 @@ export default function TemplatesPage() {
         <p className="text-lg">
           Choose from our ready-made templates to start building your workflow quickly.
         </p>
-        <Input placeholder="Search a Workflow" />
+        
+        <Input
+          placeholder="Search a Workflow"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
       <FilterButtons />
-      <div className="grid grid-cols-2 gap-4 p-4">
-        {workflows.map((workflow) => (
-          <CardTemplate
-            key={workflow._id} // Use _id em vez de id
-            id={workflow._id}
-            name={workflow.name}
-            description={workflow.description}
-          />
-        ))}
-      </div>
+      {filteredWorkflows.length > 0 ? (
+        <div className="grid grid-cols-2 gap-4 p-4">
+          {filteredWorkflows.map((workflow) => (
+            <CardTemplate
+              key={workflow._id}
+              id={workflow._id}
+              name={workflow.name}
+              description={workflow.description}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center pt-10">
+          <h1 className="text-4xl font-bold">No workflows found</h1>
+          <p>Try searching for a different name.</p>
+        </div>
+      )}
     </div>
   );
 }

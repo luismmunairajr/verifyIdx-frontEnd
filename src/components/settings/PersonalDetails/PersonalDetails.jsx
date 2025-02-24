@@ -67,12 +67,6 @@ export default function HomeComponent() {
                     <Input type="text" placeholder="Your Time Zone" defaultValue="GMT+2" disabled={!isEditing} />
                 </div>
             </div>
-            <div className="flex gap-2 items-center w-1/2 pr-2">
-                <div className="bg-blue-500 rounded-full p-2 text-white">
-                    <Mail strokeWidth={1} size={15} />
-                </div>
-                <Input type="text" placeholder="Email" defaultValue="samuelnha@gmail.com" disabled={!isEditing} />
-            </div>
         </div>
     );
 }

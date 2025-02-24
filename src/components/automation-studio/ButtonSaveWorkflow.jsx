@@ -14,11 +14,18 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
+import Select from "react-select"
 
-
+const categoryOptions = [
+  { value: "security", label: "Security" },
+  { value: "fraud_detection", label: "Fraud Detection" },
+  { value: "identity_verification", label: "Identity Verification" },
+  { value: "machine_learning", label: "Machine Learning" },
+];
 export default function ButtonSaveWorkflow({ nodes, edges }) {
   const [workflowName, setWorkflowName] = useState("");
   const [workflowDescription, setWorkflowDescription] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const handleSave = async () => {
     if (!workflowName.trim()) {
@@ -93,6 +100,17 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
           <Textarea
             value={workflowDescription}
             onChange={(e) => setWorkflowDescription(e.target.value)}
+          />
+        </div>
+        <div className="pt-4 pb-4">
+          <Label>Categories</Label>
+          <Select
+            isMulti
+            options={categoryOptions}
+            value={selectedCategories}
+            onChange={setSelectedCategories}
+            className="basic-multi-select"
+            classNamePrefix="select"
           />
         </div>
         <SheetFooter>

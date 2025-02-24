@@ -8,7 +8,7 @@ export default function Resume({ person }) {
     return (
         <div className="flex flex-col space-y-10 dark:text-white">
             <div className="flex space-x-10 w-full">
-                <Image src={person.auditTrailImage? `data:image/png;base64,${person.auditTrailImage}` : unknow}  alt="avatar" width={100} height={100} className="size-40" />
+                <Image src={person.auditTrailImage? `data:image/png;base64,${person.auditTrailImage}` : unknow}  alt="" width={100} height={100} className="size-40 aspect-square rounded-full" />
                 <div className="space-y-4 flex flex-col items-start justify-center w-full">
                     <h2 className="font-semibold text-lg">{person.fullName}</h2>
                     <div className="flex space-x-4">
