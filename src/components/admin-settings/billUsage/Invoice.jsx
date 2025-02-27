@@ -1,4 +1,4 @@
-import invoiceicon from "../../../../public/invoice.svg";
+import invoiceicon from "@/assets/invoice.svg";
 import Image from "next/image";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 

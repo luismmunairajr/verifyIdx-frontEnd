@@ -45,18 +45,18 @@ const menuItems = [
 export default function SidebarLayout() {
   const [activeItem, setActiveItem] = useState("companyinformation");
   return (
-    <div className="flex h-screen">
+    <div className="flex h-full overflow-hidden">
       <div
         className={
-          "bg-zinc-100 dark:bg-zinc-800 text-black flex flex-col p-2 transition-all duration-300 gap-2 fixed h-full w-64"
+          "bg-zinc-100 dark:bg-zinc-800 text-black flex flex-col p-2 transition-all duration-300 gap-2 w-64 flex-shrink-0"
         }
       >
         {menuItems.map((item) => (
           <div
             key={item.id}
-            className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-blue-800 dark:hover:bg-white dark:hover:text-black hover:text-white dark:text-white h-14 ${
+            className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-blue-500 dark:hover:bg-white dark:hover:text-black hover:text-white dark:text-white h-14 ${
               activeItem === item.id
-                ? "bg-blue-800 dark:bg-white dark:text-black text-white"
+                ? "bg-blue-500 dark:bg-white dark:text-black text-white"
                 : ""
             }`}
             onClick={() => setActiveItem(item.id)}
@@ -67,11 +67,7 @@ export default function SidebarLayout() {
         ))}
       </div>
 
-      <div
-        className={
-          "flex-1 dark:bg-zinc-900 bg-white transition-all duration-300 ml-64"
-        }
-      >
+      <div className="flex-1 bg-white dark:bg-zinc-900 overflow-auto">
         <Header />
         {menuItems.find((item) => item.id === activeItem)?.component}
       </div>

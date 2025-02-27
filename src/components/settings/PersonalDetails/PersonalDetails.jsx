@@ -19,7 +19,7 @@ export default function HomeComponent() {
     };
 
     return (
-        <div className="p-6 space-y-5 dark:zinc-900 w-full 2xl:w-[1280px]">
+        <div className="p-6 space-y-5 dark:zinc-900 w-full 2xl:w-[1000px]">
             <div className="flex justify-between">
                 <div className="flex space-x-4 relative">
                     <Avatar className="md:size-12 size-6 relative">

@@ -1,6 +1,6 @@
 import Image from "next/image"
-import singlesignon from "../../../../public/singlesignon.svg"
-import google from "../../../../public/google.svg"
+import singlesignon from "@/assets/singlesignon.svg"
+import google from "@/assets/google.svg"
 import { Button } from "@/components/ui/button"
 import { TriangleAlert, Check } from "lucide-react"
 

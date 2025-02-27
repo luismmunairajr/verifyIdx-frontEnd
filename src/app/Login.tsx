@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import google from "../../public/google.svg"
-import microsoft from "../../public/microsoft.svg"
+import google from "@/assets/google.svg"
+import microsoft from "@/assets/microsoft.svg"
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import logo from "../../public/logo.svg"
-import image from "../../public/image.svg"
+import logo from "@/assets/logo.svg"
+import image from "@/assets/image.svg"
 import { useState } from "react";
 import Loading from "@/components/Loading";
 
@@ -46,7 +46,7 @@ export default function Home() {
             <Input placeholder="password" type="password" />
           </div>
           <div className="w-full flex justify-between">
-            <div className="space-x-1 items-center justify-center">
+            <div className="flex gap-1 items-center justify-center">
               <Checkbox />
               <Label>Remember me</Label>
             </div>
@@ -60,7 +60,7 @@ export default function Home() {
           <p className="text-sm">Dont have an account? <Link href={"#"} className="text-blue-500 font-semibold">Create an account</Link></p>
         </div>
       </div>
-      <div className="w-1/2 h-full  flex items-center justify-center">
+      <div className="w-1/2 h-full bg-blue-500 flex items-center justify-center">
         <Image src={image} alt={"image"} />
       </div>
     </div>

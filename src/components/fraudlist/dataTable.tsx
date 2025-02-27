@@ -7,6 +7,7 @@ import {Button} from "@/components/ui/button"
 interface Profile {
   name: string;
   image: string;
+  status:string
   details: {
     address: string;
     dateOfBirth: string;
@@ -39,6 +40,7 @@ export default function DataTable({ profiles }: DataTableProps) {
             <TableHead>Address</TableHead>
             <TableHead>Date Of Birth</TableHead>
             <TableHead>Sex</TableHead>
+            <TableHead>Reason</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -56,6 +58,7 @@ export default function DataTable({ profiles }: DataTableProps) {
               <TableCell>{profile.details.address}</TableCell>
               <TableCell>{profile.details.dateOfBirth}</TableCell>
               <TableCell>{profile.details.sex}</TableCell>
+              <TableCell>{profile.status}</TableCell>
               <TableCell>
                 <Button onClick={() => handleViewClick(profile)}>View</Button>
               </TableCell>

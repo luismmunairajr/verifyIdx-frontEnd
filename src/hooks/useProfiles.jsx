@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "@/app/api/axios/axiosInstance";
-import unknow from "../../public/unknowProfile.svg"
+import unknow from "@/assets/unknowProfile.svg"
 
 export function useProfiles() {
   const [profiles, setProfiles] = useState([]);

@@ -1,5 +1,5 @@
 import PersonVerifications from "./PersonVerifications"
-import unknow from "../../../../public/unknowProfile.svg"
+import unknow from "@/assets/unknowProfile.svg"
 export default function ListVerifications({ onSelectPerson, profiles }) {
   return (
     <div className="flex flex-col space-y-2 w-full overflow-y-auto pr-1">

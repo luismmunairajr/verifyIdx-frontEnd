@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function CompanyInformation() {
     return (
         <div className="p-6 space-y-4 dark:zinc-900">
-            <div className="grid grid-cols-1 p-4 rounded-xl w-full 2xl:w-[1280px] gap-4">
-                <div className="space-y-4 border px-4 py-6 rounded-xl">
+            <div className="grid grid-cols-1 p-4 rounded-xl w-full 2xl:w-[1000px] gap-4">
+                <Card className="space-y-4 border px-4 py-6 rounded-xl">
                     <h4 className="text-xl font-semibold">Company Information</h4>
                     <div className="grid w-full items-center gap-1.5">
                         <Label>Legal Name</Label>
@@ -20,8 +21,8 @@ export default function CompanyInformation() {
                         <Label>Tax ID</Label>
                         <Input type="text" placeholder="Tax ID" defaultValue="123456789" />
                     </div>
-                </div>
-                <div className="space-y-4 border p-4 rounded-xl">
+                </Card>
+                <Card className="space-y-4 border p-4 rounded-xl">
                     <h4 className="text-xl font-semibold">Contact Details</h4>
                     <div className="grid w-full items-center gap-1.5">
                         <Label>Account Manager</Label>
@@ -35,8 +36,8 @@ export default function CompanyInformation() {
                         <Label>Phone Number</Label>
                         <Input type="number" placeholder="Phone Number" defaultValue="841234567" />
                     </div>
-                </div>
-                <div className="space-y-4 border p-4 rounded-xl">
+                </Card>
+                <Card className="space-y-4 border p-4 rounded-xl">
                     <h4 className="text-xl font-semibold">Address Details</h4>
                     <div className="grid w-full items-center gap-1.5">
                         <Label>Country</Label>
@@ -50,9 +51,9 @@ export default function CompanyInformation() {
                         <Label>Time Zone</Label>
                         <Input type="text" placeholder="Time Zone" defaultValue="GMT+2" />
                     </div>
-                </div>
-                <div className="pt-10 w-full">
-                    <Button className="w-full">Update</Button>
+                </Card>
+                <div className="pt-10">
+                    <Button>Update</Button>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import cubeicon from "../../../../public/cubeicon.svg"
+import cubeicon from "@/assets/cubeicon.svg"
 import Image from "next/image";
 import CreateKey from "@/components/admin-settings/apiKeys/CreateKey"
 export default function ApiKeys() {

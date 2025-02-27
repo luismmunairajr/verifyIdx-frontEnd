@@ -1,4 +1,3 @@
-// DropdownMenuCheckboxes.tsx
 import * as React from "react";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { SlidersHorizontal } from "lucide-react";

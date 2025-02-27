@@ -1,4 +1,4 @@
-import bluestringlogo from "../../public/bluestringLogo.svg"
+import bluestringlogo from "@/assets/bluestringLogo.svg"
 import Image from "next/image";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";

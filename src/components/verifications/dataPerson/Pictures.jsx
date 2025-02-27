@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
-import unknow from "../../../../public/unknowProfile.svg"
+import unknow from "@/assets/unknowProfile.svg"
 
 export default function Pictures({ person }) {
   const [selectedImage, setSelectedImage] = useState(null);
