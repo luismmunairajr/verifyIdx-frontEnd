@@ -15,15 +15,21 @@ export default function TemplatePage({ params }) {
   const router = useRouter();
 
   useEffect(() => {
-    const savedWorkflows = JSON.parse(localStorage.getItem('workflows') || '[]');
-    const foundWorkflow = savedWorkflows.find((wf) => wf.id === Number(id));
+    const fetchWorkflow = async () => {
+      try {
+        const response = await fetch(`/api/workflows/${id}`);
+        if (!response.ok) {
+          throw new Error('Workflow not found');
+        }
+        const data = await response.json();
+        setWorkflow(data);
+      } catch (error) {
+        alert('Workflow not found.');
+        router.push('/templates');
+      }
+    };
 
-    if (!foundWorkflow) {
-      alert('Workflow not found.');
-      router.push('/templates');
-    } else {
-      setWorkflow(foundWorkflow);
-    }
+    fetchWorkflow();
   }, [id, router]);
 
   if (!workflow) {
@@ -35,13 +41,20 @@ export default function TemplatePage({ params }) {
       <div className='border-2 h-full w-1/4 rounded-xl shadow-xl p-4 flex flex-col gap-4'>
         <h1 className="text-xl font-bold mb-4">{workflow.name}</h1>
         {workflow.description && <p className="text-gray-600 text-xs">{workflow.description}</p>}
+        
         <div>
           <h1>CATEGORIES</h1>
-          <div className='flex gap-2'>
-            <Badge>My Template</Badge>
-            <Badge>Artificial Inteligence</Badge>
+          <div className='flex gap-2 flex-wrap'>
+            {workflow.categories && workflow.categories.length > 0 ? (
+              workflow.categories.map((category, index) => (
+                <Badge key={index} variant={"outline"}>{category}</Badge>
+              ))
+            ) : (
+              <p className="text-gray-500 text-xs">No categories assigned</p>
+            )}
           </div>
         </div>
+
         <Button>Use Workflow</Button>
         <Button
           variant="secondary"
@@ -49,6 +62,7 @@ export default function TemplatePage({ params }) {
           Copy Workflow
         </Button>
       </div>
+
       <div className="h-full overflow-hidden w-2/3 bg-zinc-100 dark:bg-zinc-950 border-2 rounded-xl">
         <ReactFlow
           nodes={workflow.nodes}

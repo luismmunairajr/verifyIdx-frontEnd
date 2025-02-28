@@ -60,7 +60,7 @@ export default function Home() {
           <p className="text-sm">Dont have an account? <Link href={"#"} className="text-blue-500 font-semibold">Create an account</Link></p>
         </div>
       </div>
-      <div className="w-1/2 h-full bg-blue-500 flex items-center justify-center">
+      <div className="w-1/2 h-full bg-blue-500 dark:bg-zinc-900  flex items-center justify-center">
         <Image src={image} alt={"image"} />
       </div>
     </div>

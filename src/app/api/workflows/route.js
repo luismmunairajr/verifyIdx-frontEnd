@@ -16,13 +16,14 @@ export async function POST(request) {
   await dbConnect();
 
   try {
-    const { name, description, nodes, edges } = await request.json();
+    const { name, description, nodes, edges, categories } = await request.json();
 
     const newWorkflow = new Workflow({
       name,
       description,
       nodes,
       edges,
+      categories
     });
 
     const savedWorkflow = await newWorkflow.save();

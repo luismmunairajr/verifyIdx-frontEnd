@@ -1,24 +1,22 @@
 import * as React from "react";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { 
+  DropdownMenu, 
+  DropdownMenuCheckboxItem, 
+  DropdownMenuContent, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
 import { SlidersHorizontal } from "lucide-react";
 
-interface DropdownMenuCheckboxesProps {
-  showPending: boolean;
-  showComplete: boolean;
-  showRejected: boolean;
-  setShowPending: (value: boolean) => void;
-  setShowComplete: (value: boolean) => void;
-  setShowRejected: (value: boolean) => void;
-}
-
-export function DropdownMenuCheckboxes({
-  showPending,
-  showComplete,
-  showRejected,
-  setShowPending,
-  setShowComplete,
-  setShowRejected,
-}: DropdownMenuCheckboxesProps) {
+export function DropdownMenuCheckboxes({ 
+  showPending, 
+  showComplete, 
+  showRejected, 
+  setShowPending, 
+  setShowComplete, 
+  setShowRejected 
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

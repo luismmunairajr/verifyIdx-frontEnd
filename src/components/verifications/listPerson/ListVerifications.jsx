@@ -1,5 +1,5 @@
-import PersonVerifications from "./PersonVerifications"
-import unknow from "@/assets/unknowProfile.svg"
+import PersonVerifications from "./PersonVerifications";
+import unknow from "@/assets/unknowProfile.svg";
 export default function ListVerifications({ onSelectPerson, profiles }) {
   return (
     <div className="flex flex-col space-y-2 w-full overflow-y-auto pr-1">
@@ -9,7 +9,11 @@ export default function ListVerifications({ onSelectPerson, profiles }) {
             key={index}
             name={person.fullName}
             status={person.status}
-            image={person.auditTrailImage? `data:image/png;base64,${person.auditTrailImage}` : unknow}
+            image={
+              person.auditTrailImage
+                ? `data:image/png;base64,${person.auditTrailImage}`
+                : unknow
+            }
             onclick={() => onSelectPerson(person)}
           />
         ))
@@ -17,5 +21,5 @@ export default function ListVerifications({ onSelectPerson, profiles }) {
         <div>No persons available</div>
       )}
     </div>
-  )
+  );
 }

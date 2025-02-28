@@ -1,5 +1,5 @@
 import { useProfiles } from "@/hooks/useProfiles";
-import InputSeatch from "./Input";
+import InputSearch from "./Input.jsx";
 import ListVerifications from "./ListVerifications";
 import Loading from "@/components/Loading";
 import { useState } from "react";
@@ -39,14 +39,14 @@ export default function ListPerson({ onSelectPerson }) {
 
   return (
     <div className="bg-zinc-100 flex w-96 text-black flex-col items-start p-4 space-y-6 overflow-y-auto dark:text-white dark:bg-zinc-800">
-      <InputSeatch
+      <InputSearch
         filterText={filterText}
         setFilterText={setFilterText}
         showPending={showPending}
         showComplete={showComplete}
         showRejected={showRejected}
         setShowPending={setShowPending}
-        setShowApproved={setShowComplete}
+        setShowComplete={setShowComplete} 
         setShowRejected={setShowRejected}
       />
       <h2 className="text-lg font-medium">Verifications</h2>

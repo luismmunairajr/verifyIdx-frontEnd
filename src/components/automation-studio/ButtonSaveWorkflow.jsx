@@ -15,18 +15,26 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 import Select from "react-select"
+import Loading from "../Loading";
 
 const categoryOptions = [
   { value: "security", label: "Security" },
   { value: "fraud_detection", label: "Fraud Detection" },
   { value: "identity_verification", label: "Identity Verification" },
   { value: "machine_learning", label: "Machine Learning" },
+  { value: "ai_automation", label: "AI Automation" }, // Fixed typo in "AI"
+  { value: "access_control", label: "Access Control" }, // Fixed typo in "Access"
+  { value: "deep_learning", label: "Deep Learning" },
+  { value: "risk_assessment", label: "Risk Assessment" }, // Fixed typo in "Assessment"
+  { value: "kyc", label: "KYC" },
+  { value: "aml", label: "AML" },
 ];
 
 export default function ButtonSaveWorkflow({ nodes, edges }) {
   const [workflowName, setWorkflowName] = useState("");
   const [workflowDescription, setWorkflowDescription] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSave = async () => {
     if (!workflowName.trim()) {
@@ -38,6 +46,8 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
       toast.error("Cannot save an empty workflow.");
       return;
     }
+    
+    setIsSubmitting(true);
   
     const processNodes = nodes.map((node) => ({
       ...node,
@@ -46,6 +56,8 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
         iconName: node.data.iconName,
       },
     }));
+    
+    const categories = selectedCategories.map((category) => category.value);
   
     try {
       const response = await fetch('/api/workflows', {
@@ -58,22 +70,28 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
           description: workflowDescription,
           nodes: processNodes,
           edges,
+          categories,
         }),
       });
   
       if (!response.ok) {
-        throw new Error('Failed to save workflow');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to save workflow');
       }
   
       const savedWorkflow = await response.json();
+      console.log("Saved workflow response:", savedWorkflow);
   
       setWorkflowName("");
       setWorkflowDescription("");
+      setSelectedCategories([]);
   
       toast.success(`Workflow "${savedWorkflow.name}" saved successfully!`);
     } catch (error) {
       console.error('Error saving workflow:', error);
-      toast.error("Error saving workflow. Please try again.");
+      toast.error(`Error saving workflow: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -116,7 +134,12 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button onClick={handleSave}>Save Workflow</Button>
+            <Button 
+              onClick={handleSave} 
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? <Loading/> : "Save Workflow"}
+            </Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

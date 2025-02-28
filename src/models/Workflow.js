@@ -40,6 +40,10 @@ const workflowSchema = new mongoose.Schema({
   description: String,
   nodes: [nodeSchema],
   edges: [edgeSchema],
+  categories: {
+    type: [String],
+    default: [], 
+  },
   createdAt: {
     type: Date,
     default: Date.now,
