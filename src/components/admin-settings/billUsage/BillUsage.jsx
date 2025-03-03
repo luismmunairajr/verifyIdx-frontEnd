@@ -3,7 +3,7 @@ import Invoice from "@/components/admin-settings/billUsage/Invoice"
 
 export default function BillUsage() {
     return (
-        <div className="p-6 space-y-4 dark:bg-zinc-900 w-full 2xl:w-[1280px]">
+        <div className="p-6 space-y-4 dark:bg-zinc-900 w-full 2xl:w-[1000px]">
             <div className="flex justify-between">
                 <div className="flex flex-col justify-between w-1/2">
                     <div>

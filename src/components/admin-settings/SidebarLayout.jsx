@@ -54,11 +54,13 @@ export default function SidebarLayout() {
         {menuItems.map((item) => (
           <div
             key={item.id}
-            className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-blue-500 dark:hover:bg-white dark:hover:text-black hover:text-white dark:text-white h-14 ${
-              activeItem === item.id
-                ? "bg-blue-500 dark:bg-white dark:text-black text-white"
-                : ""
-            }`}
+            className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-colors duration-200 
+           hover:bg-blue-500 hover:text-white dark:hover:bg-white dark:hover:text-black h-14
+           ${
+             activeItem === item.id
+               ? "bg-blue-500 text-white dark:bg-white dark:text-black"
+               : "dark:text-white"
+           }`}
             onClick={() => setActiveItem(item.id)}
           >
             {item.icon}

@@ -12,7 +12,7 @@ export default function Credentials() {
             <Card className="border px-10 py-5 rounded-2xl space-y-10 w-full 2xl:w-[1000px]">
                 <h2 className="text-2xl font-semibold">Reset Password</h2>
                 <div className="space-y-2">
-                    <Button className="bg-blue-500 hover:bg-transparent hover:text-blue-500 hover:border hover:border-blue-500" onClick={() => setIsReset(!isReset)}>
+                    <Button className="bg-blue-500 dark:bg-white hover:bg-transparent hover:text-blue-500 hover:border hover:border-blue-500" onClick={() => setIsReset(!isReset)}>
                         {isReset ? "Cancel" : "Reset Password"}
                     </Button>
                     <p>We received a request to reset the password for your account.</p>

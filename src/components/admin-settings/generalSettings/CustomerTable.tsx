@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
@@ -14,14 +16,25 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ChevronLeft, ChevronRight, MoreHorizontal, Search } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 // Sample data
 const customers = [
   {
     id: "1",
     name: "John Smith",
-    branch: "New York",
-    phone: "+1 (555) 123-4567",
+    branch: "Microsoft",
+    roll: "Manager",
     email: "john.smith@example.com",
     country: "United States",
     status: "active",
@@ -29,8 +42,8 @@ const customers = [
   {
     id: "2",
     name: "Maria Garcia",
-    branch: "Madrid",
-    phone: "+34 612 345 678",
+    branch: "Google",
+    roll: "Supervisor",
     email: "maria.garcia@example.com",
     country: "Spain",
     status: "inactive",
@@ -38,8 +51,8 @@ const customers = [
   {
     id: "3",
     name: "Hiroshi Tanaka",
-    branch: "Tokyo",
-    phone: "+81 3 1234 5678",
+    branch: "Amazon",
+    roll: "Sales Representative",
     email: "h.tanaka@example.com",
     country: "Japan",
     status: "pending",
@@ -47,8 +60,8 @@ const customers = [
   {
     id: "4",
     name: "Sarah Johnson",
-    branch: "London",
-    phone: "+44 20 7123 4567",
+    branch: "Netflix",
+    roll: "Director",
     email: "s.johnson@example.com",
     country: "United Kingdom",
     status: "active",
@@ -56,8 +69,8 @@ const customers = [
   {
     id: "5",
     name: "Carlos Mendoza",
-    branch: "Mexico City",
-    phone: "+52 55 1234 5678",
+    branch: "BCX",
+    roll: "Analyst",
     email: "c.mendoza@example.com",
     country: "Mexico",
     status: "active",
@@ -67,10 +80,51 @@ const customers = [
 export function CustomerTable() {
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [customerList, setCustomerList] = useState(customers)
+  const [newCustomer, setNewCustomer] = useState({
+    id: "",
+    name: "",
+    branch: "",
+    roll: "",
+    email: "",
+    country: "",
+    status: "active",
+  })
   const itemsPerPage = 5
 
+  // Handle adding a new customer
+  const handleAddCustomer = () => {
+    const customer = {
+      ...newCustomer,
+      id: (customerList.length + 1).toString(),
+    }
+    setCustomerList([...customerList, customer])
+    setNewCustomer({
+      id: "",
+      name: "",
+      branch: "",
+      roll: "",
+      email: "",
+      country: "",
+      status: "active",
+    })
+    setIsModalOpen(false)
+  }
+
+  // Handle input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setNewCustomer({ ...newCustomer, [name]: value })
+  }
+
+  // Handle select changes
+  const handleSelectChange = (name: string, value: string) => {
+    setNewCustomer({ ...newCustomer, [name]: value })
+  }
+
   // Filter customers based on search term
-  const filteredCustomers = customers.filter((customer) =>
+  const filteredCustomers = customerList.filter((customer) =>
     Object.values(customer).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
   )
 
@@ -110,7 +164,100 @@ export function CustomerTable() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogTrigger asChild>
+            <Button>Add Customer</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Add New Customer</DialogTitle>
+              <DialogDescription>Fill in the details to add a new customer to the system.</DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Name
+                </Label>
+                <Input
+                  id="name"
+                  name="name"
+                  value={newCustomer.name}
+                  onChange={handleInputChange}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="branch" className="text-right">
+                  Branch
+                </Label>
+                <Input
+                  id="branch"
+                  name="branch"
+                  value={newCustomer.branch}
+                  onChange={handleInputChange}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="roll" className="text-right">
+                  Roll
+                </Label>
+                <Input
+                  id="roll"
+                  name="roll"
+                  value={newCustomer.roll}
+                  onChange={handleInputChange}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="email" className="text-right">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={newCustomer.email}
+                  onChange={handleInputChange}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="country" className="text-right">
+                  Country
+                </Label>
+                <Input
+                  id="country"
+                  name="country"
+                  value={newCustomer.country}
+                  onChange={handleInputChange}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="status" className="text-right">
+                  Status
+                </Label>
+                <Select value={newCustomer.status} onValueChange={(value) => handleSelectChange("status", value)}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="inactive">Inactive</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit" onClick={handleAddCustomer}>
+                Add Customer
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="rounded-md border">
@@ -119,7 +266,7 @@ export function CustomerTable() {
             <TableRow>
               <TableHead>Customer Name</TableHead>
               <TableHead>Branch</TableHead>
-              <TableHead>Phone Number</TableHead>
+              <TableHead>Roll</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Country</TableHead>
               <TableHead>Status</TableHead>
@@ -132,7 +279,7 @@ export function CustomerTable() {
                 <TableRow key={customer.id}>
                   <TableCell className="font-medium">{customer.name}</TableCell>
                   <TableCell>{customer.branch}</TableCell>
-                  <TableCell>{customer.phone}</TableCell>
+                  <TableCell>{customer.roll}</TableCell>
                   <TableCell>{customer.email}</TableCell>
                   <TableCell>{customer.country}</TableCell>
                   <TableCell>{getStatusBadge(customer.status)}</TableCell>

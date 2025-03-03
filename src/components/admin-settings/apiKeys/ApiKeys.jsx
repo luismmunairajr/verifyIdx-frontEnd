@@ -4,7 +4,7 @@ import Image from "next/image";
 import CreateKey from "@/components/admin-settings/apiKeys/CreateKey"
 export default function ApiKeys() {
     return(
-        <div className="p-6 space-y-6 dark:bg-zinc-900 w-full 2xl:w-[1280px]">
+        <div className="p-6 space-y-6 dark:bg-zinc-900 w-full 2xl:w-[1000px]">
             <div className="border flex rounded-xl p-4">
                 <div className="flex space-x-4 p-2">
                     <Image src={cubeicon} alt=""/>
