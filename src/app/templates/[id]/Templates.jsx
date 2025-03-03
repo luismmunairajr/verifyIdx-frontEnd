@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ReactFlow, Background, Controls, MiniMap } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import CustomNode from '@/components/automation-studio/nodes/CustomNode';
+import CustomNode from '@/components/automation-studio/nodes/customNode.jsx';
 import "@/components/automation-studio/nodes/index.css";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -58,7 +58,7 @@ export default function TemplatePage({ params }) {
         <Button>Use Workflow</Button>
         <Button
           variant="secondary"
-          onClick={() => router.push(`/automation-studio?workflowId=${workflow.id}`)}>
+          onClick={() => router.push(`/automation-studio/${id}`)}>
           Copy Workflow
         </Button>
       </div>

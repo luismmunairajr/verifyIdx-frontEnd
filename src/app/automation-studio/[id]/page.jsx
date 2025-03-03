@@ -1,7 +1,8 @@
+// automation-studio/[id]/page.js
 "use client";
-import React, { useRef, useCallback, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import {ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState,Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap} from '@xyflow/react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState, Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { DnDProvider, useDnD } from '@/components/automation-studio/DnDContext';
 import CustomNode from '@/components/automation-studio/nodes/customNode';
@@ -11,8 +12,7 @@ import "@/components/automation-studio/nodes/index.css";
 let id = 0;
 const getId = () => `node_${id++}`;
 
-const DnDFlow = () => {
-  const searchParams = useSearchParams();
+const DnDFlow = ({ workflow }) => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -20,24 +20,17 @@ const DnDFlow = () => {
   const [type] = useDnD();
 
   useEffect(() => {
-    const workflowId = searchParams.get('workflowId');
+    if (workflow) {
+      const highestId = Math.max(...workflow.nodes.map(node => {
+        const numericId = parseInt(node.id.replace('node_', ''));
+        return isNaN(numericId) ? 0 : numericId;
+      }));
+      id = highestId + 1;
 
-    if (workflowId) {
-      const savedWorkflows = JSON.parse(localStorage.getItem('workflows') || '[]');
-      const workflow = savedWorkflows.find(wf => wf.id === Number(workflowId));
-
-      if (workflow) {
-        const highestId = Math.max(...workflow.nodes.map(node => {
-          const numericId = parseInt(node.id.replace('node_', ''));
-          return isNaN(numericId) ? 0 : numericId;
-        }));
-        id = highestId + 1;
-
-        setNodes(workflow.nodes);
-        setEdges(workflow.edges);
-      }
+      setNodes(workflow.nodes);
+      setEdges(workflow.edges);
     }
-  }, [searchParams, setNodes, setEdges]);
+  }, [workflow, setNodes, setEdges]);
 
   const onConnect = useCallback(
     (params) =>
@@ -118,10 +111,44 @@ const DnDFlow = () => {
   );
 };
 
-export default () => (
-  <ReactFlowProvider>
-    <DnDProvider>
-      <DnDFlow />
-    </DnDProvider>
-  </ReactFlowProvider>
-);
+export default function AutomationStudioPage({ params }) {
+  const { id } = params;
+  const [workflow, setWorkflow] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchWorkflow = async () => {
+      try {
+        const response = await fetch(`/api/workflows/${id}`);
+        if (!response.ok) {
+          throw new Error('Workflow not found');
+        }
+        const data = await response.json();
+        setWorkflow(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWorkflow();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <ReactFlowProvider>
+      <DnDProvider>
+        <DnDFlow workflow={workflow} />
+      </DnDProvider>
+    </ReactFlowProvider>
+  );
+}
