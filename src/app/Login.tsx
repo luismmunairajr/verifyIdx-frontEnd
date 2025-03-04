@@ -9,7 +9,7 @@ import microsoft from "@/assets/microsoft.svg"
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import logo from "@/assets/logo.svg"
-import image from "@/assets/image.svg"
+import image from "@/assets/log.svg"
 import { useState } from "react";
 import Loading from "@/components/Loading";
 
@@ -25,7 +25,7 @@ export default function Home() {
   }
   return (
     <div className="h-screen flex">
-      <div className="w-1/2 h-full flex flex-col items-center justify-center">
+      <div className="w-2/5 h-full flex flex-col items-center justify-center">
         <div className="flex flex-col w-96 space-y-8 items-center justify-center">
           <div className="w-full space-y-2">
             <div className="pb-2">
@@ -60,7 +60,9 @@ export default function Home() {
           <p className="text-sm">Dont have an account? <Link href={"#"} className="text-blue-500 font-semibold">Create an account</Link></p>
         </div>
       </div>
-      <div className="w-1/2 h-full bg-blue-500 dark:bg-zinc-900  flex items-center justify-center">
+      <div className="w-3/5 h-full p-10 space-y-6 text-white flex-col bg-blue-800 dark:bg-zinc-900 flex  justify-center">
+        <h1 className="text-2xl font-bold">The Simplest Way to Manage your Workforce</h1>
+        <p className="text-lg">Enter your credentials to acess your account</p>
         <Image src={image} alt={"image"} />
       </div>
     </div>
