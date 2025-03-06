@@ -1,4 +1,3 @@
-// automation-studio/[id]/page.js
 "use client";
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';

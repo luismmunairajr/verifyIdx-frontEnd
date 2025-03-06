@@ -57,8 +57,7 @@ export default function Home() {
               <Loading/>
             ) : "Log in"}
             </Button>
-          <p className="text-sm">Dont have an account? <Link href={"#"} className="text-blue-500 font-semibold">Create an account</Link></p>
-        </div>
+         </div>
       </div>
       <div className="w-3/5 h-full p-10 space-y-6 text-white flex-col bg-blue-800 dark:bg-zinc-900 flex  justify-center">
         <h1 className="text-2xl font-bold">The Simplest Way to Manage your Workforce</h1>

@@ -1,0 +1,47 @@
+{
+    "Login": {
+        "title":"Log in to yout account",
+        "subtitle":"Welcome Back! Select method to log in:",
+        "or":"or continue with email",
+        "remember":"Remember me",
+        "forgot":"Forgot password?",
+        "login":"Log in"
+    },
+    "Verifications":{
+        "verifications":"verifications",
+        "selectedPerson":"Select a person to see the details",
+        "d":"d",
+        "personDetails":{
+            "persondetails":"Person Details",
+            "fullname":"Full Name",
+            "fatherFirstName":"Father First Name",
+            "motherFirstName":"Mother First Name",
+            "idNumber":"ID Number",
+            "sex":"Sex",
+            "height":"Height",
+            "dateOfBirth":"Date of Birth",
+            "maritalStatus":"Marital Status",
+            "issuingAuthority":"Issuing Authority",
+            "dateOfExpiration":"Date of Expiration",
+            "dateOfIssue":"Date of Issue",
+            "documentCountry":"Document Country",
+            "templateName":"Template Name",
+            "templateType":"Template Type"
+        },
+        "AddressVerification":{
+            "addressVerification":"Address Verification",
+            "address1":"address 1",
+            "address2":"address 2",
+            "address3":"address 3"
+        },
+        "ThirdPartVerification":{
+            "thirdpartverification":"Third Part Verification"
+        },
+        "SanctionScreening":{
+            "sanctionscreening":"Sanction Screening",
+            "status":"status",
+            "matchScore":"Match Score",
+            "":""
+        }
+    }
+}

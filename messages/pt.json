@@ -1,0 +1,10 @@
+{
+    "Login": {
+        "title":"Entre na sua conta",
+        "subtitle":"Bem-vindo de volta! Selecione o método para entrar:",
+        "or":"ou continue com o email",
+        "remember":"Lembrar-me",
+        "forgot":"Esqueceu a senha?",
+        "login":"Entrar"
+    }
+}

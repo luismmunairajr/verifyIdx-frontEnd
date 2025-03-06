@@ -1,6 +1,5 @@
 "use client";
 import React, { useRef, useCallback, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import {ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState,Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { DnDProvider, useDnD } from '@/components/automation-studio/DnDContext';
@@ -12,32 +11,11 @@ let id = 0;
 const getId = () => `node_${id++}`;
 
 const DnDFlow = () => {
-  const searchParams = useSearchParams();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
-
-  useEffect(() => {
-    const workflowId = searchParams.get('workflowId');
-
-    if (workflowId) {
-      const savedWorkflows = JSON.parse(localStorage.getItem('workflows') || '[]');
-      const workflow = savedWorkflows.find(wf => wf.id === Number(workflowId));
-
-      if (workflow) {
-        const highestId = Math.max(...workflow.nodes.map(node => {
-          const numericId = parseInt(node.id.replace('node_', ''));
-          return isNaN(numericId) ? 0 : numericId;
-        }));
-        id = highestId + 1;
-
-        setNodes(workflow.nodes);
-        setEdges(workflow.edges);
-      }
-    }
-  }, [searchParams, setNodes, setEdges]);
 
   const onConnect = useCallback(
     (params) =>
@@ -65,27 +43,53 @@ const DnDFlow = () => {
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-
+  
       if (!type) {
         return;
       }
-
+  
       const position = screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
-
+      
+      // Novo ID para o nó
+      const newId = getId();
+  
       const newNode = {
-        id: getId(),
+        id: newId,
         type: 'custom',
         position,
         data: {
+          id: newId, // Passar o ID para o data também para uso nos checkboxes
           title: type.title,
           description: type.description,
           iconName: type.iconName,
+          // Inicializar opções se for Identity Verification
+          options: type.title === 'Identity Verification' 
+            ? { liveness: false, idscan: false, photoIDMatch: false } 
+            : undefined,
+          // Função para atualizar opções
+          onOptionsChange: (newOptions) => {
+            setNodes((nds) =>
+              nds.map((node) => {
+                if (node.id === newId) {
+                  // Preservar todas as outras propriedades do nó e do data
+                  return {
+                    ...node,
+                    data: {
+                      ...node.data,
+                      options: newOptions,
+                    },
+                  };
+                }
+                return node;
+              })
+            );
+          },
         },
       };
-
+  
       setNodes((nds) => nds.concat(newNode));
     },
     [screenToFlowPosition, type, setNodes]

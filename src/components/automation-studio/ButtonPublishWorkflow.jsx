@@ -40,6 +40,7 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
       tenantId: "tenant456",
       requiredProducts,
       tags: [],
+      
     };
 
     try {
