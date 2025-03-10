@@ -1,11 +1,25 @@
 "use client";
-import React, { useRef, useCallback, useEffect } from 'react';
-import {ReactFlow, ReactFlowProvider, addEdge, useNodesState, useEdgesState,Controls, useReactFlow, Background, MarkerType, BackgroundVariant, MiniMap} from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
-import { DnDProvider, useDnD } from '@/components/automation-studio/DnDContext';
-import CustomNode from '@/components/automation-studio/nodes/customNode';
-import { TabSidebar } from '@/components/automation-studio/TabSidebar';
+import React, { useRef, useCallback, useEffect } from "react";
+import {
+  ReactFlow,
+  ReactFlowProvider,
+  addEdge,
+  useNodesState,
+  useEdgesState,
+  Controls,
+  useReactFlow,
+  Background,
+  MarkerType,
+  BackgroundVariant,
+  MiniMap,
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+import { DnDProvider, useDnD } from "@/components/automation-studio/DnDContext";
+import CustomNode from "@/components/automation-studio/nodes/customNode";
+import ConditionNode from "@/components/automation-studio/nodes/conditionNode";
+import { TabSidebar } from "@/components/automation-studio/TabSidebar";
 import "@/components/automation-studio/nodes/index.css";
+import WorkflowHeader from "@/components/automation-studio/WorkflowHeader.jsx";
 
 let id = 0;
 const getId = () => `node_${id++}`;
@@ -24,7 +38,7 @@ const DnDFlow = () => {
           {
             ...params,
             animated: true,
-            style: { stroke: '#3b82f6', strokeWidth: 2 },
+            style: { stroke: "#3b82f6", strokeWidth: 2 },
             markerEnd: {
               type: MarkerType.ArrowClosed,
             },
@@ -37,38 +51,44 @@ const DnDFlow = () => {
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = "move";
   }, []);
 
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-  
+
       if (!type) {
         return;
       }
-  
+
       const position = screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
-      
+
       // Novo ID para o nó
       const newId = getId();
-  
+
       const newNode = {
         id: newId,
-        type: 'custom',
+        type: type.title === "Condition" ? "condition" : "custom", // Defina o tipo do nó
         position,
         data: {
           id: newId, // Passar o ID para o data também para uso nos checkboxes
           title: type.title,
           description: type.description,
           iconName: type.iconName,
+          condition:
+            type.title === "Condition"
+              ? { leftOperand: "", operator: ">", rightOperand: "" }
+              : null, // Inicialize a condição se for um nó de condição
+
           // Inicializar opções se for Identity Verification
-          options: type.title === 'Identity Verification' 
-            ? { liveness: false, idscan: false, photoIDMatch: false } 
-            : undefined,
+          options:
+            type.title === "Identity Verification"
+              ? { liveness: false, idscan: false, photoIDMatch: false }
+              : undefined,
           // Função para atualizar opções
           onOptionsChange: (newOptions) => {
             setNodes((nds) =>
@@ -89,35 +109,41 @@ const DnDFlow = () => {
           },
         },
       };
-  
+
       setNodes((nds) => nds.concat(newNode));
     },
     [screenToFlowPosition, type, setNodes]
   );
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-96px)]">
-      <div
-        className="h-full overflow-hidden w-full bg-zinc-100 dark:bg-zinc-950"
-        ref={reactFlowWrapper}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          fitView
-          nodeTypes={{
-            custom: CustomNode,
-          }}>
-          <Controls className='controls' />
-          <Background variant={BackgroundVariant.Dots} />
-          <MiniMap className='minimap' />
-        </ReactFlow>
+    <div className="flex flex-col h-full">
+      <WorkflowHeader nodes={nodes} edges={edges} setNodes={setNodes} setEdges={setEdges}/>
+      <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+        <div
+          className="h-full overflow-hidden w-full bg-zinc-100 dark:bg-zinc-950"
+          ref={reactFlowWrapper}
+        >
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            fitView
+            nodeTypes={{
+              custom: CustomNode,
+              condition: ConditionNode,
+            }}
+          >
+            <Controls className="controls" />
+            <Background variant={BackgroundVariant.Dots} />
+            <MiniMap className="minimap" />
+          </ReactFlow>
+        </div>
+        <TabSidebar nodes={nodes} edges={edges} />
       </div>
-      <TabSidebar nodes={nodes} edges={edges} />
     </div>
   );
 };

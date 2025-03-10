@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { Header } from "@/components/header";
 import IaAgent from "@/components/ia/iaAgent";
 import SupportButton from "@/components/supportButton/supportButton";
-import react from "react"
+import react from "react";
 
 const ClientLayout = ({ children }: { children: react.ReactNode }) => {
   const pathname = usePathname();
@@ -39,35 +39,25 @@ const ClientLayout = ({ children }: { children: react.ReactNode }) => {
     ),
     "/settings": (
       <div className="flex h-screen">
-        <SidebarDemo>
-          {children}
-        </SidebarDemo>
-      </div>
-    ),"/admin-settings": (
-      <div className="flex h-screen">
-        <SidebarDemo>
-          {children}
-        </SidebarDemo>
+        <SidebarDemo>{children}</SidebarDemo>
       </div>
     ),
-    "/automation-studio": (
+    "/admin-settings": (
+      <div className="flex h-screen">
+        <SidebarDemo>{children}</SidebarDemo>
+      </div>
+    ),
+    "/automation-studio": <SidebarDemo>{children}</SidebarDemo>,
+    "/about/terms-of-service": <div>{children}</div>,
+  };
+
+  return (
+    layouts[pathname] || (
       <SidebarDemo>
         <Header />
         {children}
         <SupportButton />
       </SidebarDemo>
-    ),
-    "/about/terms-of-service": <div>{children}</div>,
-  };
-
-  return (
-  layouts[pathname] || (
-    
-    <SidebarDemo>
-      <Header />
-      {children}
-      <SupportButton />
-    </SidebarDemo>
     )
   );
 };

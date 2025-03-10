@@ -33,6 +33,12 @@ const nodes = [
     iconName: "Skull",
     title: 'Deceased API',
     description: 'Checks whether a person is registered as deceased in reliable databases.',
+  },
+  {
+    id: 'condition',
+    iconName: 'ShieldCheck', // Use um ícone apropriado
+    title: 'Condition',
+    description: 'Define a condition to branch the workflow.',
   }
 ];
 

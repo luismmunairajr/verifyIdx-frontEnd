@@ -30,17 +30,35 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
       return;
     }
 
+    // Extrair as opções do nó "Identity Verification"
+    const identityVerificationNode = nodes.find(node => node.data.title === "Identity Verification");
+    const identityVerificationOptions = identityVerificationNode?.data?.options || {};
+
+    // Mapear as opções para o formato esperado no JSON
+    const steps = [];
+    if (identityVerificationOptions.liveness) steps.push("livenessDetection");
+    if (identityVerificationOptions.idscan) steps.push("idscanOnly");
+    if (identityVerificationOptions.photoIDMatch) steps.push("photoIDMatch");
+
     const requiredProducts = nodes
       .map((node) => node?.data?.title?.toLowerCase().replace(/\s+/g, "_"))
       .filter(Boolean);
-
-    const newWorkflow = {
+    
+      const newWorkflow = {
       workflowName,
       clientId: "client123",
       tenantId: "tenant456",
       requiredProducts,
+      verifications: [
+        {
+          products: {
+            identity_verification: {
+              steps: steps,
+            },
+          },
+        },
+      ],
       tags: [],
-      
     };
 
     try {

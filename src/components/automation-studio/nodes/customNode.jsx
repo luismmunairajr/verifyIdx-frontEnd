@@ -50,7 +50,7 @@ function CustomNode({ data, selected }) {
         
         {isIdentityVerification && (
           <button 
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 p-1 rounded"
+            className="absolute right-4 top-1 text-white dark:text-zinc-400 hover:bg-zinc-100 bg-blue-500 dark:hover:bg-zinc-800 p-1 rounded"
             onClick={() => setIsExpanded(!isExpanded)}
             type="button"
           >
