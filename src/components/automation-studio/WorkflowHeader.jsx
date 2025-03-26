@@ -55,7 +55,7 @@ export default function WorkflowHeader({ nodes, edges, setNodes, setEdges }) {
         ) : (
           <h1
             onClick={handleTitleClick}
-            className="text-xl font-medium cursor-pointer hover:text-primary transition-colors truncate max-w-md"
+            className="text-xl font-bold cursor-pointer hover:text-primary transition-colors truncate max-w-md"
           >
             {title || "Untitled"}
           </h1>
