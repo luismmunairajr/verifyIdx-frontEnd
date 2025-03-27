@@ -5,9 +5,9 @@ import ClientLayout from "./layoutClient";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { SessionProvider } from "next-auth/react";
-
 const inter = Inter({ subsets: ["latin"], weight: ["400"] });
+import { Providers } from "./Providers";
+import SessionGuard from "@/components/SessionGuard";
 
 export default function RootLayout({
   children,
@@ -15,20 +15,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SessionProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${inter.className} antialiased`}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ClientLayout>{children}</ClientLayout>
-          </ThemeProvider>
-          <Toaster />
-        </body>
-      </html>
-    </SessionProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Providers>
+            <SessionGuard>
+              <ClientLayout>{children}</ClientLayout>
+            </SessionGuard>
+          </Providers>
+        </ThemeProvider>
+        <Toaster />
+      </body>
+    </html>
   );
 }

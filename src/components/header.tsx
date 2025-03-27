@@ -5,10 +5,9 @@ import {links} from "@/components/sidebar/links";
 import Person from "@/components/Person";
 import NotificationButton from "./Notifications/NotificationButton";
 import {ModeToggle} from "./modeToggle";
-import { useSession } from "next-auth/react";
+
 
 export const Header = () => {
-  const {data: session, status } = useSession();
   const pathname = usePathname();
   const [pageTitle, setPageTitle] = useState("Loading...");
 
@@ -18,10 +17,6 @@ export const Header = () => {
       setPageTitle(currentLink.label);
     }
   }, [pathname])
-  const name = session?.user?.name;
-  if (status === "loading") {
-    <h1>loading...</h1>
-  } 
   return (
     <header className="text-black flex justify-between md:p-6 pt-6 px-1 h-24 dark:text-white">
       <div className={"flex gap-2 items-end"}>
@@ -33,7 +28,7 @@ export const Header = () => {
       <div className="flex items-center md:space-x-4 space-x-1">
         <ModeToggle/>
         <NotificationButton/>
-        <p className="md:text-base text-xs">{session?.user?.name ?? "user"}</p>
+        <p className="md:text-base text-xs">Alfredo Machava</p>
         <Person/>
       </div>
     </header>

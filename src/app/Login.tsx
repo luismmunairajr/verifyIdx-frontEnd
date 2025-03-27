@@ -1,69 +1,32 @@
-'use client'
-import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import google from "@/assets/google.svg"
-import microsoft from "@/assets/microsoft.svg"
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import logo from "@/assets/logo.svg"
-import image from "@/assets/log.svg"
-import { useState } from "react";
+import logo from "@/assets/logo.svg";
 import Loading from "@/components/Loading";
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter()
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
+import Login from "@/components/Login";
+import Logout from "@/components/Logout";
 
-  const handleLogin = async () => {
-    setIsLoading(true); 
-    setTimeout(() => {
-      router.push("/dashboard");
-    }, 500);
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    if (session) {
+      return (
+        <div>
+          <div>Your name is {session.user?.name}</div>
+          <div>
+            <Logout />
+          </div>
+        </div>
+      );
+    }
   }
   return (
     <div className="h-screen flex">
-      <div className="w-2/5 h-full flex flex-col items-center justify-center">
-        <div className="flex flex-col w-96 space-y-8 items-center justify-center">
-          <div className="w-full space-y-2">
-            <div className="pb-2">
-              <Image src={logo} alt="logo" />
-            </div>
-            <h2 className="text-2xl font-bold">Log in to your Account</h2>
-            <p className="text-sm">Welcome Back! Select method to log in:</p>
-          </div>
-          <div className="w-full flex gap-4">
-            <Button className="w-full bg-white border text-black gap-2 hover:bg-zinc-100"><Image src={google} alt="logo" className="size-4" />Google</Button>
-            <Button className="w-full bg-white border text-black gap-2 hover:bg-zinc-100"><Image src={microsoft} alt="logo" className="size-4" />Microsoft</Button>
-          </div>
-          <div className="flex w-full items-center justify-center">
-            <p className="text-sm">or continue with email</p>
-          </div>
-          <div className="gap-4 flex flex-col w-full">
-            <Input placeholder="Email" />
-            <Input placeholder="password" type="password" />
-          </div>
-          <div className="w-full flex justify-between">
-            <div className="flex gap-1 items-center justify-center">
-              <Checkbox />
-              <Label>Remember me</Label>
-            </div>
-            <Link href={"#"} className="text-blue-500 text-sm">Forgot Password</Link>
-          </div>
-          <Button className="w-full" onClick={handleLogin}>
-            {isLoading ? (
-              <Loading/>
-            ) : "Log in"}
-            </Button>
-         </div>
-      </div>
-      <div className="w-3/5 h-full p-10 space-y-6 text-white flex-col bg-blue-800 dark:bg-zinc-900 flex  justify-center">
-        <h1 className="text-2xl font-bold">The Simplest Way to Manage your Workforce</h1>
-        <p className="text-lg">Enter your credentials to acess your account</p>
-        <Image src={image} alt={"image"} />
-      </div>
+      <Image src={logo} alt="logo" />
+      <Login />
     </div>
-  )
+  );
 }

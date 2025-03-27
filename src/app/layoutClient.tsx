@@ -53,11 +53,10 @@ const ClientLayout = ({ children }: { children: react.ReactNode }) => {
 
   return (
     layouts[pathname] || (
-      <SidebarDemo>
-        <Header />
+      <div>
         {children}
-        <SupportButton />
-      </SidebarDemo>
+        
+      </div>
     )
   );
 };
