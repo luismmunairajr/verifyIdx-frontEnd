@@ -11,6 +11,15 @@ const ClientLayout = ({ children }: { children: react.ReactNode }) => {
 
   const layouts: Record<string, JSX.Element> = {
     "/": <div>{children}</div>,
+    "/dashboard": (
+      <div className="flex h-screen">
+        <SidebarDemo>
+          <Header />
+          {children}
+          <SupportButton />
+        </SidebarDemo>
+      </div>
+    ),
     "/verifications": (
       <div className="flex h-screen">
         <SidebarDemo>
@@ -51,14 +60,7 @@ const ClientLayout = ({ children }: { children: react.ReactNode }) => {
     "/about/terms-of-service": <div>{children}</div>,
   };
 
-  return (
-    layouts[pathname] || (
-      <div>
-        {children}
-        
-      </div>
-    )
-  );
+  return layouts[pathname] || <div>{children}</div>;
 };
 
 export default ClientLayout;

@@ -1,10 +1,11 @@
 import React from "react";
 import { SidebarLink } from "../ui/sidebar";
 import { MoveLeft } from "lucide-react";
+import federatedLogout from "@/lib/federatedLogout";
 
 export const SidebarFooter = () => {
   return (
-    <div>
+    <div onClick={() => federatedLogout()}>
       <SidebarLink
         link={{
           label: "Logout",
