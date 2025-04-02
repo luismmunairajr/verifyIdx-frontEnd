@@ -158,7 +158,7 @@ export function CustomerTable() {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search customers..."
+            placeholder="Search users..."
             className="pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -166,12 +166,12 @@ export function CustomerTable() {
         </div>
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
-            <Button>Add Customer</Button>
+            <Button>Add User</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Add New Customer</DialogTitle>
-              <DialogDescription>Fill in the details to add a new customer to the system.</DialogDescription>
+              <DialogTitle>Add New User</DialogTitle>
+              <DialogDescription>Fill in the details to add a new user to the system.</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
@@ -253,7 +253,7 @@ export function CustomerTable() {
             </div>
             <DialogFooter>
               <Button type="submit" onClick={handleAddCustomer}>
-                Add Customer
+                Add User
               </Button>
             </DialogFooter>
           </DialogContent>

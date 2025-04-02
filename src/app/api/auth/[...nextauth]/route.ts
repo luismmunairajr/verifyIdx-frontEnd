@@ -35,6 +35,9 @@ export const authOptions: AuthOptions = {
         token.accessToken = account.access_token
         token.refreshToken = account.refresh_token
         token.expiresAt = account.expires_at
+
+        console.log(token.idToken)
+
         return token
       }
       // we take a buffer of one minute(60 * 1000 ms)

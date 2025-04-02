@@ -4,9 +4,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SelectGender } from "@/components/settings/PersonalDetails/SelectGender";
-import { Mail, Camera } from "lucide-react";
+import { Camera } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export default function HomeComponent() {
+    const { data: session } = useSession()
+
     const [isEditing, setIsEditing] = useState(false);
     const [avatar, setAvatar] = useState("https://github.com/shadcn.png");
 
@@ -33,8 +36,8 @@ export default function HomeComponent() {
                         </label>
                     )}
                     <div>
-                        <h2 className="font-bold">Samuel Nhantumbo</h2>
-                        <p className="text-xs text-zinc-500">samuelnha@gmail.com</p>
+                        <h2 className="font-bold">{session?.user?.name ?? "loading..."}</h2>
+                        <p className="text-xs text-zinc-500">{session?.user?.email ?? "loading..."}</p>
                     </div>
                 </div>
                 <Button className="w-28 h-8" onClick={() => setIsEditing(!isEditing)}>
@@ -44,7 +47,7 @@ export default function HomeComponent() {
             <div className="grid grid-cols-2 gap-5 w-full">
                 <div className="w-full">
                     <Label>Full Name</Label>
-                    <Input type="text" placeholder="Your Full Name" defaultValue="Samuel Nhantumbo" disabled={!isEditing} />
+                    <Input type="text" placeholder="Your Full Name" defaultValue={session?.user?.name ?? "loading..."} disabled={!isEditing} />
                 </div>
                 <div className="w-full">
                     <Label>Country</Label>
