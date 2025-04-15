@@ -10,23 +10,28 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import { useLanguage } from "@/components/language/language-provider"
 
 export default function ConfirmFlag() {
+    const { t } = useLanguage()
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button className="w-44 hover:bg-transparent hover:border hover:border-blue-500 hover:text-blue-500 dark:bg-blue-800 dark:hover:bg-transparent dark:hover:text-blue-500 dark:text-white">Confirm Fraudflag</Button>
+                <Button className="px-4 hover:bg-transparent hover:border hover:border-blue-500 hover:text-blue-500 dark:bg-blue-800 dark:hover:bg-transparent dark:hover:text-blue-500 dark:text-white">
+                    {t("confirmFraudflag")}
+                </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle>{t("areYouSure")}</AlertDialogTitle>
                     <AlertDialogDescription>
-                        You are about to confirm that there has been fraud associated with this person. This may lead to internal review process. Are you sure?
+                        {t("confirmFraudflagDescription")}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction>Continue</AlertDialogAction>
+                    <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+                    <AlertDialogAction>{t("continue")}</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

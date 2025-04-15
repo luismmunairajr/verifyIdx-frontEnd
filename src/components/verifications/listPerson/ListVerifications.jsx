@@ -18,7 +18,7 @@ export default function ListVerifications({ onSelectPerson, profiles }) {
           />
         ))
       ) : (
-        <div>No persons available</div>
+        <div>{t("noPersonsAvailable")}</div>
       )}
     </div>
   );

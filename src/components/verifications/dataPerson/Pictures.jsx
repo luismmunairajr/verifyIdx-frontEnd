@@ -1,10 +1,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import unknow from "@/assets/unknowProfile.svg"
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function Pictures({ person }) {
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const { t } = useLanguage();
   const handleClick = (src) => {
     setSelectedImage(src);
   };
@@ -33,7 +35,7 @@ export default function Pictures({ person }) {
                 onClick={() => handleClick(`data:image/png;base64,${person[key]}`)}
               />
             ) : (
-              <p className="text-sm text-gray-600 text-center">{label} não disponível</p>
+              <p className="text-sm text-gray-600 text-center">{label} {t("invalid")}</p>
             )}
           </div>
         ))}

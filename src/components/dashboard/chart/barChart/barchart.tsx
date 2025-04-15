@@ -2,21 +2,10 @@
 
 import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import {Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle} from "@/components/ui/card"
+import {ChartConfig,ChartContainer,ChartTooltip,ChartTooltipContent} from "@/components/ui/chart"
+import { useLanguage } from "@/components/language/language-provider"
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
 const chartData = [
   { month: "January", desktop: 186 },
   { month: "February", desktop: 305 },
@@ -34,10 +23,11 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function Component() {
+  const { t } = useLanguage()
   return (
     <Card>
       <CardHeader className="flex items-center">
-        <CardTitle>Verifications for Month</CardTitle>
+        <CardTitle>{t("verificationsForMonth")}</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
@@ -61,10 +51,10 @@ export function Component() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          {t("trendingUp")} 5.2% {t("thisMonth")} <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 7 days
+        <div className="leading-none text-muted-foreground text-center">
+          {t("showingTotalVerifications")}
         </div>
       </CardFooter>
     </Card>

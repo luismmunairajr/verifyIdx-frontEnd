@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import FilterButtons from "@/components/templates/FilterButtons.jsx";
 import CardTemplate from "@/components/templates/CardTemplate.jsx";
 import Loading from "@/components/Loading";
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function TemplatesPage() {
   const [workflows, setWorkflows] = useState([]);
@@ -34,15 +35,14 @@ export default function TemplatesPage() {
     workflow.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const { t } = useLanguage()
+
   if (loading) {
     return (
       <div className="w-full flex flex-col p-6 px-40 space-y-10">
         <div className="w-full flex flex-col items-center mt-10 space-y-4">
-          <h1 className="font-bold text-5xl">Workflow Templates</h1>
-          <p className="text-lg">
-            Choose from our ready-made templates to start building your workflow
-            quickly.
-          </p>
+          <h1 className="font-bold text-5xl">{t("workflowTemplates")}</h1>
+          <p className="text-lg">{t("templatesubtitle")}</p>
           <Loading />
         </div>
       </div>
@@ -52,13 +52,10 @@ export default function TemplatesPage() {
   return (
     <div className="w-full flex flex-col p-6 px-40 space-y-10">
       <div className="w-full flex flex-col items-center mt-10 space-y-4">
-        <h1 className="font-bold text-5xl">Workflow Templates</h1>
-        <p className="text-lg">
-          Choose from our ready-made templates to start building your workflow
-          quickly.
-        </p>
+        <h1 className="font-bold text-5xl">{t("workflowTemplates")}</h1>
+        <p className="text-lg">{t("templatesubtitle")}</p>
         <Input
-          placeholder="Search a Workflow"
+          placeholder={t("searchWorkflow")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -78,8 +75,8 @@ export default function TemplatesPage() {
         </div>
       ) : (
         <div className="text-center pt-10">
-          <h1 className="text-4xl font-bold">No workflows found</h1>
-          <p>Try searching for a different name.</p>
+          <h1 className="text-2xl font-semibold">{t("noWorkflows")}</h1>
+          <p>{t("trySearching")}</p>
         </div>
       )}
     </div>

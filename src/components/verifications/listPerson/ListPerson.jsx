@@ -3,6 +3,7 @@ import InputSearch from "./Input.jsx";
 import ListVerifications from "./ListVerifications";
 import Loading from "@/components/Loading";
 import { useState } from "react";
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function ListPerson({ onSelectPerson }) {
   const [filterText, setFilterText] = useState("");
@@ -12,6 +13,7 @@ export default function ListPerson({ onSelectPerson }) {
 
   const { profiles, isLoading, error } = useProfiles();
 
+  const { t } = useLanguage()
   const filteredProfiles = profiles.filter((person) => {
     const matchesText = (person.fullName || "").toLowerCase().includes(filterText.toLowerCase());
     const matchesStatus =
@@ -49,7 +51,7 @@ export default function ListPerson({ onSelectPerson }) {
         setShowComplete={setShowComplete} 
         setShowRejected={setShowRejected}
       />
-      <h2 className="text-lg font-medium">Verifications</h2>
+      <h2 className="text-lg font-medium">{t("verifications")}</h2>
       <ListVerifications onSelectPerson={onSelectPerson} profiles={filteredProfiles} />
     </div>
   );

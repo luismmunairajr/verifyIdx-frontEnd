@@ -10,23 +10,30 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import { useLanguage } from "@/components/language/language-provider"
 
 export default function RejectFlag() {
+    const { t } = useLanguage()
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant={"destructive"} className="w-44 hover:bg-transparent hover:border hover:border-red-500 hover:text-red-500">Reject Fraudflag</Button>
+                <Button variant={"destructive"} className="px-4 hover:bg-transparent hover:border hover:border-red-500 hover:text-red-500">
+                    {t("rejectFraudflag")}
+                </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle >Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle>{t("areYouSure")}</AlertDialogTitle>
                     <AlertDialogDescription>
-                        You are about to reject the fraud flag for this person. This action will remove them from the suspect list. Are you sure?
+                        {t("rejectFraudflagDescription")}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className="bg-red-500 hover:bg-red-600">Continue</AlertDialogAction>
+                    <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+                    <AlertDialogAction className="bg-red-500 hover:bg-red-600">
+                        {t("continue")}
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

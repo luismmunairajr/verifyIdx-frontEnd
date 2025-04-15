@@ -1,6 +1,7 @@
 import * as React from "react";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { SlidersHorizontal } from "lucide-react";
+import { useLanguage } from "@/components/language/language-provider";
 
 interface DropdownMenuCheckboxesProps {
   showPending: boolean;
@@ -19,22 +20,24 @@ export function DropdownMenuCheckboxes({
   setShowApproved,
   setShowRejected,
 }: DropdownMenuCheckboxesProps) {
+
+  const { t } = useLanguage()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <SlidersHorizontal strokeWidth={1} className="size-5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Filtrar Status</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("filterStatus")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem checked={showPending} onCheckedChange={setShowPending}>
-          Pending
+          {t("pending")}
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem checked={showApproved} onCheckedChange={setShowApproved}>
-          Approved
+          {t("approved")}
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem checked={showRejected} onCheckedChange={setShowRejected}>
-          Rejected
+          {t("rejected")}
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>

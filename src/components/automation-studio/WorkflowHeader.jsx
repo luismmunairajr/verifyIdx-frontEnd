@@ -4,9 +4,10 @@ import { Input } from "@/components/ui/input";
 import Publish from "@/components/automation-studio/Publish.jsx";
 import Saving from "@/components/automation-studio/Saving.jsx";
 import Clear from "@/components/automation-studio/Clear.jsx";
+import { useLanguage } from "../language/language-provider";
 
 export default function WorkflowHeader({ nodes, edges, setNodes, setEdges }) {
-  const [title, setTitle] = useState("Untitled");
+  const [title, setTitle] = useState("untitled");
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef(null);
 
@@ -38,7 +39,7 @@ export default function WorkflowHeader({ nodes, edges, setNodes, setEdges }) {
   }, [isEditing]);
 
  
-
+  const { t } = useLanguage()
   return (
     <header className="flex items-center justify-between border-b p-4 bg-background sticky top-0 z-10">
       <div className="flex-1 mr-4">
@@ -57,7 +58,7 @@ export default function WorkflowHeader({ nodes, edges, setNodes, setEdges }) {
             onClick={handleTitleClick}
             className="text-xl font-bold cursor-pointer hover:text-primary transition-colors truncate max-w-md"
           >
-            {title || "Untitled"}
+            {title || t("untitled")}
           </h1>
         )}
       </div>

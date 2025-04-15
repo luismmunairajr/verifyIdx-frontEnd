@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import axiosInstance from "@/app/api/axios/axiosInstance";
 import { Send } from "lucide-react"
+import { useLanguage } from "@/components/language/language-provider";
+
 export default function Publish({ nodes = [], workflowName }) {
   const [loading, setLoading] = useState(false);
 
@@ -71,6 +73,8 @@ export default function Publish({ nodes = [], workflowName }) {
     }
   };
 
+  const { t } = useLanguage()
+
   return (
     <Button
       size="sm"
@@ -79,7 +83,7 @@ export default function Publish({ nodes = [], workflowName }) {
       className="flex items-center gap-1">
       <Send className="h-4 w-4" />
       <span className="hidden sm:inline">
-        {loading ? "Publishing..." : "Publish"}
+        {loading ? t("publishing") : t("publish")}
       </span>
     </Button>
   );

@@ -14,6 +14,7 @@ import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import Select from "react-select";
 import { toast } from "sonner";
+import { useLanguage } from "../language/language-provider";
 
 const categoryOptions = [
   { value: "security", label: "Security" },
@@ -77,39 +78,41 @@ export default function Saving({ nodes, edges, workflowName }) {
       setWorkflowDescription("");
       setSelectedCategories([]);
 
-      toast.success(`Workflow "${savedWorkflow.name}" saved successfully!`);
+      toast.success(`${t("workflow")} "${savedWorkflow.name}" ${t("savedSucessfully")}!`);
     } catch (error) {
-      console.error("Error saving workflow:", error);
-      toast.error(`Error saving workflow: ${error.message}`);
+      console.error(t("errorSaving Workflow"), error);
+      toast.error(`${t("errorSaving Workflow")} ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const { t } = useLanguage()
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex items-center gap-1">
           <Save className="h-4 w-4" />
-          <span className="hidden sm:inline">Save</span>
+          <span className="hidden sm:inline">{t("save")}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Save Workflow</DialogTitle>
+          <DialogTitle>{t("saveWorkflow")}</DialogTitle>
           <DialogDescription>
-            Save the workflow in your templates.
+            {t("saveTheWorkflow")}
           </DialogDescription>
         </DialogHeader>
         <div>
-          <Label>Description</Label>
+          <Label>{t("description")}</Label>
           <Textarea
             value={workflowDescription}
             onChange={(e) => setWorkflowDescription(e.target.value)}
           />
         </div>
         <div>
-          <Label>Categories</Label>
+          <Label>{t("categories")}</Label>
           <Select
             isMulti
             options={categoryOptions}
@@ -121,7 +124,7 @@ export default function Saving({ nodes, edges, workflowName }) {
         </div>
         <DialogFooter>
           <Button onClick={handleSave} disabled={isSubmitting}>
-            {isSubmitting ? "Saving" : "Save Workflow"}
+            {isSubmitting ? t("saving") : t("saveWorkflow")}
           </Button>
         </DialogFooter>
       </DialogContent>

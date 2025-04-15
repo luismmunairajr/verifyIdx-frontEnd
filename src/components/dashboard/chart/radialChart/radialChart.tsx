@@ -1,23 +1,10 @@
 "use client"
-
 import { TrendingUp } from "lucide-react"
-import {
-  Label,
-  PolarGrid,
-  PolarRadiusAxis,
-  RadialBar,
-  RadialBarChart,
-} from "recharts"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import {Label,PolarGrid,PolarRadiusAxis,RadialBar,RadialBarChart} from "recharts"
+import {Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle,} from "@/components/ui/card"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
+import { useLanguage } from "@/components/language/language-provider"
+
 const chartData = [
   { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
 ]
@@ -33,11 +20,12 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function Component() {
+  const { t } = useLanguage()
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Number of access</CardTitle>
-        <CardDescription>This week</CardDescription>
+        <CardTitle>{t("numberOfAcess")}</CardTitle>
+        <CardDescription>{t("thisWeek")}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -82,7 +70,7 @@ export function Component() {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          {t("visitors")}
                         </tspan>
                       </text>
                     )
@@ -95,10 +83,10 @@ export function Component() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          {t("trendingUp")} 5.2% {t("thisMonth")} <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 7 days
+        <div className="leading-none text-muted-foreground text-center">
+          {t("showingTotalVerifications")}
         </div>
       </CardFooter>
     </Card>

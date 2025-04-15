@@ -2,7 +2,7 @@ import { LayoutGrid, Drama, ShieldAlert, Contact, Settings, UserCog, Layers, Wor
 
 export const links = (pathname: string) => [
   {
-    label: "Dashboard",
+    label: "dashboard",
     href: "/dashboard",
     icon: (
       <LayoutGrid
@@ -12,7 +12,7 @@ export const links = (pathname: string) => [
     ),
   },
   {
-    label: "Verifications",
+    label: "verifications",
     href: "/verifications",
     icon: (
       <Contact
@@ -22,7 +22,7 @@ export const links = (pathname: string) => [
     ),
   },
   {
-    label: "Fraudflag",
+    label: "fraudflag",
     href: "/fraudflag",
     icon: (
       <ShieldAlert
@@ -32,7 +32,7 @@ export const links = (pathname: string) => [
     ),
   },
   {
-    label: "Fraudlist",
+    label: "fraudlist",
     href: "/fraudlist",
     icon: (
       <Drama
@@ -42,7 +42,7 @@ export const links = (pathname: string) => [
     ),
   },
   {
-    label: "Templates",
+    label: "templates",
     href: "/templates",
     icon: (
       <Layers
@@ -52,7 +52,7 @@ export const links = (pathname: string) => [
     ),
   },
   {
-    label: "Automation Studio",
+    label: "automationStudio",
     href: "/automation-studio",
     icon: (
       <Workflow
@@ -61,7 +61,7 @@ export const links = (pathname: string) => [
       />
     ),
   },{
-    label: "Settings",
+    label: "settings",
     href: "/settings",
     icon: (
       <Settings
@@ -71,7 +71,7 @@ export const links = (pathname: string) => [
     ),
   },
   {
-    label: "Admin Settings",
+    label: "adminSettings",
     href: "/admin-settings",
     icon: (
       <UserCog

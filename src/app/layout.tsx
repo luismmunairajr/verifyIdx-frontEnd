@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({ subsets: ["latin"], weight: ["400"] });
 import { Providers } from "./Providers";
 import SessionGuard from "@/components/SessionGuard";
+import { LanguageProvider } from "@/components/language/language-provider";
 
 export default function RootLayout({
   children,
@@ -25,7 +26,9 @@ export default function RootLayout({
         >
           <Providers>
             <SessionGuard>
-              <ClientLayout>{children}</ClientLayout>
+              <LanguageProvider>
+                <ClientLayout>{children}</ClientLayout>
+              </LanguageProvider>
             </SessionGuard>
           </Providers>
         </ThemeProvider>

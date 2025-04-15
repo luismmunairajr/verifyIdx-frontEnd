@@ -3,7 +3,7 @@ import { TrendingUp } from "lucide-react"
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-
+import { useLanguage } from "@/components/language/language-provider"
 export const description = "A multiple line chart"
 
 const chartData = [
@@ -31,10 +31,11 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function Component() {
+  const { t } = useLanguage()
   return (
     <Card>
       <CardHeader className="flex items-center">
-        <CardTitle>Devices users</CardTitle>
+        <CardTitle>{t("deviceUsers")}</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
@@ -84,10 +85,10 @@ export function Component() {
         <div className="flex w-full items-center gap-2 text-sm">
           <div className="grid gap-2">
             <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+            {t("trendingUp")} 5.2% {t("thisMonth")} <TrendingUp className="h-4 w-4" />
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              Showing total visitors for the last 6 months
+            <div className="flex items-center gap-2 leading-none text-muted-foreground text-center">
+            {t("showingTotalVerifications")}
             </div>
           </div>
         </div>

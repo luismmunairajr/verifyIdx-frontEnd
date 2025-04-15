@@ -5,36 +5,31 @@ import SanctionScreening from "./details/SanctionScreening";
 import AddressVerification from "./details/AddressVerification";
 import OtherInfo from "./details/OtherInfo";
 import SessionInfo from "./details/SessionInfo";
-import { Person } from "../type";
 import { useState } from "react";
 import ConfirmFlag from "./ConfirmFlag";
 import RejectFlag from "./RejectFlag";
+import { useLanguage } from "@/components/language/language-provider";
 
-
-interface DataPersonProps {
-    selectedPerson: Person | null;
-}
-
-export default function DataPerson({ selectedPerson }: DataPersonProps) {
-        const [activeTab, setActiveTab] = useState("Person Details");
-
-    const renderContent = () => {
-        if (!selectedPerson) {
-            return <div>Select a person to see the details</div>;
-        }
+export default function DataPerson({ selectedPerson }) {
+        const [activeTab, setActiveTab] = useState("personDetails");
+        const { t } = useLanguage();
+        const renderContent = () => {
+            if (!selectedPerson) {
+                return <div>Select a person to see the details</div>;
+            }
 
         switch (activeTab) {
-            case "Person Details":
+            case "personDetails":
                 return <PersonDetails person={selectedPerson} />;
-            case "Third-Party Verification":
+            case "thirdPartyReference":
                 return <ThirdPartVerification person={selectedPerson}/>;
-            case "Sanction Screening":
+            case "sanctionScreening":
                 return <SanctionScreening person={selectedPerson}/>;
-            case "Address Verification":
+            case "addressVerification":
                 return <AddressVerification person={selectedPerson}/>;
-            case "Other Info":
+            case "otherInfo":
                 return <OtherInfo person={selectedPerson}/>;
-            case "Session Info":
+            case "sessionInfo":
                 return <SessionInfo person={selectedPerson}/>;
             default:
                 return <PersonDetails person={selectedPerson} />;
@@ -42,12 +37,12 @@ export default function DataPerson({ selectedPerson }: DataPersonProps) {
     };
 
     const details = [
-        "Person Details",
-        "Third-Party Verification",
-        "Sanction Screening",
-        "Address Verification",
-        "Other Info",
-        "Session Info",
+        "personDetails",
+        "thirdPartyReference",
+        "sanctionScreening",
+        "addressVerification",
+        "otherInfo",
+        "sessionInfo",
     ];
 
     return (
@@ -63,7 +58,7 @@ export default function DataPerson({ selectedPerson }: DataPersonProps) {
                                     }`}
                                 onClick={() => setActiveTab(option)}
                             >
-                                {option}
+                                {t(option)}
                             </p>
                         ))}
                     </div>
@@ -80,7 +75,7 @@ export default function DataPerson({ selectedPerson }: DataPersonProps) {
                 </>
             ) : (
                 <div className="w-full h-full flex mt-52 items-center justify-center  dark:text-white">
-                    <p>Select a person to see the details</p>
+                    <p>{t("selectedPerson")}</p>
                 </div>
             )}
         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "@/app/api/axios/axiosInstance";
-import unknow from "@/assets/unknowProfile.svg"
+import unknow from "@/assets/unknowProfile.svg";
 
 export function useProfiles() {
   const [profiles, setProfiles] = useState([]);
@@ -10,21 +10,32 @@ export function useProfiles() {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        setIsLoading(true)
-        const response = await axiosInstance.get("api/v1/workflows/67b873ee3d5248569930e801");
-        const verifications = response.data.verifications || [];
-        const profilesData = verifications.map((verification) => {
-          const documentData = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.documentData? JSON.parse(verification.products.identity_verification.results[0].idscanOnly.documentData) : null
+        setIsLoading(true);
 
-          //ids
+        // Passo 1: Obter os IDs das verificações a partir do workflow
+        const workflowResponse = await axiosInstance.get("api/v1/workflows/67b873ee3d5248569930e801");
+        const verificationIds = workflowResponse.data.verifications?.map(v => v.verificationId) || [];
+
+        // Passo 2: Buscar os dados completos de cada verificação individualmente
+        const verificationRequests = verificationIds.map(id =>
+          axiosInstance.get(`api/v1/verifications/${id}`).then(res => res.data)
+        );
+
+        const verificationData = await Promise.all(verificationRequests);
+
+        // Passo 3: Mapear os dados no mesmo formato anterior
+        const profilesData = verificationData.map((verification) => {
+          const documentData = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.documentData
+            ? JSON.parse(verification.products.identity_verification.results[0].idscanOnly.documentData)
+            : null;
+
+          // ... Aqui permanece o mesmo código de extração dos dados ...
+
           const verificationId = verification?.verificationId || "N/A";
           const workflowId = verification?.workflowId || "N/A";
           const thirdPartyReference = verification?.thirdPartyReference || "N/A";
           const externalDatabaseRefID = verification?.products?.identity_verification?.results?.[0]?.photoIdScanMatch?.externalDatabaseRefID || "N/A";
-          
           const startedAt = verification?.products.identity_verification.startedAt || "N/A";
-
-          //session info
 
           const platform = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.platform || "N/A";
           const deviceModel = verification.products?.identity_verification?.results[0]?.additionalSessionData?.deviceModel || "N/A";
@@ -32,7 +43,7 @@ export function useProfiles() {
           const ipAddress = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.ipAddress || "N/A";
           const appID = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.appID || "N/A";
           const deviceSDKVersion = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.deviceSDKVersion || "N/A";
-          //fotografias
+
           const photoIDBackCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDBackCrop || unknow;
           const photoIDFaceCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDFaceCrop || unknow;
           const photoIDFrontCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDFrontCrop || unknow;
@@ -41,8 +52,6 @@ export function useProfiles() {
 
           const status = verification?.products?.identity_verification?.status || "N/A";
 
-          //documentData
-          //Person Details
           const fullName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "fullName")?.value || "N/A";
           const dateOfBirth = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "dateOfBirth")?.value || "N/A";
           const placeOfBirth = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "placeOfBirth")?.value || "N/A";
@@ -66,8 +75,7 @@ export function useProfiles() {
           const templateName = documentData?.templateInfo?.templateName || "N/A";
           const templateType = documentData?.templateInfo?.templateType || "N/A";
 
-          //Sanction screening
-          //Watchlist
+          // Watchlist (idem)
           const watchlistStatus = verification?.products?.watchlist?.status || "N/A"
           const matchScore = verification?.products?.watchlist?.results?.matchScore || "N/A"
           const matchStrength = verification?.products?.watchlist?.results?.matchStrength || "N/A"
@@ -75,14 +83,14 @@ export function useProfiles() {
           const categories = verification?.products?.watchlist?.results?.categories || "N/A"
           const category = verification?.products?.watchlist?.results?.category || "N/A"
           const pepStatus = verification?.products?.watchlist?.results?.pepStatus || "N/A"
-          const matchedDateOfBirth = verification?.products?.watchlist?.results?.secondaryFieldResults[0]?.matchedDateTimeValue || "N/A"
-          const dateOfBirthResult = verification?.products?.watchlist?.results?.secondaryFieldResults[0]?.fieldResult || "N/A"
-          const matchedLocation = verification?.products?.watchlist?.results?.secondaryFieldResults[1]?.matchedValue || "N/A"
-          const locationResult = verification?.products?.watchlist?.results?.secondaryFieldResults[1]?.fieldResult || "N/A"
-          const matchedGender = verification?.products?.watchlist?.results?.secondaryFieldResults[2]?.matchedValue || "N/A"
-          const genderResult = verification?.products?.watchlist?.results?.secondaryFieldResults[2]?.fieldResult || "N/A"
-          const matchedNacionality = verification?.products?.watchlist?.results?.secondaryFieldResults[4]?.matchedValue || "N/A"
-          const nacionalityResult = verification?.products?.watchlist?.results?.secondaryFieldResults[4]?.fieldResult || "N/A"
+          const matchedDateOfBirth = verification?.products?.watchlist?.results?.secondaryFieldResults?.[0]?.matchedDateTimeValue || "N/A"
+          const dateOfBirthResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[0]?.fieldResult || "N/A"
+          const matchedLocation = verification?.products?.watchlist?.results?.secondaryFieldResults?.[1]?.matchedValue || "N/A"
+          const locationResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[1]?.fieldResult || "N/A"
+          const matchedGender = verification?.products?.watchlist?.results?.secondaryFieldResults?.[2]?.matchedValue || "N/A"
+          const genderResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[2]?.fieldResult || "N/A"
+          const matchedNacionality = verification?.products?.watchlist?.results?.secondaryFieldResults?.[4]?.matchedValue || "N/A"
+          const nacionalityResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[4]?.fieldResult || "N/A"
 
           return {
             fullName,
@@ -142,10 +150,9 @@ export function useProfiles() {
           };
         });
 
-
         setProfiles(profilesData);
       } catch (err) {
-        setError(err.message || "Failed to fetch data");
+        setError(err.message || "Erro ao buscar os dados.");
       } finally {
         setIsLoading(false);
       }

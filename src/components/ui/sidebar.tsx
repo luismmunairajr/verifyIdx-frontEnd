@@ -4,6 +4,7 @@ import Link, { LinkProps } from "next/link";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
+import { useLanguage } from "../language/language-provider";
 
 interface Links {
   label: string;
@@ -165,6 +166,7 @@ export const SidebarLink = ({
   props?: LinkProps;
 }) => {
   const { open, animate } = useSidebar();
+  const { t } = useLanguage();
   return (
     <Link
       href={link.href}
@@ -183,7 +185,7 @@ export const SidebarLink = ({
         }}
         className="text-white dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
-        {link.label}
+        {t(link.label)}
       </motion.span>
     </Link>
   );

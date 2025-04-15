@@ -2,7 +2,11 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import cubeicon from "@/assets/cubeicon.svg"
 import Image from "next/image";
 import CreateKey from "@/components/admin-settings/apiKeys/CreateKey"
+import { useLanguage } from "@/components/language/language-provider";
+
 export default function ApiKeys() {
+    const { t } = useLanguage();
+    
     return(
         <div className="p-6 space-y-6 dark:bg-zinc-900 w-full 2xl:w-[1000px]">
             <div className="border flex rounded-xl p-4">
@@ -20,20 +24,20 @@ export default function ApiKeys() {
                         </div>
                     </div>
                     <div className="border-l border-gray-400 h-full"/>
-                    <p className="text-sm">Staging is a fully-featured environment used for developing and testing your application. Use the <span className="text-blue-800 underline">Production environment</span> for your live application.</p>
+                    <p className="text-sm">{t("staging")}</p>
                 </div>
             </div>
             <div className="flex items-center justify-between px-2">
-                <h3 className="font-semibold">Active</h3>
+                <h3 className="font-semibold">{t("active")}</h3>
                 <CreateKey/>               
             </div>
             <Table>
                 <TableHeader className="bg-zinc-100 text-black">
                     <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Secret Key</TableHead>
-                        <TableHead>Created</TableHead>
-                        <TableHead>Expiration</TableHead>
+                        <TableHead>{t("name")}</TableHead>
+                        <TableHead>{t("secretKey")}</TableHead>
+                        <TableHead>{t("created")}</TableHead>
+                        <TableHead>{t("expiration")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

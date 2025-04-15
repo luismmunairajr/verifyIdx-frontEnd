@@ -6,9 +6,12 @@ import AddressVerification from "./details/AddressVerification.jsx";
 import OtherInfo from "./details/OtherInfo.jsx";
 import SessionInfo from "./details/SessionInfo.jsx";
 import { useState } from "react";
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function DataPerson({ selectedPerson }) {
-    const [activeTab, setActiveTab] = useState("Person Details");
+    const [activeTab, setActiveTab] = useState("personDetails");
+
+    const { t } = useLanguage();
 
     const renderContent = () => {
         if (!selectedPerson) {
@@ -16,17 +19,17 @@ export default function DataPerson({ selectedPerson }) {
         }
 
         switch (activeTab) {
-            case "Person Details":
+            case "personDetails":
                 return <PersonDetails person={selectedPerson} />;
-            case "Third-Party Verification":
+            case "thirdPartyReference":
                 return <ThirdPartVerification person={selectedPerson} />;
-            case "Sanction Screening":
+            case "sanctionScreening":
                 return <SanctionScreening person={selectedPerson} />;
-            case "Address Verification":
+            case "addressVerification":
                 return <AddressVerification person={selectedPerson} />;
-            case "Other Info":
+            case "otherInfo":
                 return <OtherInfo person={selectedPerson} />;
-            case "Session Info":
+            case "sessionInfo":
                 return <SessionInfo person={selectedPerson} />;
             default:
                 return <PersonDetails person={selectedPerson} />;
@@ -34,12 +37,12 @@ export default function DataPerson({ selectedPerson }) {
     };
 
     const details = [
-        "Person Details",
-        "Third-Party Verification",
-        "Sanction Screening",
-        "Address Verification",
-        "Other Info",
-        "Session Info",
+        "personDetails",
+        "thirdPartyReference",
+        "sanctionScreening",
+        "addressVerification",
+        "otherInfo",
+        "sessionInfo",
     ];
 
     return (
@@ -55,7 +58,7 @@ export default function DataPerson({ selectedPerson }) {
                                     }`}
                                 onClick={() => setActiveTab(option)}
                             >
-                                {option}
+                                {t(option)}
                             </p>
                         ))}
                     </div>
@@ -66,7 +69,7 @@ export default function DataPerson({ selectedPerson }) {
                 </>
             ) : (
                 <div className="w-full h-full flex mt-52 items-center justify-center dark:text-white">
-                    <p>Select a person to see the details</p>
+                    <p>{t("selectedPerson")}</p>
                 </div>
             )}
         </div>

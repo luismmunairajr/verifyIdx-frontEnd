@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function CreateKey() {
   const [copied, setCopied] = useState(false);
@@ -28,16 +29,18 @@ export default function CreateKey() {
     }
   };
 
+  const { t } = useLanguage();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>+ Create Key</Button>
+        <Button>{t("createKey")}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Create key</DialogTitle>
+          <DialogTitle>{t("createKey")}</DialogTitle>
           <DialogDescription>
-            Anyone who has this key will be able to view this.
+            {t("createKeySubtitle")}
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">

@@ -1,5 +1,6 @@
 import { DropdownMenuCheckboxes } from "./DropDownMenuCheckBoxes.jsx";
 import { Input } from "@/components/ui/input";
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function InputSearch({
     filterText,
@@ -11,11 +12,12 @@ export default function InputSearch({
     setShowComplete,
     setShowRejected
 }) {
+    const { t } = useLanguage()
     return (
         <div className="bg-white w-full rounded-lg px-3 flex items-center justify-between dark:bg-zinc-950">
             <Input
                 type="text"
-                placeholder="Search name"
+                placeholder={t("searchName")}
                 value={filterText}
                 onChange={(e) => setFilterText(e.target.value)}
                 className="bg-transparent w-full h-12 border-none" 

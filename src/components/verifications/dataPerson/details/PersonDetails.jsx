@@ -1,29 +1,31 @@
-import DetailField from "@/components/verifications/dataPerson/DetailField.jsx";
+import DetailField from "@/components/verifications/dataPerson/DetailField.jsx"
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function PersonDetails({ person }) {
+    const { t } = useLanguage()
+
     return (
         <div className="p-10 w-full grid grid-cols-3">
             <div className="space-y-6">
-                <DetailField label="Full Name" value={person.fullName} />
-                <DetailField label="Father's Name" value={person.fatherFirstName} />
-                <DetailField label="Mother's Name" value={person.motherFirstName} />
-                <DetailField label="ID Number" value={person.idNumber} />
-                <DetailField label="Sex" value={person.sex} />
+                <DetailField label={t("fullName")} value={person.fullName} />
+                <DetailField label={t("fatherFirstName")} value={person.fatherFirstName} />
+                <DetailField label={t("motherFirstName")} value={person.motherFirstName} />
+                <DetailField label={t("idNumber")} value={person.idNumber} />
+                <DetailField label={t("sex")} value={person.sex} />
             </div>
             <div className="space-y-6">
-            <DetailField label="Height" value={person.height} />
-                <DetailField label="Date of Birth" value={person.dateOfBirth} />
-                <DetailField label="Place of Birth" value={person.placeOfBirth} />
-                <DetailField label="Marital Status" value={person.customField1} />
-                <DetailField label="Issuing Authority" value={person.issuingAuthority} />
-                
+                <DetailField label={t("height")} value={person.height} />
+                <DetailField label={t("dateOfBirth")} value={person.dateOfBirth} />
+                <DetailField label={t("placeOfBirth")} value={person.placeOfBirth} />
+                <DetailField label={t("maritalStatus")} value={person.customField1} />
+                <DetailField label={t("issuingAuthority")} value={person.issuingAuthority} />
             </div>
             <div className="space-y-6">
-                <DetailField label="Date of Expiration" value={person.dateOfExpiration} />
-                <DetailField label="Date of Issue" value={person.dateOfIssue} />
-                <DetailField label="Document Country" value={person.documentCountry} />
-                <DetailField label="Template Name" value={person.templateName} />
-                <DetailField label="Template Type" value={person.templateType} />
+                <DetailField label={t("dateOfExpiration")} value={person.dateOfExpiration} />
+                <DetailField label={t("dateOfIssue")} value={person.dateOfIssue} />
+                <DetailField label={t("documentCountry")} value={person.documentCountry} />
+                <DetailField label={t("templateName")} value={person.templateName} />
+                <DetailField label={t("templateType")} value={person.templateType} />
             </div>
         </div>
     );

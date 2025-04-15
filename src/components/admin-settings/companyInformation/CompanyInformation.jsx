@@ -1,127 +1,128 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function CompanyInformation() {
+  const { t } = useLanguage()
+
   return (
     <div className="p-6 space-y-4 dark:zinc-900">
       <div className="flex flex-col rounded-xl w-full 2xl:w-[1000px] gap-10">
-        <h3 className="text-2xl font-bold">Company Information</h3>
+        <h3 className="text-2xl font-bold">{t("companyInformation")}</h3>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
-            <h4 className="font-semibold">Legal Name</h4>
-            <p className="text-xs">Change your legal name</p>
+            <h4 className="font-semibold">{t("legalName")}</h4>
+            <p className="text-xs">{t("changeLegal")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
-            placeholder="Legal Name"
+            placeholder={t("legalName")}
             defaultValue="Bluestring Consulting Ltd"
           />
         </div>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
-            <h4 className="font-semibold">Short Name</h4>
-            <p className="text-xs">Change your short name</p>
+            <h4 className="font-semibold">{t("shortName")}</h4>
+            <p className="text-xs">{t("changeShort")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
-            placeholder="Short Name"
+            placeholder={t("shortName")}
             defaultValue="Bluestring"
           />
         </div>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
-            <h4 className="font-semibold">Tax ID</h4>
-            <p className="text-xs">Change your tax id</p>
+            <h4 className="font-semibold">{t("taxId")}</h4>
+            <p className="text-xs">{t("changeTax")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
-            placeholder="Tax ID"
+            placeholder={t("taxId")}
             defaultValue="3697173981793"
           />
         </div>
         <hr />
-        <h3 className="text-2xl font-bold">Contact Details</h3>
+        <h3 className="text-2xl font-bold">{t("contactDetails")}</h3>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
-            <h4 className="font-semibold">Account Manager</h4>
-            <p className="text-xs">Change your account manager</p>
+            <h4 className="font-semibold">{t("accountManager")}</h4>
+            <p className="text-xs">{t("changeAccount")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
-            placeholder="Account Manager"
+            placeholder={t("accountManager")}
             defaultValue="Samuel Nhantumbo"
           />
         </div>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
-            <h4 className="font-semibold">General Email</h4>
-            <p className="text-xs">Change your general email</p>
+            <h4 className="font-semibold">{t("generalEmail")}</h4>
+            <p className="text-xs">{t("changeGeneral")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
-            placeholder="General Email"
+            placeholder={t("generalEmail")}
             defaultValue="samuelnhantumbo@gmail.com"
           />
         </div>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
-            <h4 className="font-semibold">Phone Number</h4>
-            <p className="text-xs">Change your phone number</p>
+            <h4 className="font-semibold">{t("phoneNumber")}</h4>
+            <p className="text-xs">{("changePhone")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
-            placeholder="Phone Number"
+            placeholder={t("phoneNumber")}
             defaultValue="831841451"
           />
         </div>
         <hr />
-        <h3 className="text-2xl font-bold">Address Details</h3>
+        <h3 className="text-2xl font-bold">{t("addressDetails")}</h3>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
-            <h4 className="font-semibold">Country</h4>
-            <p className="text-xs">Change your country</p>
+            <h4 className="font-semibold">{t("country")}</h4>
+            <p className="text-xs">{t("changeCountry")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
-            placeholder="Country"
+            placeholder={t("country")}
             defaultValue="Mozambique"
           />
         </div>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
-            <h4 className="font-semibold">City</h4>
-            <p className="text-xs">Change your city</p>
+            <h4 className="font-semibold">{t("city")}</h4>
+            <p className="text-xs">{t("changeCity")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
-            placeholder="City"
+            placeholder={t("city")}
             defaultValue="Maputo"
           />
         </div>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
-            <h4 className="font-semibold">Time Zone</h4>
-            <p className="text-xs">Change your time zone</p>
+            <h4 className="font-semibold">{t("timeZone")}</h4>
+            <p className="text-xs">{t("changeTime")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
-            placeholder="Time Zone"
+            placeholder={t("timeZone")}
             defaultValue="GMT+2"
           />
         </div>
         <div className="pt-10">
-          <Button>Update</Button>
+          <Button>{t("update")}</Button>
         </div>
       </div>
     </div>

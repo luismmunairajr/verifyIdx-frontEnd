@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { SelectGender } from "@/components/settings/PersonalDetails/SelectGender";
 import { Camera } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function HomeComponent() {
     const { data: session } = useSession()
@@ -13,6 +14,7 @@ export default function HomeComponent() {
     const [isEditing, setIsEditing] = useState(false);
     const [avatar, setAvatar] = useState("https://github.com/shadcn.png");
 
+    const { t } = useLanguage()
     const handleAvatarChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -41,33 +43,33 @@ export default function HomeComponent() {
                     </div>
                 </div>
                 <Button className="w-28 h-8" onClick={() => setIsEditing(!isEditing)}>
-                    {isEditing ? "Save" : "Edit"}
+                    {isEditing ? t("save") : t("edit")}
                 </Button>
             </div>
             <div className="grid grid-cols-2 gap-5 w-full">
                 <div className="w-full">
-                    <Label>Full Name</Label>
-                    <Input type="text" placeholder="Your Full Name" defaultValue={session?.user?.name ?? "loading..."} disabled={!isEditing} />
+                    <Label>{t("fullName")}</Label>
+                    <Input type="text" placeholder={t("yourFullName")} defaultValue={session?.user?.name ?? "loading..."} disabled={!isEditing} />
                 </div>
                 <div className="w-full">
-                    <Label>Country</Label>
-                    <Input type="text" placeholder="Your Country" defaultValue="Mozambique" disabled={!isEditing} />
+                    <Label>{t("country")}</Label>
+                    <Input type="text" placeholder={t("yourCountry")} defaultValue="Mozambique" disabled={!isEditing} />
                 </div>
                 <div className="w-full">
-                    <Label>Gender</Label>
+                    <Label>{t("gender")}</Label>
                     <SelectGender disabled={!isEditing} />
                 </div>
                 <div className="w-full">
-                    <Label>City</Label>
-                    <Input type="text" placeholder="Your City" defaultValue="Maputo" disabled={!isEditing} />
+                    <Label>{t("city")}</Label>
+                    <Input type="text" placeholder={t("yourCity")} defaultValue="Maputo" disabled={!isEditing} />
                 </div>
                 <div className="w-full">
-                    <Label>Phone Number</Label>
-                    <Input type="number" placeholder="Your Phone Number" defaultValue="+258841234567" disabled={!isEditing} />
+                    <Label>{t("phoneNumber")}</Label>
+                    <Input type="number" placeholder={t("yourPhoneNumber")} defaultValue="+258841234567" disabled={!isEditing} />
                 </div>
                 <div className="w-full">
-                    <Label>Time Zone</Label>
-                    <Input type="text" placeholder="Your Time Zone" defaultValue="GMT+2" disabled={!isEditing} />
+                    <Label>{t("timeZone")}</Label>
+                    <Input type="text" placeholder={t("yourTimeZone")} defaultValue="GMT+2" disabled={!isEditing} />
                 </div>
             </div>
         </div>

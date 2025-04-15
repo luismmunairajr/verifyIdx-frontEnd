@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { User, FileLock } from "lucide-react";
-import PersonalDetails from "./PersonalDetails/PersonalDetails";
-import Credentials from "./Credentials/Credentials";
-import { Header } from "../header";
+import PersonalDetails from "@/components/settings/PersonalDetails/PersonalDetails";
+import Credentials from "@/components/settings/Credentials/Credentials";
+import { Header } from "@/components/header";
 
 const menuItems = [
   {

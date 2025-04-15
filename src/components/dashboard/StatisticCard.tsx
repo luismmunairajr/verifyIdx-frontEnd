@@ -1,6 +1,8 @@
+'use client'
 import { ReactNode } from "react"
 import { ChartColumn } from "lucide-react"
 import clsx from "clsx"
+import { useLanguage } from "@/components/language/language-provider"
 
 interface StatisticCardProps{
     title: string
@@ -16,6 +18,8 @@ export default function StatisticCard({title, number, icon, variance}: Statistic
             "text-green-500": variance>0
         }
     )
+
+    const { t } = useLanguage()
     return (
         <div className="rounded-xl border bg-card text-card-foreground shadow w-1/3 p-4 flex items-center justify-between dark:bg-zinc-950">
             <div>
@@ -23,7 +27,7 @@ export default function StatisticCard({title, number, icon, variance}: Statistic
                 <p className="text-3xl font-bold">{number}</p>
                 <div className={containerClass}>
                     <ChartColumn strokeWidth={1} className="size-5" />
-                    <p className="text-xs">{variance} for yesterday</p>
+                    <p className="text-xs">{variance} {t("forYesterday")}</p>
                 </div>
             </div>
             <div className="p-2 rounded-full text-black flex items-start justify-start h-full">

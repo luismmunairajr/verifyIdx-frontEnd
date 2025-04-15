@@ -8,7 +8,7 @@ export const SidebarFooter = () => {
     <div onClick={() => federatedLogout()}>
       <SidebarLink
         link={{
-          label: "Logout",
+          label: "logout",
           href: "/",
           icon: (
             <MoveLeft className="size-7 text-white hover:size-10 duration-200 ease-in-out" strokeWidth={1} />

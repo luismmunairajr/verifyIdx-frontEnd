@@ -8,42 +8,46 @@ import BillUsage from "@/components/admin-settings/billUsage/BillUsage";
 import CompanyInformation from "@/components/admin-settings/companyInformation/CompanyInformation";
 import GeneralSettings from "@/components/admin-settings/generalSettings/GeneralSettings";
 import { Header } from "../header";
+import { useLanguage } from "@/components/language/language-provider";
 
 const menuItems = [
   {
     id: "companyinformation",
     icon: <Building2 size={30} />,
-    label: "Company Information",
+    label: "companyInformation",
     component: <CompanyInformation />,
   },
   {
     id: "billusage",
     icon: <Receipt size={30} />,
-    label: "Bill & Usage",
+    label: "billUsage",
     component: <BillUsage />,
   },
   {
     id: "authentication",
     icon: <Fingerprint size={30} />,
-    label: "Authentication",
+    label: "authentication",
     component: <Authentication />,
   },
   {
     id: "apikeys",
     icon: <KeyRound size={30} />,
-    label: "API KEYS",
+    label: "apiKeys",
     component: <ApiKeys />,
   },
   {
     id: "generalsettings",
     icon: <Bolt size={30} />,
-    label: "General Settings",
+    label: "generalSettings",
     component: <GeneralSettings />,
   },
 ];
 
 export default function SidebarLayout() {
   const [activeItem, setActiveItem] = useState("companyinformation");
+  
+  const { t } = useLanguage();
+
   return (
     <div className="flex h-full overflow-hidden">
       <div
@@ -64,7 +68,7 @@ export default function SidebarLayout() {
             onClick={() => setActiveItem(item.id)}
           >
             {item.icon}
-            <span>{item.label}</span>
+            <span>{t(item.label)}</span>
           </div>
         ))}
       </div>

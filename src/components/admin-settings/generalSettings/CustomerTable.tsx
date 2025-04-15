@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useLanguage } from "@/components/language/language-provider"
+
 
 // Sample data
 const customers = [
@@ -137,7 +139,7 @@ export function CustomerTable() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "active":
-        return <Badge className="bg-green-500">Active</Badge>
+        return <Badge className="bg-green-500">{t("active")}</Badge>
       case "inactive":
         return <Badge variant="secondary">Inactive</Badge>
       case "pending":
@@ -151,6 +153,8 @@ export function CustomerTable() {
     }
   }
 
+  const { t } = useLanguage()
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -158,7 +162,7 @@ export function CustomerTable() {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search users..."
+            placeholder={t("searchUsers")}
             className="pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -166,12 +170,12 @@ export function CustomerTable() {
         </div>
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
-            <Button>Add User</Button>
+            <Button>{t("addUser")}</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Add New User</DialogTitle>
-              <DialogDescription>Fill in the details to add a new user to the system.</DialogDescription>
+              <DialogTitle>{t("addUser")}</DialogTitle>
+              <DialogDescription>{t("addUserSubtitle")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
@@ -188,7 +192,7 @@ export function CustomerTable() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="branch" className="text-right">
-                  Branch
+                  {t("branch")}
                 </Label>
                 <Input
                   id="branch"
@@ -200,7 +204,7 @@ export function CustomerTable() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="roll" className="text-right">
-                  Roll
+                  {t("branch")}
                 </Label>
                 <Input
                   id="roll"
@@ -212,7 +216,7 @@ export function CustomerTable() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="email" className="text-right">
-                  Email
+                  {t("email")}
                 </Label>
                 <Input
                   id="email"
@@ -225,7 +229,7 @@ export function CustomerTable() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="country" className="text-right">
-                  Country
+                  {t("country")}
                 </Label>
                 <Input
                   id="country"
@@ -237,23 +241,23 @@ export function CustomerTable() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="status" className="text-right">
-                  Status
+                  {t("status")}
                 </Label>
                 <Select value={newCustomer.status} onValueChange={(value) => handleSelectChange("status", value)}>
                   <SelectTrigger className="col-span-3">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="inactive">Inactive</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="active">{t("active")}</SelectItem>
+                    <SelectItem value="inactive">{t("inactive")}</SelectItem>
+                    <SelectItem value="pending">{t("pending")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <DialogFooter>
               <Button type="submit" onClick={handleAddCustomer}>
-                Add User
+                {t("addUser")}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -264,12 +268,12 @@ export function CustomerTable() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Customer Name</TableHead>
-              <TableHead>Branch</TableHead>
-              <TableHead>Roll</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Country</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>{t("userName")}</TableHead>
+              <TableHead>{t("branch")}</TableHead>
+              <TableHead>{t("roll")}</TableHead>
+              <TableHead>{t("email")}</TableHead>
+              <TableHead>{t("country")}</TableHead>
+              <TableHead>{t("status")}</TableHead>
               <TableHead className="w-[50px]"></TableHead>
             </TableRow>
           </TableHeader>
@@ -292,11 +296,11 @@ export function CustomerTable() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View details</DropdownMenuItem>
-                        <DropdownMenuItem>Edit customer</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                        <DropdownMenuItem>{t("viewDetails")}</DropdownMenuItem>
+                        <DropdownMenuItem>{t("editUser")}</DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600">{t("delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -305,7 +309,7 @@ export function CustomerTable() {
             ) : (
               <TableRow>
                 <TableCell colSpan={7} className="h-24 text-center">
-                  No results found.
+                  {t("noResultsFound")}
                 </TableCell>
               </TableRow>
             )}
@@ -316,8 +320,8 @@ export function CustomerTable() {
       {/* Pagination */}
       <div className="flex items-center justify-between">
         <div className="text-sm text-muted-foreground">
-          Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredCustomers.length)} of{" "}
-          {filteredCustomers.length} entries
+          {t("showing")} {startIndex + 1} {t("to")} {Math.min(startIndex + itemsPerPage, filteredCustomers.length)} {t("of")} {" "}
+          {filteredCustomers.length} {t("entries")}
         </div>
         <div className="flex items-center space-x-2">
           <Button
@@ -329,7 +333,7 @@ export function CustomerTable() {
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <div className="text-sm">
-            Page {currentPage} of {totalPages || 1}
+            {t("page")} {currentPage} {t("of")} {totalPages || 1}
           </div>
           <Button
             variant="outline"

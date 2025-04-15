@@ -1,6 +1,7 @@
 import invoiceicon from "@/assets/invoice.svg";
 import Image from "next/image";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useLanguage } from "@/components/language/language-provider";
 
 const invoices = [
     { id: 1, amount: "+10.00", description: "Lorem ipsum dolor sit amet", status: "Pending", date: "20 dec 2017 14:54" },
@@ -12,15 +13,16 @@ const invoices = [
 ];
 
 export default function Invoice() {
+    const { t } = useLanguage();
     return (
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead>Invoice</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Date</TableHead>
+                    <TableHead>{t("invoice")}</TableHead>
+                    <TableHead>{t("amount")}</TableHead>
+                    <TableHead>{t("description")}</TableHead>
+                    <TableHead>{t("status")}</TableHead>
+                    <TableHead>{t("date")}</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>

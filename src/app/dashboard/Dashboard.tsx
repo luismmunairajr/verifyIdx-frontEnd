@@ -25,14 +25,9 @@ export default function Dashboard() {
                 </div>
             </div>
             <div className="w-full flex space-x-10">
-                <div className="w-1/3">
+                <div className="w-1/2">
                     <LineChart />
                 </div>
-                <div className="w-full h-80 overflow-y-auto">
-                    <DashboardTable profiles={profiles}/>
-                </div>
-            </div>
-            <div className="w-full flex space-x-10">
                 <div className="w-1/2">
                     <Barcharthorizontal />
                 </div>

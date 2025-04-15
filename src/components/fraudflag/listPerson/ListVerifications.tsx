@@ -1,5 +1,6 @@
 import { Person } from "../type";
 import PersonVerifications from "./PersonVerifications"
+import { useLanguage } from "@/components/language/language-provider";
 
 interface ListVerificationsProps {
   onSelectPerson: (person: Person) => void
@@ -7,6 +8,8 @@ interface ListVerificationsProps {
 }
 
 export default function ListVerifications({ onSelectPerson, profiles }: ListVerificationsProps) {
+  const { t } = useLanguage()
+  
   return (
     <div className="flex flex-col space-y-2 w-full overflow-y-auto pr-1">
       {profiles && profiles.length > 0 ? (
@@ -20,7 +23,7 @@ export default function ListVerifications({ onSelectPerson, profiles }: ListVeri
           />
         ))
       ) : (
-        <div>No persons available</div>
+        <div>{t("noPersonsAvailable")}</div>
       )}
     </div>
   )

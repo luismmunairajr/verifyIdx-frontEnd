@@ -3,42 +3,42 @@ const nodes = [
   {
     id: 'address',
     iconName:"MapPin",
-    title: 'Address Lookup',
-    description: 'Ensure the location provided is real and associated with the individual.',
+    title: 'addressLookup',
+    description: 'addressLookupDescription',
   },
   {
     id: 'watchlist',
     iconName: "ShieldCheck",
-    title: 'Watchlist',
-    description: 'Verify customers identities and prevent illegal activities.',
+    title: 'watchlist',
+    description: 'watchlistDescription',
   },
   {
     id: 'identity',
     iconName: "ScanEye",
-    title: 'Identity Verification',
-    description: 'Confirm that an individuals identity is authentic by verifying documents.',
+    title: 'identityVerification',
+    description: 'identityVerificationDescription',
   },
   {
     id: 'government',
     iconName: "Building",
-    title: 'Government Screening',
-    description: 'Checking individuals against government or restricted.',
+    title: 'governmentScreening',
+    description: 'governmentScreeningDescription',
   },{
     id: 'digital',
     iconName: "Signature",
-    title: 'Digital Signature',
-    description: 'Authenticate digital documents and transactions, ensuring legal validity.',
+    title: 'digitalSignature',
+    description: 'digitalSignatureDescription',
   },{
     id: 'deceased',
     iconName: "Skull",
-    title: 'Deceased API',
-    description: 'Checks whether a person is registered as deceased in reliable databases.',
+    title: 'deceasedApi',
+    description: 'deceasedApiDescription',
   },
   {
     id: 'condition',
-    iconName: 'ShieldCheck', // Use um ícone apropriado
-    title: 'Condition',
-    description: 'Define a condition to branch the workflow.',
+    iconName: 'ShieldCheck',
+    title: 'condition',
+    description: 'conditionDescription',
   }
 ];
 

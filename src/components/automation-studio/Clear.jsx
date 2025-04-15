@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Eraser } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "../language/language-provider";
 
 export default function Clear({nodes, edges, setNodes, setEdges}) {
     const [previousState, setPreviousState] = useState({nodes: [], edges: []});
@@ -28,6 +29,7 @@ export default function Clear({nodes, edges, setNodes, setEdges}) {
             type: "success",
           })
         }
+        const { t } = useLanguage()
   return (
     <Button
       size="sm"
@@ -36,7 +38,7 @@ export default function Clear({nodes, edges, setNodes, setEdges}) {
       onClick={handleClear}
     >
       <Eraser className="h-4 w-4" />
-      <span className="hidden sm:inline">Clear</span>
+      <span className="hidden sm:inline">{t("clear")}</span>
     </Button>
   );
 }
