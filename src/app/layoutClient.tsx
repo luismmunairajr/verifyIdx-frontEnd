@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import IaAgent from "@/components/ia/iaAgent";
 import SupportButton from "@/components/supportButton/supportButton";
 import react from "react";
+import { AuthGuard } from "@/hooks/AuthGuard";
 
 const ClientLayout = ({ children }: { children: react.ReactNode }) => {
   const pathname = usePathname();
@@ -13,60 +14,77 @@ const ClientLayout = ({ children }: { children: react.ReactNode }) => {
     "/": <div>{children}</div>,
     "/dashboard": (
       <div className="flex h-screen">
-        <SidebarDemo>
-          <Header />
-          {children}
-          <SupportButton />
-        </SidebarDemo>
+        <AuthGuard>
+          <SidebarDemo>
+            <Header />
+            {children}
+            <SupportButton />
+          </SidebarDemo>
+        </AuthGuard>
       </div>
     ),
     "/verifications": (
       <div className="flex h-screen">
-        <SidebarDemo>
-          {children}
-          <IaAgent />
-          <SupportButton />
-        </SidebarDemo>
+        <AuthGuard>
+          <SidebarDemo>
+            {children}
+            <IaAgent />
+            <SupportButton />
+          </SidebarDemo>
+        </AuthGuard>
       </div>
     ),
     "/fraudflag": (
       <div className="flex h-screen">
-        <SidebarDemo>
-          {children}
-          <SupportButton />
-        </SidebarDemo>
+        <AuthGuard>
+          <SidebarDemo>
+            {children}
+            <SupportButton />
+          </SidebarDemo>
+        </AuthGuard>
       </div>
     ),
     "/fraudlist": (
       <div className="flex h-screen">
-        <SidebarDemo>
-          <Header />
-          {children}
-          <SupportButton />
-        </SidebarDemo>
+        <AuthGuard>
+          <SidebarDemo>
+            <Header />
+            {children}
+            <SupportButton />
+          </SidebarDemo>
+        </AuthGuard>
       </div>
     ),
     "/templates": (
       <div className="flex h-screen">
-        <SidebarDemo>
-          <Header />
-          {children}
-          <SupportButton />
-        </SidebarDemo>
+        <AuthGuard>
+          <SidebarDemo>
+            <Header />
+            {children}
+            <SupportButton />
+          </SidebarDemo>
+        </AuthGuard>
       </div>
     ),
     "/settings": (
       <div className="flex h-screen">
-        <SidebarDemo>{children}</SidebarDemo>
+        <AuthGuard>
+          <SidebarDemo>{children}</SidebarDemo>
+        </AuthGuard>
       </div>
     ),
     "/admin-settings": (
       <div className="flex h-screen">
-        <SidebarDemo>{children}</SidebarDemo>
+        <AuthGuard>
+          <SidebarDemo>{children}</SidebarDemo>
+        </AuthGuard>
       </div>
     ),
-    "/automation-studio": <SidebarDemo>{children}</SidebarDemo>,
-    "/about/terms-of-service": <div>{children}</div>,
+    "/automation-studio": (
+      <AuthGuard>
+        <SidebarDemo>{children}</SidebarDemo>
+      </AuthGuard>
+    ),
   };
 
   return layouts[pathname] || <div>{children}</div>;

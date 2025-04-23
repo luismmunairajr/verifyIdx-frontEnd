@@ -250,6 +250,11 @@ noPersonsAvailable:"Sem pessoas disponiveis",
   to: "a",
   entries: "linhas",
   page: "Pagina",
+
+  //Unauthorized
+  unauthorized: "Acesso Negado",
+  unauthorizedDescription: "Você não possui permissões para acessar esta aplicação.",
+  checkingPermission:"Verificando Permissões"
 };
 
 export default pt;

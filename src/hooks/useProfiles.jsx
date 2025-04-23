@@ -12,11 +12,10 @@ export function useProfiles() {
       try {
         setIsLoading(true);
 
-        // Passo 1: Obter os IDs das verificações a partir do workflow
         const workflowResponse = await axiosInstance.get("api/v1/workflows/67b873ee3d5248569930e801");
         const verificationIds = workflowResponse.data.verifications?.map(v => v.verificationId) || [];
 
-        // Passo 2: Buscar os dados completos de cada verificação individualmente
+  
         const verificationRequests = verificationIds.map(id =>
           axiosInstance.get(`api/v1/verifications/${id}`).then(res => res.data)
         );

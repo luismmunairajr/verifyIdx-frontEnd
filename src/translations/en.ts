@@ -249,6 +249,12 @@ noPersonsAvailable:"No persons available",
   to: "to",
   entries: "entries",
   page: "Page",
+
+
+  //Unauthorized
+  unauthorized: "Acess Denied",
+  unauthorizedDescription: "You don't have permissions to acess this application.",
+  checkingPermission:"Checking Permissions"
 };
 
 export default en;

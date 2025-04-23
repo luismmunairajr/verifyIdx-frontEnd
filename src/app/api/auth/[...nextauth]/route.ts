@@ -2,6 +2,16 @@ import { AuthOptions, TokenSet } from "next-auth";
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak"
 import { JWT } from "next-auth/jwt";
+import { jwtDecode } from "jwt-decode";
+
+
+interface DecodedToken {
+  resource_access?: {
+    [client: string]: {
+      roles: string[];
+    };
+  };
+}
 
 function requestRefreshOfAccessToken(token: JWT) {
   return fetch(`${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/token`, {
@@ -36,7 +46,11 @@ export const authOptions: AuthOptions = {
         token.refreshToken = account.refresh_token
         token.expiresAt = account.expires_at
 
-        console.log(token.idToken)
+        console.log(token.accessToken);
+
+        const decoded: DecodedToken = jwtDecode(account.access_token as string);
+
+        token.roles = decoded.resource_access?.[process.env.KEYCLOAK_CLIENT_ID]?.roles ?? []
 
         return token
       }
@@ -58,6 +72,10 @@ export const authOptions: AuthOptions = {
             expiresAt: Math.floor(Date.now() / 1000 + (tokens.expires_in as number)),
             refreshToken: tokens.refresh_token ?? token.refreshToken,
           }
+          
+          const decoded: DecodedToken = jwtDecode(tokens.access_token as string);
+        updatedToken.roles = decoded?.resource_access?.[process.env.KEYCLOAK_CLIENT_ID]?.roles ?? [];
+
           return updatedToken
         } catch (error) {
           console.error("Error refreshing access token", error)
@@ -69,6 +87,7 @@ export const authOptions: AuthOptions = {
       return {
         ...session,
         accessToken: token.accessToken ?? undefined,
+        roles: token.roles ?? []
       };
     },
   },

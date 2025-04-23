@@ -9,6 +9,7 @@ const inter = Inter({ subsets: ["latin"], weight: ["400"] });
 import { Providers } from "./Providers";
 import SessionGuard from "@/components/SessionGuard";
 import { LanguageProvider } from "@/components/language/language-provider";
+import { AuthGuard } from "@/hooks/AuthGuard";
 
 export default function RootLayout({
   children,
@@ -27,7 +28,7 @@ export default function RootLayout({
           <Providers>
             <SessionGuard>
               <LanguageProvider>
-                <ClientLayout>{children}</ClientLayout>
+                  <ClientLayout>{children}</ClientLayout>
               </LanguageProvider>
             </SessionGuard>
           </Providers>
