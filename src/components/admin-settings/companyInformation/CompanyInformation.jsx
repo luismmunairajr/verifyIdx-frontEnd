@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/components/language/language-provider";
+import { CountrySelect } from "./CountrySelect";
+import { CitySelect } from "./CitySelect";
+import { TimezoneSelect } from "./TimezoneSelect";
 
 export default function CompanyInformation() {
   const { t } = useLanguage()
@@ -74,13 +77,49 @@ export default function CompanyInformation() {
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
             <h4 className="font-semibold">{t("phoneNumber")}</h4>
-            <p className="text-xs">{("changePhone")}</p>
+            <p className="text-xs">{t("changePhone")}</p>
           </div>
           <Input
             className="w-96"
             type="text"
             placeholder={t("phoneNumber")}
             defaultValue="831841451"
+          />
+        </div>
+        <div className="flex justify-between w-[700px]">
+          <div className="w-52">
+            <h4 className="font-semibold">{t("supportTechnical")}</h4>
+            <p className="text-xs">{t("changeSupportTechnical")}</p>
+          </div>
+          <Input
+            className="w-96"
+            type="text"
+            placeholder={t("supportTechnical")}
+            defaultValue="Samuel Nhantumbo"
+          />
+        </div>
+        <div className="flex justify-between w-[700px]">
+          <div className="w-52">
+            <h4 className="font-semibold">{t("supportEmail")}</h4>
+            <p className="text-xs">{t("changeSupportEmail")}</p>
+          </div>
+          <Input
+            className="w-96"
+            type="text"
+            placeholder={t("supportEmail")}
+            defaultValue="samuelnhantumbo@gmail.com"
+          />
+        </div>
+        <div className="flex justify-between w-[700px]">
+          <div className="w-52">
+            <h4 className="font-semibold">{t("phoneNumberSupportTechnical")}</h4>
+            <p className="text-xs">{t("changePhoneNumberSupportTechnical")}</p>
+          </div>
+          <Input
+            className="w-96"
+            type="text"
+            placeholder={t("generalEmail")}
+            defaultValue="8531344144"
           />
         </div>
         <hr />
@@ -90,36 +129,21 @@ export default function CompanyInformation() {
             <h4 className="font-semibold">{t("country")}</h4>
             <p className="text-xs">{t("changeCountry")}</p>
           </div>
-          <Input
-            className="w-96"
-            type="text"
-            placeholder={t("country")}
-            defaultValue="Mozambique"
-          />
+          <CountrySelect/>
         </div>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
             <h4 className="font-semibold">{t("city")}</h4>
             <p className="text-xs">{t("changeCity")}</p>
           </div>
-          <Input
-            className="w-96"
-            type="text"
-            placeholder={t("city")}
-            defaultValue="Maputo"
-          />
+          <CitySelect/>
         </div>
         <div className="flex justify-between w-[700px]">
           <div className="w-52">
             <h4 className="font-semibold">{t("timeZone")}</h4>
             <p className="text-xs">{t("changeTime")}</p>
           </div>
-          <Input
-            className="w-96"
-            type="text"
-            placeholder={t("timeZone")}
-            defaultValue="GMT+2"
-          />
+          <TimezoneSelect/>
         </div>
         <div className="pt-10">
           <Button>{t("update")}</Button>

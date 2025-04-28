@@ -22,7 +22,6 @@ export function useProfiles() {
 
         const verificationData = await Promise.all(verificationRequests);
 
-        // Passo 3: Mapear os dados no mesmo formato anterior
         const profilesData = verificationData.map((verification) => {
           const documentData = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.documentData
             ? JSON.parse(verification.products.identity_verification.results[0].idscanOnly.documentData)

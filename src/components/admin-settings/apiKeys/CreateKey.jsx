@@ -23,7 +23,7 @@ export default function CreateKey() {
     try {
       await navigator.clipboard.writeText(inputValue);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 30000);
     } catch (err) {
       console.error("Failed to copy text: ", err);
     }
@@ -59,8 +59,8 @@ export default function CreateKey() {
           </Button>
         </div>
         {copied && (
-          <p className="text-sm text-muted-foreground mt-2">
-            Copied to clipboard!
+          <p className="text-sm mt-2 text-red-500">
+            {t("savekey")}
           </p>
         )}
       </DialogContent>

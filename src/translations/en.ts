@@ -249,7 +249,14 @@ noPersonsAvailable:"No persons available",
   to: "to",
   entries: "entries",
   page: "Page",
-
+  copied:"Copied",
+  supportTechnical:"Support Technical",
+  changeSupportTechnical:"Change Support Technical",
+  supportEmail:"Support Technical Email",
+  changeSupportEmail:"Change Support Tecnical Email",
+  phoneNumberSupportTechnical:"Phone Number of Support Technical",
+  changePhoneNumberSupportTechnical:"Change Phone Number of Support Technical",
+  savekey:"Please save your secret key in a safe place since won't be shown again. if you lose it, you will need to create a new one.",
 
   //Unauthorized
   unauthorized: "Acess Denied",
