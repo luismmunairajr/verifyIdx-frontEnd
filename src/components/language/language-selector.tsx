@@ -21,8 +21,8 @@ export function LanguageSelector() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full bg-gray-200">
-            <Globe className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"/>
+        <Button variant="ghost" size="icon" className="rounded-full bg-gray-200 dark:bg-zinc-800 dark:focus:ring-gray-200 dark:focus:ring-1">
+            <Globe className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:text-gray-200"/>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

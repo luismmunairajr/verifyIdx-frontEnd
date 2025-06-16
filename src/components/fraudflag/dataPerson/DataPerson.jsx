@@ -8,7 +8,9 @@ import SessionInfo from "./details/SessionInfo";
 import { useState } from "react";
 import ConfirmFlag from "./ConfirmFlag";
 import RejectFlag from "./RejectFlag";
+import InsertReason from "./InsertReason";
 import { useLanguage } from "@/components/language/language-provider";
+import {fraudService} from "@/services/fraudService";
 
 export default function DataPerson({ selectedPerson }) {
         const [activeTab, setActiveTab] = useState("personDetails");
@@ -35,6 +37,21 @@ export default function DataPerson({ selectedPerson }) {
                 return <PersonDetails person={selectedPerson} />;
         }
     };
+    const handleFraudConfirmation = async (reason) => {
+        const fraudData = {
+            person: selectedPerson,
+            reason: reason,
+            date: new Date().toISOString(),
+        }
+        try {
+            await fraudService.addFraud(fraudData);
+            console.log("Fraud confirmed and added to the list:", fraudData);
+        } catch (error) {
+            console.error("Error adding fraud to the list:", error);
+        }
+        console.log("Fraud confirmation reason:", reason);
+        console.log("Fraud confirmed for person:", selectedPerson);
+    }
 
     const details = [
         "personDetails",
@@ -69,7 +86,8 @@ export default function DataPerson({ selectedPerson }) {
                     <div>
                     <div className="flex items-center justify-center 2xl:justify-start 2xl:pl-20 space-x-10">
                     <RejectFlag/>
-                    <ConfirmFlag/>
+                    {/* <ConfirmFlag/> */}
+                    <InsertReason handleFraudConfirmation={handleFraudConfirmation}/>
                 </div>
                     </div>
                 </>

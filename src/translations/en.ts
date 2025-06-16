@@ -93,11 +93,11 @@ const en = {
   documentScan: "Document Scan",
   invalid: "Invalid",
   addressone: "Address 1",
-addresstwo: "Address 2",
-addressthree: "Address 3",
-filterStatus:"Filter Status",
-complete:"Complete",
-noPersonsAvailable:"No persons available",
+  addresstwo: "Address 2",
+  addressthree: "Address 3",
+  filterStatus:"Filter Status",
+  complete:"Complete",
+  noPersonsAvailable:"No persons available",
 
   //Fraudlist
   image: "Image",

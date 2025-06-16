@@ -6,6 +6,7 @@ import { Component as LineChart } from "@/components/dashboard/chart/lineChart/l
 import { Component as LineChartMultiple } from "@/components/dashboard/chart/lineChart/lineChartMultiple";
 import Bluestring from "@/components/bluestring";
 import Statistics from "@/components/dashboard/Statistics";
+import { ReportButton } from "@/components/dashboard/GenerateReportButton";
 import DashboardTable from "@/components/dashboard/DashboardTable"
 import { profiles } from "@/components/fraudlist/profile";
 
@@ -13,6 +14,7 @@ export default function Dashboard() {
     return (
         <div className="w-full min-h-screen flex flex-col px-6 pt-10 space-y-10 overflow-y-auto">
             <Statistics />
+            <ReportButton/>
             <div className="w-full flex space-x-10">
                 <div className="w-1/2">
                     <RadialChart />
