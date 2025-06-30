@@ -24,9 +24,15 @@ const KeycloakCallback = () => {
     }
   }, [router]);
 
+<<<<<<< HEAD
   // Função para obter o token de acesso usando o código de autorização .//http://localhost:8080/realms/myrealm/protocol/openid-connect/token
   const fetchToken = async (code) => {
     const response = await fetch('https://auth.verify-idx.com/realms/verifyidx', {
+=======
+  // Função para obter o token de acesso usando o código de autorização
+  const fetchToken = async (code) => {
+    const response = await fetch('http://localhost:8080/realms/myrealm/protocol/openid-connect/token', {
+>>>>>>> 1073c117b18002f5fa8077376d6251fe1f8f2ec1
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
