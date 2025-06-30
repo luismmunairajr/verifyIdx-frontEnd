@@ -1,0 +1,337 @@
+{
+  "fraudlist": [
+    {
+      "id": "a7d9",
+      "person": {
+        "name": "Joao Mateus",
+        "status": "Pending",
+        "image": {
+          "src": "/_next/static/media/person1.cceaee71.svg",
+          "height": 75,
+          "width": 76,
+          "blurWidth": 0,
+          "blurHeight": 0
+        },
+        "details": {
+          "firstName": "Joao",
+          "lastName": "Mateus",
+          "fullName": "Joao Mateus",
+          "bi": "1245557878T",
+          "height": "1.79 m",
+          "issuedBI": "Cidade da Matola",
+          "dateOfBirth": "18/3/1998",
+          "sex": "Male",
+          "maritalStatus": "Single",
+          "fatherName": "Judas Mateus",
+          "placeOfBirth": "Maputo",
+          "issuanceDateBI": "18/04/2023",
+          "motherName": "Luisa Machava",
+          "address": "P. Combatentes",
+          "expiryDateBI": "21/10/2026"
+        },
+        "screening": {
+          "entryDate": "16/5/2023",
+          "name": "Lopes Macamo",
+          "alias": "Lopito",
+          "alternativeSpeling": "Lopitxo",
+          "pep": {
+            "position": "President",
+            "period": "2019-now",
+            "riskCategory": "high",
+            "country": "Zambezia"
+          },
+          "sanction": "ONU",
+          "ageData": "36 anos",
+          "DOB": "15/4/1980",
+          "deceased": "alive",
+          "details": "not sactioned",
+          "locations": "Central"
+        }
+      },
+      "reason": "Roubo",
+      "date": "2025-06-10T23:44:01.550Z"
+    },
+    {
+      "id": "8436",
+      "person": {
+        "name": "Maria Joana",
+        "status": "Approved",
+        "image": {
+          "src": "/_next/static/media/person2.e3ad4c45.svg",
+          "height": 75,
+          "width": 76,
+          "blurWidth": 0,
+          "blurHeight": 0
+        },
+        "details": {
+          "firstName": "Maria",
+          "lastName": "Joana",
+          "bi": "123456789",
+          "height": "1.65 m",
+          "issuedBI": "Cidade da Beira",
+          "dateOfBirth": "22/5/1992",
+          "sex": "Female",
+          "maritalStatus": "Married",
+          "fatherName": "Carlos Joana",
+          "placeOfBirth": "Beira",
+          "issuanceDateBI": "10/03/2015",
+          "motherName": "Ana Pereira",
+          "address": "Av. 24 de Julho",
+          "expiryDateBI": "10/03/2025"
+        },
+        "screening": {
+          "entryDate": "16/5/2023",
+          "name": "Lopes Macamo",
+          "alias": "Lopito",
+          "alternativeSpeling": "Lopez",
+          "ageData": "36 anos",
+          "DOB": "15/4/1980",
+          "deceased": "alive",
+          "details": "not sactioned",
+          "locations": "o garfo"
+        }
+      },
+      "reason": "User was caught robbing someone",
+      "date": "2025-06-10T23:57:37.220Z"
+    },
+    {
+      "id": "aaaa",
+      "person": {
+        "name": "Joao Mateus",
+        "status": "Pending",
+        "image": {
+          "src": "/_next/static/media/person1.cceaee71.svg",
+          "height": 75,
+          "width": 76,
+          "blurWidth": 0,
+          "blurHeight": 0
+        },
+        "details": {
+          "firstName": "Joao",
+          "lastName": "Mateus",
+          "fullName": "Joao Mateus",
+          "bi": "1245557878T",
+          "height": "1.79 m",
+          "issuedBI": "Cidade da Matola",
+          "dateOfBirth": "18/3/1998",
+          "sex": "Male",
+          "maritalStatus": "Single",
+          "fatherName": "Judas Mateus",
+          "placeOfBirth": "Maputo",
+          "issuanceDateBI": "18/04/2023",
+          "motherName": "Luisa Machava",
+          "address": "P. Combatentes",
+          "expiryDateBI": "21/10/2026"
+        },
+        "screening": {
+          "entryDate": "16/5/2023",
+          "name": "Lopes Macamo",
+          "alias": "Lopito",
+          "alternativeSpeling": "Lopitxo",
+          "pep": {
+            "position": "President",
+            "period": "2019-now",
+            "riskCategory": "high",
+            "country": "Zambezia"
+          },
+          "sanction": "ONU",
+          "ageData": "36 anos",
+          "DOB": "15/4/1980",
+          "deceased": "alive",
+          "details": "not sactioned",
+          "locations": "Central"
+        }
+      },
+      "reason": "Roubou de novo",
+      "date": "2025-06-11T00:00:59.778Z"
+    },
+    {
+      "id": "a33e",
+      "person": {
+        "name": "Joao Mateus",
+        "status": "Pending",
+        "image": {
+          "src": "/_next/static/media/person1.cceaee71.svg",
+          "height": 75,
+          "width": 76,
+          "blurWidth": 0,
+          "blurHeight": 0
+        },
+        "details": {
+          "firstName": "Joao",
+          "lastName": "Mateus",
+          "fullName": "Joao Mateus",
+          "bi": "1245557878T",
+          "height": "1.79 m",
+          "issuedBI": "Cidade da Matola",
+          "dateOfBirth": "18/3/1998",
+          "sex": "Male",
+          "maritalStatus": "Single",
+          "fatherName": "Judas Mateus",
+          "placeOfBirth": "Maputo",
+          "issuanceDateBI": "18/04/2023",
+          "motherName": "Luisa Machava",
+          "address": "P. Combatentes",
+          "expiryDateBI": "21/10/2026"
+        },
+        "screening": {
+          "entryDate": "16/5/2023",
+          "name": "Lopes Macamo",
+          "alias": "Lopito",
+          "alternativeSpeling": "Lopitxo",
+          "pep": {
+            "position": "President",
+            "period": "2019-now",
+            "riskCategory": "high",
+            "country": "Zambezia"
+          },
+          "sanction": "ONU",
+          "ageData": "36 anos",
+          "DOB": "15/4/1980",
+          "deceased": "alive",
+          "details": "not sactioned",
+          "locations": "Central"
+        }
+      },
+      "reason": "Gato",
+      "date": "2025-06-11T00:07:26.992Z"
+    },
+    {
+      "id": "d01f",
+      "person": {
+        "name": "Joao Mateus",
+        "status": "Pending",
+        "image": {
+          "src": "/_next/static/media/person1.cceaee71.svg",
+          "height": 75,
+          "width": 76,
+          "blurWidth": 0,
+          "blurHeight": 0
+        },
+        "details": {
+          "firstName": "Joao",
+          "lastName": "Mateus",
+          "fullName": "Joao Mateus",
+          "bi": "1245557878T",
+          "height": "1.79 m",
+          "issuedBI": "Cidade da Matola",
+          "dateOfBirth": "18/3/1998",
+          "sex": "Male",
+          "maritalStatus": "Single",
+          "fatherName": "Judas Mateus",
+          "placeOfBirth": "Maputo",
+          "issuanceDateBI": "18/04/2023",
+          "motherName": "Luisa Machava",
+          "address": "P. Combatentes",
+          "expiryDateBI": "21/10/2026"
+        },
+        "screening": {
+          "entryDate": "16/5/2023",
+          "name": "Lopes Macamo",
+          "alias": "Lopito",
+          "alternativeSpeling": "Lopitxo",
+          "pep": {
+            "position": "President",
+            "period": "2019-now",
+            "riskCategory": "high",
+            "country": "Zambezia"
+          },
+          "sanction": "ONU",
+          "ageData": "36 anos",
+          "DOB": "15/4/1980",
+          "deceased": "alive",
+          "details": "not sactioned",
+          "locations": "Central"
+        }
+      },
+      "reason": "Haaaa",
+      "date": "2025-06-11T00:09:54.026Z"
+    },
+    {
+      "id": "eb27",
+      "person": {
+        "name": "Carlos Manuel",
+        "status": "Rejected",
+        "image": {
+          "src": "/_next/static/media/person8.edeb6ed3.svg",
+          "height": 75,
+          "width": 76,
+          "blurWidth": 0,
+          "blurHeight": 0
+        },
+        "details": {
+          "firstName": "Carlos",
+          "lastName": "Manuel",
+          "bi": "987654321",
+          "height": "1.72 m",
+          "issuedBI": "Cidade de Nampula",
+          "dateOfBirth": "5/8/1985",
+          "sex": "Male",
+          "maritalStatus": "Divorced",
+          "fatherName": "Manuel Gomes",
+          "placeOfBirth": "Nampula",
+          "issuanceDateBI": "15/09/2010",
+          "motherName": "Isabel Sousa",
+          "address": "Rua dos Navegantes",
+          "expiryDateBI": "15/09/2020"
+        },
+        "screening": {
+          "entryDate": "16/5/2023",
+          "name": "Lopes Macamo",
+          "alias": "Lopito",
+          "alternativeSpeling": "Lopez",
+          "ageData": "36 anos",
+          "DOB": "15/4/1980",
+          "deceased": "alive",
+          "details": "not sactioned",
+          "locations": "o garfo"
+        }
+      },
+      "reason": "I don't like this person",
+      "date": "2025-06-11T14:38:09.893Z"
+    },
+    {
+      "id": "5807",
+      "person": {
+        "name": "Antonio Sousa",
+        "status": "Pending",
+        "image": {
+          "src": "/_next/static/media/person4.60a8c903.svg",
+          "height": 75,
+          "width": 76,
+          "blurWidth": 0,
+          "blurHeight": 0
+        },
+        "details": {
+          "firstName": "Antonio",
+          "lastName": "Sousa",
+          "bi": "1122334455",
+          "height": "1.68 m",
+          "issuedBI": "Cidade de Maputo",
+          "dateOfBirth": "14/12/1990",
+          "sex": "Male",
+          "maritalStatus": "Single",
+          "fatherName": "Sousa Almeida",
+          "placeOfBirth": "Maputo",
+          "issuanceDateBI": "12/02/2018",
+          "motherName": "Carla Mendes",
+          "address": "Bairro Polana",
+          "expiryDateBI": "12/02/2028"
+        },
+        "screening": {
+          "entryDate": "16/5/2023",
+          "name": "Lopes Macamo",
+          "alias": "Lopito",
+          "alternativeSpeling": "Lopez",
+          "ageData": "36 anos",
+          "DOB": "15/4/1980",
+          "deceased": "alive",
+          "details": "not sactioned",
+          "locations": "o garfo"
+        }
+      },
+      "reason": "Inconsistent data",
+      "date": "2025-06-16T14:17:00.054Z"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+import Resume from "./Resume";
+import PersonDetails from "./details/PersonDetails";
+import ThirdPartVerification from "./details/ThirdPartVerification";
+import SanctionScreening from "./details/SanctionScreening";
+import AddressVerification from "./details/AddressVerification";
+import OtherInfo from "./details/OtherInfo";
+import SessionInfo from "./details/SessionInfo";
+import { useState } from "react";
+import ConfirmFlag from "./ConfirmFlag";
+import RejectFlag from "./RejectFlag";
+import InsertReason from "./InsertReason";
+import { useLanguage } from "@/components/language/language-provider";
+import {fraudService} from "@/services/fraudService";
+
+export default function DataPerson({ selectedPerson }) {
+        const [activeTab, setActiveTab] = useState("personDetails");
+        const { t } = useLanguage();
+        const renderContent = () => {
+            if (!selectedPerson) {
+                return <div>Select a person to see the details</div>;
+            }
+
+        switch (activeTab) {
+            case "personDetails":
+                return <PersonDetails person={selectedPerson} />;
+            case "thirdPartyReference":
+                return <ThirdPartVerification person={selectedPerson}/>;
+            case "sanctionScreening":
+                return <SanctionScreening person={selectedPerson}/>;
+            case "addressVerification":
+                return <AddressVerification person={selectedPerson}/>;
+            case "otherInfo":
+                return <OtherInfo person={selectedPerson}/>;
+            case "sessionInfo":
+                return <SessionInfo person={selectedPerson}/>;
+            default:
+                return <PersonDetails person={selectedPerson} />;
+        }
+    };
+    const handleFraudConfirmation = async (reason) => {
+        const fraudData = {
+            person: selectedPerson,
+            reason: reason,
+            date: new Date().toISOString(),
+        }
+        try {
+            await fraudService.addFraud(fraudData);
+            console.log("Fraud confirmed and added to the list:", fraudData);
+        } catch (error) {
+            console.error("Error adding fraud to the list:", error);
+        }
+        console.log("Fraud confirmation reason:", reason);
+        console.log("Fraud confirmed for person:", selectedPerson);
+    }
+
+    const details = [
+        "personDetails",
+        "thirdPartyReference",
+        "sanctionScreening",
+        "addressVerification",
+        "otherInfo",
+        "sessionInfo",
+    ];
+
+    return (
+        <div className="flex-1 w-full flex-col flex p-4 space-y-10 overflow-y-auto">
+            {selectedPerson ? (
+                <>
+                    <Resume person={selectedPerson} />
+                    <div className="w-full flex text-sm text-zinc-500 items-center justify-around 2xl:justify-start 2xl:pl-10 2xl:space-x-14">
+                        {details.map((option) => (
+                            <p
+                                key={option}
+                                className={`cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1 ${activeTab === option ? "font-semibold text-black dark:text-white" : ""
+                                    }`}
+                                onClick={() => setActiveTab(option)}
+                            >
+                                {t(option)}
+                            </p>
+                        ))}
+                    </div>
+                    <div>
+                        <hr/>
+                        {renderContent()}
+                    </div>
+                    <div>
+                    <div className="flex items-center justify-center 2xl:justify-start 2xl:pl-20 space-x-10">
+                    <RejectFlag/>
+                    {/* <ConfirmFlag/> */}
+                    <InsertReason handleFraudConfirmation={handleFraudConfirmation}/>
+                </div>
+                    </div>
+                </>
+            ) : (
+                <div className="w-full h-full flex mt-52 items-center justify-center  dark:text-white">
+                    <p>{t("selectedPerson")}</p>
+                </div>
+            )}
+        </div>
+    );
+}
