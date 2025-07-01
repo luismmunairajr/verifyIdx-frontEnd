@@ -11,7 +11,7 @@ export default function Badges({ person }) {
       {person.categories === "PEP" && (
         <div className="bg-red-500 p-2 rounded-lg">{t("pep")}</div>
       )}
-      {person.fullName !== "N/A" && (
+      {person.fullName !== "--" && (
         <div className="bg-green-500 p-2 rounded-lg">{t("documentScan")}</div>
       )}
     </div>

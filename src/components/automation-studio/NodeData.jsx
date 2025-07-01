@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
 const all_nodes = [
-=======
-const nodes = [
->>>>>>> 1073c117b18002f5fa8077376d6251fe1f8f2ec1
   {
     id: 'address',
     iconName:"MapPin",
@@ -45,7 +41,7 @@ const nodes = [
     description: 'conditionDescription',
   }
 ];
-<<<<<<< HEAD
+
 const nodes = [
   {
     id: 'identity',
@@ -60,7 +56,5 @@ const nodes = [
     description: 'governmentScreeningDescription',
   }
 ];
-=======
->>>>>>> 1073c117b18002f5fa8077376d6251fe1f8f2ec1
 
 export default nodes;

@@ -10,12 +10,11 @@ import { useLanguage } from "@/components/language/language-provider";
 
 export default function DataPerson({ selectedPerson }) {
     const [activeTab, setActiveTab] = useState("personDetails");
-
     const { t } = useLanguage();
 
     const renderContent = () => {
         if (!selectedPerson) {
-            return <div>Select a person to see the details</div>;
+            return <div>{t("selectPersonToSeeDetails")}</div>;
         }
 
         switch (activeTab) {
@@ -45,17 +44,21 @@ export default function DataPerson({ selectedPerson }) {
         "sessionInfo",
     ];
 
+    // Verifica se é liveness (auditTrailImage presente)
+    const hidePictures = !!selectedPerson?.auditTrailImage;
+
     return (
         <div className="flex-1 w-full flex-col flex p-4 space-y-10 overflow-y-auto">
             {selectedPerson ? (
                 <>
-                    <Resume person={selectedPerson} />
+                    <Resume person={selectedPerson} hidePictures={hidePictures} />
                     <div className="w-full flex text-sm text-zinc-500 items-center justify-around 2xl:justify-start 2xl:pl-10 2xl:space-x-14">
                         {details.map((option) => (
                             <p
                                 key={option}
-                                className={`cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1 ${activeTab === option ? "font-semibold text-black dark:text-white" : ""
-                                    }`}
+                                className={`cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1 ${
+                                    activeTab === option ? "font-semibold text-black dark:text-white" : ""
+                                }`}
                                 onClick={() => setActiveTab(option)}
                             >
                                 {t(option)}

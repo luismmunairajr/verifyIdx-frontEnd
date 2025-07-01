@@ -12,14 +12,24 @@ export default function ListPerson({ onSelectPerson }) {
   const [showRejected, setShowRejected] = useState(true);
 
   const { profiles, isLoading, error } = useProfiles();
+  const { t } = useLanguage();
 
-  const { t } = useLanguage()
+  
+  const STATUS_PENDING = "Pending";
+  const STATUS_COMPLETE = "Complete";
+  const STATUS_REJECTED = "Rejected";
+
+  // Filtra perfis com base em texto e status selecionados
   const filteredProfiles = profiles.filter((person) => {
-    const matchesText = (person.fullName || "").toLowerCase().includes(filterText.toLowerCase());
+    const matchesText = (person.fullName || "")
+      .toLowerCase()
+      .includes(filterText.toLowerCase());
+
     const matchesStatus =
-      (showPending && person.status === "Pending") ||
-      (showComplete && person.status === "Complete") ||
-      (showRejected && person.status === "Rejected");
+      (showPending && person.status === STATUS_PENDING) ||
+      (showComplete && person.status === STATUS_COMPLETE) ||
+      (showRejected && person.status === STATUS_REJECTED);
+
     return matchesText && matchesStatus;
   });
 
@@ -27,6 +37,7 @@ export default function ListPerson({ onSelectPerson }) {
     return (
       <div className="flex items-center justify-center w-96 h-screen bg-zinc-100 dark:bg-zinc-800">
         <Loading />
+        <span className="sr-only">{t("loading")}</span>
       </div>
     );
   }
@@ -34,7 +45,9 @@ export default function ListPerson({ onSelectPerson }) {
   if (error) {
     return (
       <div className="flex items-center justify-center w-96 h-screen bg-zinc-100 dark:bg-zinc-900">
-        <div className="text-red-600 dark:text-red-400">Error: {error}</div>
+        <div className="text-red-600 dark:text-red-400">
+          {t("error")}: {error}
+        </div>
       </div>
     );
   }
@@ -48,11 +61,21 @@ export default function ListPerson({ onSelectPerson }) {
         showComplete={showComplete}
         showRejected={showRejected}
         setShowPending={setShowPending}
-        setShowComplete={setShowComplete} 
+        setShowComplete={setShowComplete}
         setShowRejected={setShowRejected}
+        t={t} // Passa t para traduzir textos do InputSearch
       />
+
       <h2 className="text-lg font-medium">{t("verifications")}</h2>
-      <ListVerifications onSelectPerson={onSelectPerson} profiles={filteredProfiles} />
+
+      <ListVerifications
+        onSelectPerson={onSelectPerson}
+        profiles={filteredProfiles.map((person) => ({
+          ...person,
+          // Substitui o status pelo texto traduzido para exibição
+          statusTranslated: t(`status.${person.status.toLowerCase()}`),
+        }))}
+      />
     </div>
   );
 }
