@@ -70,7 +70,7 @@ export function CustomerTable() {
         return;
       }
 
-      await axiosInstance.post("/auth/register/tenant", {
+      await axiosInstance.post("/tenant/auth/register", {
         ...form,
         tenantId,
       });
