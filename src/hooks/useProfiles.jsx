@@ -15,80 +15,79 @@ export function useProfiles() {
         const workflowResponse = await axiosInstance.get("api/v1/workflows/67b873ee3d5248569930e801");
         const verificationIds = workflowResponse.data.verifications?.map(v => v.verificationId) || [];
 
-  
         const verificationRequests = verificationIds.map(id =>
-          axiosInstance.get(`api/v1/verifications/${id}`).then(res => res.data)
+          axiosInstance.get(`api/v1/verifications/${id}`).then(res => res.data).catch(() => null)
         );
 
-        const verificationData = await Promise.all(verificationRequests);
+        const verificationData = (await Promise.all(verificationRequests)).filter(Boolean);
 
         const profilesData = verificationData.map((verification) => {
-          const documentData = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.documentData
-            ? JSON.parse(verification.products.identity_verification.results[0].idscanOnly.documentData)
+          const results = verification?.products?.identity_verification?.results;
+          if (!verification?.products || !results || results.length === 0) return null;
+
+          const documentData = results?.[0]?.idscanOnly?.documentData
+            ? JSON.parse(results[0].idscanOnly.documentData)
             : null;
 
-          // ... Aqui permanece o mesmo código de extração dos dados ...
+          const verificationId = verification?.verificationId || "--";
+          const workflowId = verification?.workflowId || "--";
+          const thirdPartyReference = verification?.thirdPartyReference || "--";
+          const externalDatabaseRefID = results?.[0]?.photoIdScanMatch?.externalDatabaseRefID || "--";
+          const startedAt = verification?.products.identity_verification.startedAt || "--";
 
-          const verificationId = verification?.verificationId || "N/A";
-          const workflowId = verification?.workflowId || "N/A";
-          const thirdPartyReference = verification?.thirdPartyReference || "N/A";
-          const externalDatabaseRefID = verification?.products?.identity_verification?.results?.[0]?.photoIdScanMatch?.externalDatabaseRefID || "N/A";
-          const startedAt = verification?.products.identity_verification.startedAt || "N/A";
+          const platform = results?.[0]?.additionalSessionData?.platform || "--";
+          const deviceModel = results?.[0]?.additionalSessionData?.deviceModel || "--";
+          const userAgent = results?.[0]?.additionalSessionData?.userAgent || "--";
+          const ipAddress = results?.[0]?.additionalSessionData?.ipAddress || "--";
+          const appID = results?.[0]?.additionalSessionData?.appID || "--";
+          const deviceSDKVersion = results?.[0]?.additionalSessionData?.deviceSDKVersion || "--";
 
-          const platform = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.platform || "N/A";
-          const deviceModel = verification.products?.identity_verification?.results[0]?.additionalSessionData?.deviceModel || "N/A";
-          const userAgent = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.userAgent || "N/A";
-          const ipAddress = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.ipAddress || "N/A";
-          const appID = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.appID || "N/A";
-          const deviceSDKVersion = verification?.products?.identity_verification?.results[0]?.additionalSessionData?.deviceSDKVersion || "N/A";
+          const photoIDBackCrop = results?.[0]?.idscanOnly?.photoIDBackCrop || unknow;
+          const photoIDFaceCrop = results?.[0]?.idscanOnly?.photoIDFaceCrop || unknow;
+          const photoIDFrontCrop = results?.[0]?.idscanOnly?.photoIDFrontCrop || unknow;
+          const photoIDPrimarySignatureCrop = results?.[0]?.idscanOnly?.photoIDPrimarySignatureCrop || unknow;
+          const auditTrailImage = results?.[0]?.liveness?.auditTrailImage || null;
 
-          const photoIDBackCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDBackCrop || unknow;
-          const photoIDFaceCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDFaceCrop || unknow;
-          const photoIDFrontCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDFrontCrop || unknow;
-          const photoIDPrimarySignatureCrop = verification?.products?.identity_verification?.results?.[0]?.idscanOnly?.photoIDPrimarySignatureCrop || unknow;
-          const auditTrailImage = verification?.products?.identity_verification?.results?.[0]?.liveness?.auditTrailImage || null;
+          const status = verification?.products?.identity_verification?.status || "--";
 
-          const status = verification?.products?.identity_verification?.status || "N/A";
+          const fullName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "fullName")?.value || "--";
+          const dateOfBirth = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "dateOfBirth")?.value || "--";
+          const placeOfBirth = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "placeOfBirth")?.value || "--";
+          const fatherFirstName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "fatherFirstName")?.value || "--";
+          const motherFirstName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "motherFirstName")?.value || "--";
+          const idNumber = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "idNumber")?.value || "--";
+          const mrzLine1 = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "mrzLine1")?.value || "--";
+          const mrzLine2 = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "mrzLine2")?.value || "--";
+          const mrzLine3 = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "mrzLine3")?.value || "--";
+          const issuingAuthority = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "issuingAuthority")?.value || "--";
+          const dateOfExpiration = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "dateOfExpiration")?.value || "--";
+          const dateOfIssue = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "dateOfIssue")?.value || "--";
+          const address1 = documentData?.userConfirmedValues?.groups[2]?.fields.find(field => field.fieldKey === "address1")?.value || "--";
+          const address2 = documentData?.userConfirmedValues?.groups[2]?.fields.find(field => field.fieldKey === "address2")?.value || "--";
+          const address3 = documentData?.userConfirmedValues?.groups[2]?.fields.find(field => field.fieldKey === "address3")?.value || "--";
+          const height = documentData?.userConfirmedValues?.groups[3]?.fields.find(field => field.fieldKey === "height")?.value || "--";
+          const sex = documentData?.userConfirmedValues?.groups[3]?.fields.find(field => field.fieldKey === "sex")?.value || "--";
+          const customField1 = documentData?.userConfirmedValues?.groups[4]?.fields.find(field => field.fieldKey === "customField1")?.value || "--";
+          const documentCountry = documentData?.templateInfo?.documentCountry || "--";
+          const documentState = documentData?.templateInfo?.documentState || "--";
+          const templateName = documentData?.templateInfo?.templateName || "--";
+          const templateType = documentData?.templateInfo?.templateType || "--";
 
-          const fullName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "fullName")?.value || "N/A";
-          const dateOfBirth = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "dateOfBirth")?.value || "N/A";
-          const placeOfBirth = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "placeOfBirth")?.value || "N/A";
-          const fatherFirstName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "fatherFirstName")?.value || "N/A";
-          const motherFirstName = documentData?.userConfirmedValues?.groups[0]?.fields.find(field => field.fieldKey === "motherFirstName")?.value || "N/A";
-          const idNumber = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "idNumber")?.value || "N/A";
-          const mrzLine1 = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "mrzLine1")?.value || "N/A";
-          const mrzLine2 = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "mrzLine2")?.value || "N/A";
-          const mrzLine3 = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "mrzLine3")?.value || "N/A";
-          const issuingAuthority = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "issuingAuthority")?.value || "N/A";
-          const dateOfExpiration = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "dateOfExpiration")?.value || "N/A";
-          const dateOfIssue = documentData?.userConfirmedValues?.groups[1]?.fields.find(field => field.fieldKey === "dateOfIssue")?.value || "N/A";
-          const address1 = documentData?.userConfirmedValues?.groups[2]?.fields.find(field => field.fieldKey === "address1")?.value || "N/A";
-          const address2 = documentData?.userConfirmedValues?.groups[2]?.fields.find(field => field.fieldKey === "address2")?.value || "N/A";
-          const address3 = documentData?.userConfirmedValues?.groups[2]?.fields.find(field => field.fieldKey === "address3")?.value || "N/A";
-          const height = documentData?.userConfirmedValues?.groups[3]?.fields.find(field => field.fieldKey === "height")?.value || "N/A";
-          const sex = documentData?.userConfirmedValues?.groups[3]?.fields.find(field => field.fieldKey === "sex")?.value || "N/A";
-          const customField1 = documentData?.userConfirmedValues?.groups[4]?.fields.find(field => field.fieldKey === "customField1")?.value || "N/A";
-          const documentCountry = documentData?.templateInfo?.documentCountry || "N/A";
-          const documentState = documentData?.templateInfo?.documentState || "N/A";
-          const templateName = documentData?.templateInfo?.templateName || "N/A";
-          const templateType = documentData?.templateInfo?.templateType || "N/A";
-
-          // Watchlist (idem)
-          const watchlistStatus = verification?.products?.watchlist?.status || "N/A"
-          const matchScore = verification?.products?.watchlist?.results?.matchScore || "N/A"
-          const matchStrength = verification?.products?.watchlist?.results?.matchStrength || "N/A"
-          const primaryName = verification?.products?.watchlist?.results?.primaryName || "N/A"
-          const categories = verification?.products?.watchlist?.results?.categories || "N/A"
-          const category = verification?.products?.watchlist?.results?.category || "N/A"
-          const pepStatus = verification?.products?.watchlist?.results?.pepStatus || "N/A"
-          const matchedDateOfBirth = verification?.products?.watchlist?.results?.secondaryFieldResults?.[0]?.matchedDateTimeValue || "N/A"
-          const dateOfBirthResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[0]?.fieldResult || "N/A"
-          const matchedLocation = verification?.products?.watchlist?.results?.secondaryFieldResults?.[1]?.matchedValue || "N/A"
-          const locationResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[1]?.fieldResult || "N/A"
-          const matchedGender = verification?.products?.watchlist?.results?.secondaryFieldResults?.[2]?.matchedValue || "N/A"
-          const genderResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[2]?.fieldResult || "N/A"
-          const matchedNacionality = verification?.products?.watchlist?.results?.secondaryFieldResults?.[4]?.matchedValue || "N/A"
-          const nacionalityResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[4]?.fieldResult || "N/A"
+          const watchlistStatus = verification?.products?.watchlist?.status || "--";
+          const matchScore = verification?.products?.watchlist?.results?.matchScore || "--";
+          const matchStrength = verification?.products?.watchlist?.results?.matchStrength || "--";
+          const primaryName = verification?.products?.watchlist?.results?.primaryName || "--";
+          const categories = verification?.products?.watchlist?.results?.categories || "--";
+          const category = verification?.products?.watchlist?.results?.category || "--";
+          const pepStatus = verification?.products?.watchlist?.results?.pepStatus || "--";
+          const matchedDateOfBirth = verification?.products?.watchlist?.results?.secondaryFieldResults?.[0]?.matchedDateTimeValue || "--";
+          const dateOfBirthResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[0]?.fieldResult || "--";
+          const matchedLocation = verification?.products?.watchlist?.results?.secondaryFieldResults?.[1]?.matchedValue || "--";
+          const locationResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[1]?.fieldResult || "--";
+          const matchedGender = verification?.products?.watchlist?.results?.secondaryFieldResults?.[2]?.matchedValue || "--";
+          const genderResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[2]?.fieldResult || "--";
+          const matchedNacionality = verification?.products?.watchlist?.results?.secondaryFieldResults?.[4]?.matchedValue || "--";
+          const nacionalityResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[4]?.fieldResult || "--";
 
           return {
             fullName,
@@ -146,7 +145,7 @@ export function useProfiles() {
             matchedNacionality,
             nacionalityResult
           };
-        });
+        }).filter(Boolean);
 
         setProfiles(profilesData);
       } catch (err) {

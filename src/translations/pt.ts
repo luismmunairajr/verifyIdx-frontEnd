@@ -5,9 +5,15 @@ const pt = {
   welcome: "Bem-vindo ao verify IDX",
 
   //Sidebar
+  notificationsTitle: "Notificações",
+  notificationsUnreadCount: "mensagens não lidas",
+  toggleTheme: "Alternar tema",
+  themeLight: "Claro",
+  themeDark: "Escuro",
+  themeSystem: "Sistema",
   dashboard: "Painel",
   verifications: "Verificações",
-  fraudflag: "Sinalização de Fraude",
+  fraudflag: "Suspeita de Fraude",
   fraudlist: "Lista de Fraudes",
   templates: "Modelos",
   automationStudio: "Estúdio de Automação",
@@ -112,12 +118,21 @@ noPersonsAvailable:"Sem pessoas disponiveis",
   close: "Fechar",
 
   //Templates
-  workflowTemplates: "Modelos de Fluxo",
+  workflowTemplatespublished: "Modelos de Fluxo Publicados",
+  workflowTemplatessaved: "Modelos de Fluxo Salvos",
   templatesubtitle:
     "Escolha entre nossos modelos prontos para construir seu fluxo rapidamente.",
   noWorkflows: "Nenhum fluxo encontrado",
   trySearching: "Tente procurar outro nome",
   searchWorkflow: "Procurar fluxo",
+  myTemplates: "Meus Modelos",
+  artificialIntelligence: "Inteligência Artificial",
+  digitalSignature: "Assinatura Digital",
+  identityVerification: "Verificação de Identidade",
+  watchlist: "Lista de Vigilância",
+  support: "Suporte",
+  automation: "Automatização",
+  security: "Segurança",
 
   //Automation Studio
   untitled: "Sem título",
@@ -131,15 +146,14 @@ noPersonsAvailable:"Sem pessoas disponiveis",
   addressLookup: "Consulta de Endereço",
   addressLookupDescription:
     "Verifique se a localização fornecida é real e associada ao indivíduo.",
-  watchlist: "Lista de Observação",
   watchlistDescription: "Verifique identidades e evite atividades ilegais.",
-  identityVerification: "Verificação de Identidade",
+
   identityVerificationDescription:
     "Confirme a autenticidade da identidade de uma pessoa por meio de documentos.",
   governmentScreening: "Triagem Governamental",
   governmentScreeningDescription:
     "Verificação contra listas governamentais ou restritas.",
-  digitalSignature: "Assinatura Digital",
+
   digitalSignatureDescription:
     "Autentique documentos digitais, assegurando validade legal.",
   deceasedApi: "API de Óbitos",
@@ -264,7 +278,8 @@ noPersonsAvailable:"Sem pessoas disponiveis",
   phoneNumberSupportTechnical:"Número de Telefone de Suporte Tecnico",
   changePhoneNumberSupportTechnical:"Alterar Número de Telefone de Suporte Tecnico",
   savekey:"Por favor salve a chave em um lugar seguro, pois ela não será exibida novamente. Caso voce perca a chave, será necessário criar uma nova.",
-
+  department: "Departamento",
+  role: "Cargo",
 
   //Unauthorized
   unauthorized: "Acesso Negado",

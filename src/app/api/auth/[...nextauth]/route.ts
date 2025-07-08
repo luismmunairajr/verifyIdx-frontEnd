@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
   tenantId?: string;
-  azp?: string; 
+  azp?: string;
   resource_access?: {
     [client: string]: {
       roles: string[];
@@ -37,7 +37,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    maxAge: 60 * 30, // 30 minutes
+    maxAge: 60 * 30, // 30 minutos
   },
   callbacks: {
     async jwt({ token, account }) {
@@ -49,15 +49,25 @@ export const authOptions: AuthOptions = {
 
         const decoded: DecodedToken = jwtDecode(account.access_token as string);
 
-        token.roles = decoded.resource_access?.[process.env.KEYCLOAK_CLIENT_ID!]?.roles ?? [];
+        const clientId = process.env.KEYCLOAK_CLIENT_ID!;
+        const allResources = decoded.resource_access ?? {};
+        const allRoles =
+          allResources[clientId]?.roles ||
+          allResources["nextjs"]?.roles || // fallback
+          [];
+
+        token.roles = allRoles.map((role) => role.toUpperCase()); // normaliza
         token.tenantId = decoded.tenantId;
         token.clientId = decoded.azp;
+        console.log(token.accessToken)
+        console.log( token.tenantId )
+
 
         return token;
       }
 
-      // Token ainda é válido
-      if (typeof token.expiresAt === "number" && Date.now() < (token.expiresAt * 1000 - 60 * 1000)) {
+      // Verifica se token ainda é válido
+      if (typeof token.expiresAt === "number" && Date.now() < token.expiresAt * 1000 - 60 * 1000) {
         return token;
       }
 
@@ -70,18 +80,24 @@ export const authOptions: AuthOptions = {
 
         const decoded: DecodedToken = jwtDecode(tokens.access_token as string);
 
+        const clientId = process.env.KEYCLOAK_CLIENT_ID!;
+        const allResources = decoded.resource_access ?? {};
+        const allRoles =
+          allResources[clientId]?.roles ||
+          allResources["nextjs"]?.roles || [];
+
         return {
           ...token,
           idToken: tokens.id_token,
           accessToken: tokens.access_token,
           expiresAt: Math.floor(Date.now() / 1000 + (tokens.expires_in as number)),
           refreshToken: tokens.refresh_token ?? token.refreshToken,
-          roles: decoded.resource_access?.[process.env.KEYCLOAK_CLIENT_ID!]?.roles ?? [],
+          roles: allRoles.map((role) => role.toUpperCase()),
           tenantId: decoded.tenantId,
           clientId: decoded.azp,
         };
       } catch (error) {
-        console.error("Error refreshing access token", error);
+        console.error("Erro ao renovar o token de acesso:", error);
         return { ...token, error: "RefreshAccessTokenError" };
       }
     },

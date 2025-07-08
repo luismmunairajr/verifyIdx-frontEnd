@@ -6,6 +6,7 @@ import FilterButtons from "@/components/templates/FilterButtons.jsx";
 import CardTemplate from "@/components/templates/CardTemplate.jsx";
 import Loading from "@/components/Loading";
 import { useLanguage } from "@/components/language/language-provider";
+import axiosInstance from "@/app/api/axios/axiosInstance"; 
 
 export default function TemplatesPage() {
   const [workflows, setWorkflows] = useState([]);
@@ -15,12 +16,8 @@ export default function TemplatesPage() {
   useEffect(() => {
     const fetchWorkflows = async () => {
       try {
-        const response = await fetch("/api/workflows");
-        if (!response.ok) {
-          throw new Error("Failed to fetch workflows");
-        }
-        const data = await response.json();
-        setWorkflows(data);
+        const response = await axiosInstance.get("/api/v1/workflows");
+        setWorkflows(response.data);
       } catch (error) {
         console.error("Error fetching workflows:", error);
       } finally {
@@ -32,16 +29,16 @@ export default function TemplatesPage() {
   }, []);
 
   const filteredWorkflows = workflows.filter((workflow) =>
-    workflow.name.toLowerCase().includes(searchTerm.toLowerCase())
+    workflow.workflowName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const { t } = useLanguage()
+  const { t } = useLanguage();
 
   if (loading) {
     return (
       <div className="w-full flex flex-col p-6 px-40 space-y-10">
         <div className="w-full flex flex-col items-center mt-10 space-y-4">
-          <h1 className="font-bold text-5xl">{t("workflowTemplates")}</h1>
+          <h1 className="font-bold text-5xl">{t("workflowTemplatespublished")}</h1>
           <p className="text-lg">{t("templatesubtitle")}</p>
           <Loading />
         </div>
@@ -52,7 +49,7 @@ export default function TemplatesPage() {
   return (
     <div className="w-full flex flex-col p-6 px-40 space-y-10">
       <div className="w-full flex flex-col items-center mt-10 space-y-4">
-        <h1 className="font-bold text-5xl">{t("workflowTemplates")}</h1>
+        <h1 className="font-bold text-5xl">{t("workflowTemplatespublished")}</h1>
         <p className="text-lg">{t("templatesubtitle")}</p>
         <Input
           placeholder={t("searchWorkflow")}
@@ -60,16 +57,21 @@ export default function TemplatesPage() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+
       <FilterButtons />
+
       {filteredWorkflows.length > 0 ? (
         <div className="grid grid-cols-2 gap-4 p-4">
           {filteredWorkflows.map((workflow) => (
             <CardTemplate
-              key={workflow._id}
-              id={workflow._id}
-              name={workflow.name}
-              description={workflow.description}
-              categories={workflow.categories}
+              key={workflow.workflowId}
+              id={workflow.workflowId}
+              name={workflow.workflowName}
+              description={`API Version: ${workflow.apiVersion}`}
+              categories={[
+                `Created: ${new Date(workflow.createdAt).toLocaleDateString()}`,
+                `Updated: ${new Date(workflow.updatedAt).toLocaleDateString()}`
+              ]}
             />
           ))}
         </div>

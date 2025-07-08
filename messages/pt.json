@@ -2,7 +2,7 @@
   "Navigation": {
     "dashboard": "Painel",
     "verifications": "Verificações",
-    "fraudflag": "Sinalização de Fraude",
+    "fraudflag": "Suspeita de Fraude",
     "fraudlist": "Lista de Fraudes",
     "templates": "Modelos",
     "automationStudio": "Estúdio de Automação",

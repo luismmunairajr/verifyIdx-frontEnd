@@ -47,7 +47,7 @@
     "src/components/verifications/dataPerson/DataPerson.jsx",
     "src/components/verifications/dataPerson/details/PersonDetails.jsx",
     "src/components/automation-studio/DataPicker.tsx",
-    "src/hooks/useProfiles.tsx",
+    "src/hooks/useProfiles.jsx",
     "src/components/verifications/dataPerson/Resume.jsx",
     "src/components/verifications/dataPerson/Pictures.jsx",
     "src/components/verifications/dataPerson/details/SessionInfo.jsx",
@@ -70,6 +70,6 @@
     "src/lib/keycloak.js",
     "src/components/fraudflag/dataPerson/DataPerson.jsx",
     "src/components/fraudflag/dataPerson/InsertReason.tsx"
-  ],
+, "src/app/layoutClient.tsx", "src/components/admin-settings/companyInformation/CompanyInformation.jsx", "src/components/fraudflag/dataPerson/Resume.jsx", "src/components/fraudflag/listPerson/ListPerson.jsx", "src/components/fraudflag/listPerson/PersonVerifications.jsx", "src/components/fraudflag/dataPerson/details/PersonDetails.jsx", "src/components/fraudflag/dataPerson/Pictures.jsx", "src/components/fraudflag/dataPerson/Badges.jsx", "src/components/fraudflag/listPerson/ListVerifications.jsx", "src/components/fraudflag/listPerson/DropDownMenuCheckBoxes.jsx", "src/components/fraudflag/listPerson/Input.jsx", "src/components/admin-settings/generalSettings/CustomerTable.jsx"  ],
   "exclude": ["node_modules"]
 }

@@ -5,6 +5,12 @@ const en = {
   welcome: "Welcome to verify IDX",
 
   //Sidebar
+  notificationsTitle: "Notifications",
+  notificationsUnreadCount: "unread messages",
+  toggleTheme: "Toggle theme",
+  themeLight: "Light",
+  themeDark: "Dark",
+  themeSystem: "System",
   dashboard: "Dashboard",
   verifications: "Verifications",
   fraudflag: "Fraud Flag",
@@ -112,12 +118,21 @@ const en = {
   close: "Close",
 
   //Templates
-  workflowTemplates: "Workflow Templates",
+  workflowTemplatespublished: "Workflow Templates Published",
+  workflowTemplatessaved: "Workflow Templates Saved",
   templatesubtitle:
     "Choose from our ready-made templates to quickly build your flow.",
   noWorkflows: "No workflows found",
   trySearching: "Try searching for another name",
   searchWorkflow: "Search Workflow",
+  myTemplates: "My Templates",
+  artificialIntelligence: "Artificial Intelligence",
+  digitalSignature: "Digital Signature",
+  identityVerification: "Identity Verification",
+  watchlist: "Watchlist",
+  support: "Support",
+  automation: "Automation",
+  security: "Security",
 
   //Automation studio
   untitled: "Untitled",
@@ -131,15 +146,12 @@ const en = {
   addressLookup: "Address Lookup",
   addressLookupDescription:
     "Verify if the provided location is real and associated with the individual.",
-  watchlist: "Watchlist",
   watchlistDescription: "Check identities and prevent illegal activities.",
-  identityVerification: "Identity Verification",
   identityVerificationDescription:
     "Confirm the authenticity of a person’s identity through documents.",
   governmentScreening: "Government Screening",
   governmentScreeningDescription:
     "Screening against government or restricted lists.",
-  digitalSignature: "Digital Signature",
   digitalSignatureDescription:
     "Authenticate digital documents to ensure legal validity.",
   deceasedApi: "Deceased API",
@@ -260,7 +272,10 @@ const en = {
   phoneNumberSupportTechnical:"Phone Number of Support Technical",
   changePhoneNumberSupportTechnical:"Change Phone Number of Support Technical",
   savekey:"Please save your secret key in a safe place since won't be shown again. if you lose it, you will need to create a new one.",
+  department: "Department",
+  role:"Role",
 
+  loadingUsers: "Carregando usuários...",
   //Unauthorized
   unauthorized: "Acess Denied",
   unauthorizedDescription: "You don't have permissions to acess this application.",

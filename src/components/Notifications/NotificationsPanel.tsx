@@ -1,17 +1,28 @@
-import { FC } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import NotificationItem, { Notification } from './NotificationItem'
+import { FC } from "react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card"
+import NotificationItem, { Notification } from "./NotificationItem"
+import { useLanguage } from "@/components/language/language-provider"
 
 interface NotificationsPanelProps {
   notifications: Notification[]
 }
 
 const NotificationsPanel: FC<NotificationsPanelProps> = ({ notifications }) => {
+  const { t } = useLanguage()
+
   return (
     <Card className="border-0 shadow-none">
       <CardHeader className="pb-3">
-        <CardTitle>Notifications</CardTitle>
-        <CardDescription>You have {notifications.length} unread messages.</CardDescription>
+        <CardTitle>{t("notificationsTitle")}</CardTitle>
+          <CardDescription>
+                 {notifications.length} {t("notificationsUnreadCount")}
+          </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         {notifications.map((notification) => (

@@ -8,10 +8,23 @@ import {
   Layers,
   Workflow,
 } from "lucide-react";
-import { useRoles } from "@/hooks/useRoles";
+import { roleBasedLinks } from "@/utils/permissions";
 
 export const links = (pathname: string, roles: string[] = []) => {
-  const baseLinks = [
+  // Normaliza os roles para uppercase
+  const normalizedRoles = roles.map((r) => r.toUpperCase());
+
+  // Acumula todas as labels permitidas para esse conjunto de roles
+  const allowedLabels = new Set<string>();
+  normalizedRoles.forEach((role) => {
+    const allowed = roleBasedLinks[role];
+    if (allowed) {
+      allowed.forEach((label) => allowedLabels.add(label));
+    }
+  });
+
+  
+  const allLinks = [
     {
       label: "dashboard",
       href: "/dashboard",
@@ -110,10 +123,7 @@ export const links = (pathname: string, roles: string[] = []) => {
         />
       ),
     },
-  ];
-
-  if (Array.isArray(roles) && roles.includes("admin")) {
-    baseLinks.push({
+    {
       label: "adminSettings",
       href: "/admin-settings",
       icon: (
@@ -126,8 +136,9 @@ export const links = (pathname: string, roles: string[] = []) => {
           strokeWidth={pathname === "/admin-settings" ? 2 : 1}
         />
       ),
-    });
-  }
+    },
+  ];
 
-  return baseLinks;
+  // Retorna apenas os links permitidos
+  return allLinks.filter((link) => allowedLabels.has(link.label));
 };

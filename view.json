@@ -1,0 +1,87 @@
+{
+    "verificationId": "685ba1d7bd348357eea7a18e",
+    "workflowId": "68581c4f9e8cdae6fffc5f54",
+    "thirdPartyReference": "other",
+    "isComplete": true,
+    "hasError": false,
+    "errorDetails": "null",
+    "priority": "High",
+    "dueDate": "2025-06-28T07:14:31.218Z",
+    "comment": [],
+    "auditTrail": [],
+    "initiatedBy": "808mafia",
+    "products": {
+        "identity_verification": {
+            "id": "685ba1d7bd348357eea7a18f",
+            "status": "Completed",
+            "steps": [
+                "liveness",
+                "idscanOnly"
+            ],
+            "startedAt": "2025-06-25T16:52:06.798Z",
+            "results": [
+                {
+                    "liveness": {
+                        "date": "Jun 25, 2025 16:52:06 PM",
+                        "faceScanSecurityChecks": {
+                            "auditTrailVerificationCheckSucceeded": true,
+                            "faceScanLivenessCheckSucceeded": true,
+                            "replayCheckSucceeded": true,
+                            "sessionTokenCheckSucceeded": true
+                        },
+                        "scanResultBlob": "AAEAAACXAAAAAAAAAOWs2WZ+pHrqyBxnWREVlrSIrWiQ6lDawNxXVFoA5zJGlziaRpxRMlEl0QHDZCnCxQg8G5eDmJdhvOGO+GLKS/YsSQozHTbnqmrIN/Yr9ib2Gu+efB1YwAdwifUQamnKC3HXoEZc1Qe35cgoxPyC/8hWIOflbkRiijHf1baTAI0G1JtHn60Z/df0JO9qorzpxMgVgzn4gLQ=",
+                        "success": true,
+                        "wasProcessed": true,
+                        "auditTrailImage": "base64_facial_image_goes_here"
+                    },
+                    "idscanOnly": {
+                        "didCompleteIDScanWithUnexpectedMedia": false,
+                        "didCompleteIDScanWithoutMatchingOCRTemplate": false,
+                        "didMatchIDScanToOCRTemplate": true,
+                        "digitalIDSpoofStatusEnumInt": 0,
+                        "externalDatabaseRefID": null,
+                        "documentData": "{\"mrzValues\":{\"groups\":[{\"fields\":[{\"fieldKey\":\"fullName\",\"uiFieldType\":\"Alphabetic\",\"value\":\"OLDEMIRO AMERICO VALOI\"},{\"fieldKey\":\"dateOfBirth\",\"uiFieldType\":\"dd/mm/yyyy\",\"value\":\"10/08/1993\"}],\"groupFriendlyName\":\"Your Information\",\"groupKey\":\"userInfo\"},{\"fields\":[{\"fieldKey\":\"idNumber\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"AA5227058\"},{\"fieldKey\":\"dateOfExpiration\",\"uiFieldType\":\"dd/mm/yyyy\",\"value\":\"08/06/2028\"}],\"groupFriendlyName\":\"Photo ID Details\",\"groupKey\":\"idInfo\"},{\"fields\":[{\"fieldKey\":\"sex\",\"uiFieldType\":\"A\",\"value\":\"M\"}],\"groupFriendlyName\":\"Physical Traits & Misc\",\"groupKey\":\"secondaryUserInfo\"}]},\"scannedValues\":{\"groups\":[{\"fields\":[{\"fieldKey\":\"fullName\",\"nonMRZValue\":\"OLDEMIR AMERICO ALO\",\"uiFieldType\":\"Alphabetic\",\"value\":\"OLDEMIRO AMERICO VALOI\"},{\"fieldKey\":\"dateOfBirth\",\"nonMRZValue\":\"19/8\",\"uiFieldType\":\"dd/mm/yyyy\",\"value\":\"10/08/1993\"},{\"fieldKey\":\"placeOfBirth\",\"uiFieldType\":\"Alphabetic\",\"value\":\"MAPLUT\"}],\"groupFriendlyName\":\"Your Information\",\"groupKey\":\"userInfo\"},{\"fields\":[{\"fieldKey\":\"idNumber\",\"nonMRZValue\":\"1TI010127190779\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"AA5227058\"},{\"fieldKey\":\"mrzLine1\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"IDMOZAA52270585110101271907P<<\"},{\"fieldKey\":\"mrzLine2\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"9308101M2806088MOZ<<<<<<<<<<<9\"},{\"fieldKey\":\"mrzLine3\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"VALOI<<OLDEMIRO<AMERICO<<<<<<<\"},{\"fieldKey\":\"dateOfIssue\",\"uiFieldType\":\"dd/mm/yyyy\",\"value\":\"08/90/67073\"},{\"fieldKey\":\"dateOfExpiration\",\"nonMRZValue\":\"08/06/2076\",\"uiFieldType\":\"dd/mm/yyyy\",\"value\":\"08/06/2028\"},{\"fieldKey\":\"issuingAuthority\",\"uiFieldType\":\"Alphabetic\",\"value\":\"CADE MAPUTO\"}],\"groupFriendlyName\":\"Photo ID Details\",\"groupKey\":\"idInfo\"},{\"fields\":[{\"fieldKey\":\"address1\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"004 CASA 5\"},{\"fieldKey\":\"address2\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"BAGAW0Y0\"},{\"fieldKey\":\"address3\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"HAMUBUCUANA\"}],\"groupFriendlyName\":\"Your Address\",\"groupKey\":\"addressInfo\"},{\"fields\":[{\"fieldKey\":\"sex\",\"nonMRZValue\":\"\",\"uiFieldType\":\"A\",\"value\":\"M\"},{\"fieldKey\":\"height\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"17S\"}],\"groupFriendlyName\":\"Physical Traits & Misc\",\"groupKey\":\"secondaryUserInfo\"},{\"fields\":[{\"fieldKey\":\"customField1\",\"uiFieldType\":\"Alphabetic\",\"value\":\"SOLTEIRD\"},{\"fieldKey\":\"customField2\",\"uiFieldType\":\"Alphabetic\",\"value\":\"FRANCISCO CALMF ALOF\"},{\"fieldKey\":\"customField3\",\"uiFieldType\":\"Alphabetic\",\"value\":\"WUZANA PALO SAMUEL\"}],\"groupFriendlyName\":\"Additional Info\",\"groupKey\":\"customFields\"}]},\"templateInfo\":{\"documentCountry\":\"Mozambique\",\"documentState\":\"\",\"templateName\":\"Mozambique - National ID Card - 2022_UC - Horizontal\",\"templateType\":\"Government Issued Photo ID\"},\"userConfirmedValues\":{\"groups\":[{\"fields\":[{\"fieldKey\":\"fullName\",\"nonMRZValue\":\"OLDEMIR AMERICO ALO\",\"uiFieldType\":\"Alphabetic\",\"value\":\"OLDEMIRO AMERICO VALOI\"},{\"fieldKey\":\"dateOfBirth\",\"nonMRZValue\":\"19/8\",\"uiFieldType\":\"dd/mm/yyyy\",\"value\":\"10/08/1993\"},{\"fieldKey\":\"placeOfBirth\",\"uiFieldType\":\"Alphabetic\",\"value\":\"MAPLUT\"}],\"groupFriendlyName\":\"Your Information\",\"groupKey\":\"userInfo\"},{\"fields\":[{\"fieldKey\":\"idNumber\",\"nonMRZValue\":\"1TI010127190779\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"AA5227058\"},{\"fieldKey\":\"mrzLine1\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"IDMOZAA52270585110101271907P<<\"},{\"fieldKey\":\"mrzLine2\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"9308101M2806088MOZ<<<<<<<<<<<9\"},{\"fieldKey\":\"mrzLine3\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"VALOI<<OLDEMIRO<AMERICO<<<<<<<\"},{\"fieldKey\":\"dateOfIssue\",\"uiFieldType\":\"dd/mm/yyyy\",\"value\":\"08/90/67073\"},{\"fieldKey\":\"dateOfExpiration\",\"nonMRZValue\":\"08/06/2076\",\"uiFieldType\":\"dd/mm/yyyy\",\"value\":\"08/06/2028\"},{\"fieldKey\":\"issuingAuthority\",\"uiFieldType\":\"Alphabetic\",\"value\":\"CADE MAPUTO\"}],\"groupFriendlyName\":\"Photo ID Details\",\"groupKey\":\"idInfo\"},{\"fields\":[{\"fieldKey\":\"address1\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"004 CASA 5\"},{\"fieldKey\":\"address2\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"BAGAW0Y0\"},{\"fieldKey\":\"address3\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"HAMUBUCUANA\"}],\"groupFriendlyName\":\"Your Address\",\"groupKey\":\"addressInfo\"},{\"fields\":[{\"fieldKey\":\"sex\",\"nonMRZValue\":\"\",\"uiFieldType\":\"A\",\"value\":\"M\"},{\"fieldKey\":\"height\",\"uiFieldType\":\"Alphanumeric\",\"value\":\"17S\"}],\"groupFriendlyName\":\"Physical Traits & Misc\",\"groupKey\":\"secondaryUserInfo\"},{\"fields\":[{\"fieldKey\":\"customField1\",\"uiFieldType\":\"Alphabetic\",\"value\":\"SOLTEIRD\"},{\"fieldKey\":\"customField2\",\"uiFieldType\":\"Alphabetic\",\"value\":\"FRANCISCO CALMF ALOF\"},{\"fieldKey\":\"customField3\",\"uiFieldType\":\"Alphabetic\",\"value\":\"WUZANA PALO SAMUEL\"}],\"groupFriendlyName\":\"Additional Info\",\"groupKey\":\"customFields\"}]}}",
+                        "scannedIDPhotoFaceFoundWithMinimumQuality": true,
+                        "extractedNFCImage": "",
+                        "extractedTextBase64JSON": null,
+                        "faceOnDocumentStatusEnumInt": 1,
+                        "fullIDStatusEnumInt": 0,
+                        "idScanAgeEstimateGroupEnumInt": 4,
+                        "idScanAgeEstimateGroupV2EnumInt": 8,
+                        "idScanAgeV2GroupEnumInt": 8,
+                        "idScanSecurityChecks": {
+                            "frontAuditTrailVerificationCheckSucceeded": true,
+                            "replayCheckSucceeded": true,
+                            "sessionTokenCheckSucceeded": true
+                        },
+                        "isCompletelyDone": true,
+                        "isIDScanIncomplete": false,
+                        "isReadyForUserConfirmation": true,
+                        "mrzStatusEnumInt": 2,
+                        "nfcAuthenticationStatusEnumInt": 0,
+                        "nfcStatusEnumInt": 0,
+                        "ocrResults": null,
+                        "photoIDFaceCrop": "base_64_image_captured_id_photo",
+                        "photoIDBackCrop": "base64_image_Id_front_photo",
+                        "photoIDFrontCrop": "base64_image_Id_back_photo",
+                        "photoIDNextStepEnumInt": 4,
+                        "photoIDPrimarySignatureCrop": "base64_photo_IDPrimarySignature Crop",
+                        "photoIDSecondarySignatureCrop": "",
+                        "photoIDTamperingEvidenceBackImage": "",
+                        "photoIDTamperingEvidenceFrontImage": "",
+                        "scanResultBlob": "AAEAAAAxAQAAAAAAAOsn+EVLT1cL0zaXhlN7NOomedHUUEFsu5d0kqeewkZBw3BOMxeplYZ91j/K64HOz0Zb4jNILW40EeFpIPGr/8gbmFiT84F3syZ5SybnHLaeZ2Wq5hZrLzfOEFT6yw4ogWvLpH8ZINiu5NS2baxNOzX/Wh7iZEAaddgyV8X1oZTV7hQBkNPwr2T/1GB7TszOI/fiQfobItrN7MNKajijvKTfVgS/d0u+4DfwE8w9vwHiJOw7pX8H5QBRRUQOCM5vXk/8QuBlIkDTADNHk/t+LRDaMA5bsn2aU3pyQ7AHlUEbSruxSMgcZLIa7Yd+i+5dhDbEbj+QmG2WFVDN1J63vGZ/wFyCKeP196n8NN3IsCROGx/uNZJlcooCQXt6Q5PExNsA7pT99lMYFymqKEAJdD0Q",
+                        "success": true,
+                        "textOnDocumentStatusEnumInt": 1,
+                        "unexpectedMediaEncounteredAtLeastOnce": false,
+                        "wasProcessed": true,
+                        "watermarkAndHologramStatusEnumInt": 0
+                    }
+                }
+            ],
+         
+            "progress": 100,
+            "priority": "High",
+            "verificationId": "685ba1d7bd348357eea7a18e"
+        }
+    }
+}

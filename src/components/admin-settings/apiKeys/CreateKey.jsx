@@ -1,47 +1,90 @@
 "use client";
+
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useLanguage } from "@/components/language/language-provider";
+import { useSession } from "next-auth/react";
+import axiosInstance from "@/app/api/axios/axiosInstance_midleware";
+import { toast } from "sonner";
 
-export default function CreateKey() {
+export default function CreateKey({ onCreated }) {
   const [copied, setCopied] = useState(false);
-  const inputValue = "01HYD87QD1Q6S0V4D8P49G4NDNQ8921349";
+  const [hasCopied, setHasCopied] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
+  const { t } = useLanguage();
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(inputValue);
       setCopied(true);
-      setTimeout(() => setCopied(false), 30000);
+      setHasCopied(true);
+      setTimeout(() => setCopied(false), 5000);
     } catch (err) {
       console.error("Failed to copy text: ", err);
     }
   };
 
-  const { t } = useLanguage();
+  const handleCreateKey = async () => {
+    const tenantId = session?.user?.tenantId;
+
+    if (!tenantId) {
+      toast.error(t("missingTenant"));
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post(`/tenants/${tenantId}/apikeys`);
+
+      if (response.status === 201 || response.status === 200) {
+        const newKey = response.data?.apikey;
+        if (newKey) {
+          setInputValue(newKey);
+          toast.success(t("keyCreated"));
+        } else {
+          toast.error(t("invalidKeyResponse"));
+        }
+      } else {
+        toast.error(t("failedCreateKey"));
+      }
+    } catch (error) {
+      console.error("Erro ao criar chave:", error);
+      toast.error(t("errorCreateKey"));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={(isOpen) => {
+        if (!isOpen && hasCopied) {
+          onCreated?.(); 
+          setHasCopied(false);
+        }
+      }}
+    >
       <DialogTrigger asChild>
-        <Button>{t("createKey")}</Button>
+        <Button onClick={handleCreateKey} disabled={loading}>
+          {loading ? t("creating") : t("createKey")}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{t("createKey")}</DialogTitle>
-          <DialogDescription>
-            {t("createKeySubtitle")}
-          </DialogDescription>
+          <DialogDescription>{t("createKeySubtitle")}</DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <Input value={inputValue} disabled className="flex-1" />
@@ -59,9 +102,7 @@ export default function CreateKey() {
           </Button>
         </div>
         {copied && (
-          <p className="text-sm mt-2 text-red-500">
-            {t("savekey")}
-          </p>
+          <p className="text-sm mt-2 text-red-500">{t("savekey")}</p>
         )}
       </DialogContent>
     </Dialog>

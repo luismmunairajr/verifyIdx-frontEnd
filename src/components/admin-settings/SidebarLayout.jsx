@@ -49,13 +49,14 @@ const menuItems = [
 export default function SidebarLayout() {
   const [activeItem, setActiveItem] = useState("companyinformation");
   const { t } = useLanguage();
-  const { roles, loading } = useRoles(); // Agora temos acesso ao `loading` explicitamente
+  const { roles, loading } = useRoles();
   const router = useRouter();
 
-  
-
   useEffect(() => {
-    if (!loading && (!Array.isArray(roles) || !roles.includes("admin"))) {
+    // Normaliza as roles para uppercase antes de verificar
+    const normalizedRoles = roles.map((r) => r.toUpperCase());
+
+    if (!loading && (!Array.isArray(roles) || !normalizedRoles.includes("ADMIN"))) {
       router.push("/unauthorized");
     }
   }, [loading, roles, router]);
@@ -68,8 +69,10 @@ export default function SidebarLayout() {
     );
   }
 
-  if (!Array.isArray(roles) || !roles.includes("admin")) {
-    return null;
+  // Normaliza para uppercase para garantir a comparação correta
+  const normalizedRoles = roles.map((r) => r.toUpperCase());
+  if (!Array.isArray(roles) || !normalizedRoles.includes("ADMIN")) {
+    return null; // Não renderiza nada para não autorizados
   }
 
   return (

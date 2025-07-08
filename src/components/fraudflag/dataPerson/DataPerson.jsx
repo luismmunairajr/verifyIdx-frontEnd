@@ -49,8 +49,7 @@ export default function DataPerson({ selectedPerson }) {
         } catch (error) {
             console.error("Error adding fraud to the list:", error);
         }
-        console.log("Fraud confirmation reason:", reason);
-        console.log("Fraud confirmed for person:", selectedPerson);
+        
     }
 
     const details = [

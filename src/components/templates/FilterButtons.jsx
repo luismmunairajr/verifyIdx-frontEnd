@@ -1,16 +1,25 @@
-import { Button } from "@/components/ui/button"
+"use client";
+
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/components/language/language-provider";
 
 export default function FilterButtons() {
-    return (
-        <div className="w-full flex justify-center flex-wrap gap-2">
-            <Button variant={"ghost"}>My Templates</Button>
-            <Button variant={"ghost"}>Artificial Inteligence</Button>
-            <Button variant={"ghost"}>Digital Signature</Button>
-            <Button variant={"ghost"}>Identity Verification</Button>
-            <Button variant={"ghost"}>Watchlist</Button>
-            <Button variant={"ghost"}>Support</Button>
-            <Button variant={"ghost"}>Automation</Button>
-            <Button variant={"ghost"}>Security</Button>
-        </div>
-    )
+  const { t } = useLanguage();
+  const router = useRouter();
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Button variant="ghost" onClick={() => router.push("/templates/saved")}>
+        {t("myTemplates")}
+      </Button>
+     // <Button variant="ghost">{t("artificialIntelligence")}</Button>
+      <Button variant="ghost">{t("digitalSignature")}</Button>
+      <Button variant="ghost">{t("identityVerification")}</Button>
+    //  <Button variant="ghost">{t("watchlist")}</Button>
+    //  <Button variant="ghost">{t("support")}</Button>
+    //  <Button variant="ghost">{t("automation")}</Button>
+    //  <Button variant="ghost">{t("security")}</Button>
+    </div>
+  );
 }
