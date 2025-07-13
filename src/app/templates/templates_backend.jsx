@@ -6,20 +6,25 @@ import FilterButtons from "@/components/templates/FilterButtons.jsx";
 import CardTemplate from "@/components/templates/CardTemplate.jsx";
 import Loading from "@/components/Loading";
 import { useLanguage } from "@/components/language/language-provider";
-import axiosInstance from "@/app/api/axios/axiosInstance"; 
+import axiosInstance from "@/app/api/axios/axiosInstance";
 
 export default function TemplatesPage() {
   const [workflows, setWorkflows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchWorkflows = async () => {
       try {
         const response = await axiosInstance.get("/api/v1/workflows");
-        setWorkflows(response.data);
+
+       
+        const data = response.data?.data;
+        setWorkflows(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching workflows:", error);
+        setWorkflows([]);
       } finally {
         setLoading(false);
       }
@@ -29,10 +34,8 @@ export default function TemplatesPage() {
   }, []);
 
   const filteredWorkflows = workflows.filter((workflow) =>
-    workflow.workflowName.toLowerCase().includes(searchTerm.toLowerCase())
+    workflow.workflowName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const { t } = useLanguage();
 
   if (loading) {
     return (
