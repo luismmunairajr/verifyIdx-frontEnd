@@ -59,7 +59,7 @@ export const authOptions: AuthOptions = {
         token.roles = allRoles.map((role) => role.toUpperCase()); // normaliza
         token.tenantId = decoded.tenantId;
         token.clientId = decoded.azp;
-        console.log(token.accessToken)
+     
 
 
         return token;
