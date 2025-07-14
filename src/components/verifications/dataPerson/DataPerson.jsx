@@ -20,10 +20,10 @@ export default function DataPerson({ selectedPerson }) {
         switch (activeTab) {
             case "personDetails":
                 return <PersonDetails person={selectedPerson} />;
-            case "thirdPartyReference":
+       {/*     case "thirdPartyReference":
                 return <ThirdPartVerification person={selectedPerson} />;
             case "sanctionScreening":
-                return <SanctionScreening person={selectedPerson} />;
+                return <SanctionScreening person={selectedPerson} />; */}
             case "addressVerification":
                 return <AddressVerification person={selectedPerson} />;
             case "otherInfo":
@@ -37,8 +37,8 @@ export default function DataPerson({ selectedPerson }) {
 
     const details = [
         "personDetails",
-        "thirdPartyReference",
-        "sanctionScreening",
+      //  "thirdPartyReference",
+      //  "sanctionScreening",
         "addressVerification",
         "otherInfo",
         "sessionInfo",

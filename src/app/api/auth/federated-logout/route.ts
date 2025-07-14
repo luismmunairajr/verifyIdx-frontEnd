@@ -6,7 +6,7 @@ import { getToken } from "next-auth/jwt";
 function logoutParams(token: JWT): Record<string, string> {
     return {
       id_token_hint: token.idToken as string,
-      post_logout_redirect_uri: process.env.NEXTAUTH_URL || "http://localhost:3000",
+      post_logout_redirect_uri: process.env.NEXTAUTH_URL || "http://localhost:4444",
     };
   }
   

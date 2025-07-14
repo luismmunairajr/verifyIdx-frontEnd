@@ -37,7 +37,7 @@ const KeycloakCallback = () => {
         client_id: 'frontend', // Seu clientId
         client_secret: 'CLIENT_SECRET', // Seu client secret
         code: code,
-        redirect_uri: 'http://localhost:3000/callback/keycloak',
+        redirect_uri: 'http://localhost:4444/callback/keycloak',
         grant_type: 'authorization_code',
       }),
     });

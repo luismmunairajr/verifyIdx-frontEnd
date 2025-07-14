@@ -13,13 +13,13 @@ export default function FilterButtons() {
       <Button variant="ghost" onClick={() => router.push("/templates/saved")}>
         {t("myTemplates")}
       </Button>
-     // <Button variant="ghost">{t("artificialIntelligence")}</Button>
+    {/*  <Button variant="ghost">{t("artificialIntelligence")}</Button> */}
       <Button variant="ghost">{t("digitalSignature")}</Button>
       <Button variant="ghost">{t("identityVerification")}</Button>
-    //  <Button variant="ghost">{t("watchlist")}</Button>
-    //  <Button variant="ghost">{t("support")}</Button>
-    //  <Button variant="ghost">{t("automation")}</Button>
-    //  <Button variant="ghost">{t("security")}</Button>
+   {/*<Button variant="ghost">{t("watchlist")}</Button> */}
+    {/* <Button variant="ghost">{t("support")}</Button> */}
+     {/* <Button variant="ghost">{t("automation")}</Button> */}
+    {/* <Button variant="ghost">{t("security")}</Button> */}
     </div>
   );
 }

@@ -7,46 +7,83 @@ export function useProfiles() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchProfiles = async () => {
-      try {
-        setIsLoading(true);
+          useEffect(() => {
+  const normalizeBase64 = (value) => {
+    if (!value) return null;
+    if (typeof value === "string") return value;
+    if (typeof value === "object") {
+      if ("base64String" in value) return value.base64String;
+      if ("data" in value) return value.data;
+    }
+    return null;
+  };
 
-        const workflowResponse = await axiosInstance.get("api/v1/workflows/67b873ee3d5248569930e801");
-        const verificationIds = workflowResponse.data.verifications?.map(v => v.verificationId) || [];
+  const fetchProfiles = async () => {
+  try {
+    setIsLoading(true);
 
-        const verificationRequests = verificationIds.map(id =>
-          axiosInstance.get(`api/v1/verifications/${id}`).then(res => res.data).catch(() => null)
-        );
+    // 1. Buscar todos os workflows do tenant
+    const workflowsResponse = await axiosInstance.get("/api/v1/workflows");
+    const workflows = workflowsResponse.data?.data || [];
 
-        const verificationData = (await Promise.all(verificationRequests)).filter(Boolean);
+    // 2. Extrair todos os verificationIds de todos os workflows
+    const verificationIds = workflows.flatMap(wf =>
+      wf.verifications?.map(v => v.verificationId) || []
+    );
 
-        const profilesData = verificationData.map((verification) => {
-          const results = verification?.products?.identity_verification?.results;
-          if (!verification?.products || !results || results.length === 0) return null;
+    // 3. Buscar dados de todas as verificações individualmente
+    const verificationRequests = verificationIds.map(id =>
+      axiosInstance
+        .get(`api/v1/verifications/${id}`)
+        .then(res => res.data)
+        .catch(() => null)
+    );
+    
+    const verificationData = (await Promise.all(verificationRequests)).filter(Boolean);
 
-          const documentData = results?.[0]?.idscanOnly?.documentData
-            ? JSON.parse(results[0].idscanOnly.documentData)
-            : null;
+    // 4. Filtrar verificações com pelo menos uma imagem válida
+    const profilesData = verificationData
+      .map((verification) => {
+         
+        const results = verification?.products?.identity_verification?.results;
+        if (!verification?.products || !results || results.length === 0) return null;
+        
+        const r0 = results[0];
+        const hasAnyImage =
+          r0?.liveness?.auditTrailImage ||
+          r0?.idscanOnly?.photoIDBackCrop ||
+          r0?.idscanOnly?.photoIDFrontCrop ||
+          r0?.idscanOnly?.photoIDFaceCrop ||
+          r0?.idscanOnly?.photoIDPrimarySignatureCrop;
 
-          const verificationId = verification?.verificationId || "--";
-          const workflowId = verification?.workflowId || "--";
-          const thirdPartyReference = verification?.thirdPartyReference || "--";
-          const externalDatabaseRefID = results?.[0]?.photoIdScanMatch?.externalDatabaseRefID || "--";
-          const startedAt = verification?.products.identity_verification.startedAt || "--";
+        if (!hasAnyImage) return null; 
+        
+       
 
-          const platform = results?.[0]?.additionalSessionData?.platform || "--";
-          const deviceModel = results?.[0]?.additionalSessionData?.deviceModel || "--";
-          const userAgent = results?.[0]?.additionalSessionData?.userAgent || "--";
-          const ipAddress = results?.[0]?.additionalSessionData?.ipAddress || "--";
-          const appID = results?.[0]?.additionalSessionData?.appID || "--";
-          const deviceSDKVersion = results?.[0]?.additionalSessionData?.deviceSDKVersion || "--";
+        const documentData = r0?.idscanOnly?.documentData
+          ? JSON.parse(r0.idscanOnly.documentData)
+          : null;
 
-          const photoIDBackCrop = results?.[0]?.idscanOnly?.photoIDBackCrop || unknow;
-          const photoIDFaceCrop = results?.[0]?.idscanOnly?.photoIDFaceCrop || unknow;
-          const photoIDFrontCrop = results?.[0]?.idscanOnly?.photoIDFrontCrop || unknow;
-          const photoIDPrimarySignatureCrop = results?.[0]?.idscanOnly?.photoIDPrimarySignatureCrop || unknow;
-          const auditTrailImage = results?.[0]?.liveness?.auditTrailImage || null;
+        const verificationId = verification?.verificationId || "--";
+        const workflowId = verification?.workflowId || "--";
+        const thirdPartyReference = verification?.thirdPartyReference || "--";
+        const externalDatabaseRefID = results?.[0]?.photoIdScanMatch?.externalDatabaseRefID || "--";
+        const startedAt = verification?.products.identity_verification.startedAt || "--";
+
+        const platform = results?.[0]?.additionalSessionData?.platform || "--";
+        const deviceModel = results?.[0]?.additionalSessionData?.deviceModel || "--";
+        const userAgent = results?.[0]?.additionalSessionData?.userAgent || "--";
+        const ipAddress = results?.[0]?.additionalSessionData?.ipAddress || "--";
+        const appID = results?.[0]?.additionalSessionData?.appID || "--";
+        const deviceSDKVersion = results?.[0]?.additionalSessionData?.deviceSDKVersion || "--";
+
+        const photoIDBackCrop = normalizeBase64(results?.[0]?.idscanOnly?.photoIDBackCrop) || unknow;
+        const photoIDFaceCrop = normalizeBase64(results?.[0]?.idscanOnly?.photoIDFaceCrop) || unknow;
+        const photoIDFrontCrop = normalizeBase64(results?.[0]?.idscanOnly?.photoIDFrontCrop) || unknow;
+        const photoIDPrimarySignatureCrop = normalizeBase64(results?.[0]?.idscanOnly?.photoIDPrimarySignatureCrop) || unknow;
+        const auditTrailImage = normalizeBase64(results?.[0]?.liveness?.auditTrailImage) || null;
+
+       
 
           const status = verification?.products?.identity_verification?.status || "--";
 

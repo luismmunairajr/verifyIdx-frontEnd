@@ -49,7 +49,7 @@ export default function CreateKey({ onCreated }) {
       const response = await axiosInstance.post(`/tenants/${tenantId}/apikeys`);
 
       if (response.status === 201 || response.status === 200) {
-        const newKey = response.data?.apikey;
+        const newKey = response.data?.key?.key;
         if (newKey) {
           setInputValue(newKey);
           toast.success(t("keyCreated"));

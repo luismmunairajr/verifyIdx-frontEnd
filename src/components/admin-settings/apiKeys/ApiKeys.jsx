@@ -42,22 +42,23 @@ export default function ApiKeys() {
     }
   };
 
-  const revokeKey = async (apikey) => {
-    try {
-      setRevokingKey(apikey);
-      const tenantId = session?.user?.tenantId;
-      if (!tenantId || !apikey) return;
+  const revokeKey = async (apikeyId) => {
+  try {
+    setRevokingKey(apikeyId);
+    const tenantId = session?.user?.tenantId;
+    if (!tenantId || !apikeyId) return;
 
-      await axiosInstance.post(`/tenants/${tenantId}/apikeys/${apikey}/revoke`);
-      toast.success(t("keyRevoked"));
-      fetchKeys(); 
-    } catch (error) {
-      toast.error(t("errorRevokingKey"));
-      console.error(error);
-    } finally {
-      setRevokingKey("");
-    }
-  };
+    await axiosInstance.post(
+      `/tenants/${tenantId}/apikeys/${apikeyId}/revoke`);
+    toast.success(t("keyRevoked"));
+    fetchKeys();
+  } catch (error) {
+    toast.error(t("errorRevokingKey"));
+    console.error(error);
+  } finally {
+    setRevokingKey("");
+  }
+};
 
   useEffect(() => {
     fetchKeys();
@@ -118,13 +119,13 @@ export default function ApiKeys() {
                 <TableCell>
                   {key.status === "ACTIVE" && (
                     <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => revokeKey(key.apikey)}
-                      disabled={revokingKey === key.apikey}
-                    >
-                      {revokingKey === key.apikey ? t("revoking") : t("revoke")}
-                    </Button>
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => revokeKey(key.apikeyId)} 
+                        disabled={revokingKey === key.apikeyId}
+                      >
+                        {revokingKey === key.apikeyId ? t("revoking") : t("revoke")}
+                      </Button>
                   )}
                 </TableCell>
               </TableRow>

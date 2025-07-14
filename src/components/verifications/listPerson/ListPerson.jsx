@@ -14,24 +14,25 @@ export default function ListPerson({ onSelectPerson }) {
   const { profiles, isLoading, error } = useProfiles();
   const { t } = useLanguage();
 
-  
   const STATUS_PENDING = "Pending";
   const STATUS_COMPLETE = "Complete";
   const STATUS_REJECTED = "Rejected";
 
-  // Filtra perfis com base em texto e status selecionados
-  const filteredProfiles = profiles.filter((person) => {
-    const matchesText = (person.fullName || "")
-      .toLowerCase()
-      .includes(filterText.toLowerCase());
+  
+  const filteredProfiles = [...profiles]
+    .sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt))
+    .filter((person) => {
+      const matchesText = (person.fullName || "")
+        .toLowerCase()
+        .includes(filterText.toLowerCase());
 
-    const matchesStatus =
-      (showPending && person.status === STATUS_PENDING) ||
-      (showComplete && person.status === STATUS_COMPLETE) ||
-      (showRejected && person.status === STATUS_REJECTED);
+      const matchesStatus =
+        (showPending && person.status === STATUS_PENDING) ||
+        (showComplete && person.status === STATUS_COMPLETE) ||
+        (showRejected && person.status === STATUS_REJECTED);
 
-    return matchesText && matchesStatus;
-  });
+      return matchesText && matchesStatus;
+    });
 
   if (isLoading) {
     return (
@@ -63,7 +64,7 @@ export default function ListPerson({ onSelectPerson }) {
         setShowPending={setShowPending}
         setShowComplete={setShowComplete}
         setShowRejected={setShowRejected}
-        t={t} // Passa t para traduzir textos do InputSearch
+        t={t}
       />
 
       <h2 className="text-lg font-medium">{t("verifications")}</h2>
@@ -72,7 +73,6 @@ export default function ListPerson({ onSelectPerson }) {
         onSelectPerson={onSelectPerson}
         profiles={filteredProfiles.map((person) => ({
           ...person,
-          // Substitui o status pelo texto traduzido para exibição
           statusTranslated: t(`status.${person.status.toLowerCase()}`),
         }))}
       />
