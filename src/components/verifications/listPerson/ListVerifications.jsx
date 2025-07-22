@@ -3,25 +3,25 @@ import unknow from "@/assets/unknowProfile.svg";
 import { useLanguage } from "@/components/language/language-provider";
 
 export default function ListVerifications({ onSelectPerson, profiles }) {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
+
   return (
     <div className="flex flex-col space-y-2 w-full overflow-y-auto pr-1">
       {profiles && profiles.length > 0 ? (
-        profiles.map((person, index) => (
+        profiles.map((person) => (
           <PersonVerifications
-            key={index}
+            key={person.verificationId}
             name={person.fullName}
             status={person.status}
-            image={
-              person.auditTrailImage
-                ? `data:image/png;base64,${person.auditTrailImage}`
-                : unknow
-            }
-            onclick={() => onSelectPerson(person)}
+            image={person.auditTrailImage || unknow}
+            onClick={() => onSelectPerson(person)}
+            ref={person.ref} // usado para scroll infinito
           />
         ))
       ) : (
-        <div>{t("noPersonsAvailable")}</div>
+        <div className="text-sm text-muted-foreground">
+          {t("noPersonsAvailable")}
+        </div>
       )}
     </div>
   );

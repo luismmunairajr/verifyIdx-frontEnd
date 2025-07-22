@@ -32,7 +32,7 @@ export default function CreateKey({ onCreated }) {
       setHasCopied(true);
       setTimeout(() => setCopied(false), 5000);
     } catch (err) {
-      console.error("Failed to copy text: ", err);
+      console.error("Erro ao copiar texto:", err);
     }
   };
 
@@ -40,7 +40,7 @@ export default function CreateKey({ onCreated }) {
     const tenantId = session?.user?.tenantId;
 
     if (!tenantId) {
-      toast.error(t("missingTenant"));
+      toast.error(t("missingTenant")); // Ex: "Tenant não encontrado"
       return;
     }
 
@@ -52,16 +52,16 @@ export default function CreateKey({ onCreated }) {
         const newKey = response.data?.key?.key;
         if (newKey) {
           setInputValue(newKey);
-          toast.success(t("keyCreated"));
+          toast.success(t("keyCreated")); // Ex: "Chave criada com sucesso"
         } else {
-          toast.error(t("invalidKeyResponse"));
+          toast.error(t("invalidKeyResponse")); // Ex: "Resposta inválida ao criar chave"
         }
       } else {
-        toast.error(t("failedCreateKey"));
+        toast.error(t("failedCreateKey")); // Ex: "Falha ao criar chave"
       }
     } catch (error) {
       console.error("Erro ao criar chave:", error);
-      toast.error(t("errorCreateKey"));
+      toast.error(t("errorCreateKey")); // Ex: "Erro ao criar a chave"
     } finally {
       setLoading(false);
     }
@@ -78,7 +78,7 @@ export default function CreateKey({ onCreated }) {
     >
       <DialogTrigger asChild>
         <Button onClick={handleCreateKey} disabled={loading}>
-          {loading ? t("creating") : t("createKey")}
+          {loading ? t("creating") : t("createKey")} {/* Ex: "Criando..." ou "Criar chave" */}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
@@ -102,7 +102,7 @@ export default function CreateKey({ onCreated }) {
           </Button>
         </div>
         {copied && (
-          <p className="text-sm mt-2 text-red-500">{t("savekey")}</p>
+          <p className="text-sm mt-2 text-red-500">{t("savekey")}</p> // Ex: "Copie e salve sua chave"
         )}
       </DialogContent>
     </Dialog>

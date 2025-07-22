@@ -1,15 +1,16 @@
+"use client";
+
 import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import Publish from "@/components/automation-studio/ButtonPublishWorkflow.jsx";
-import Saving from "@/components/automation-studio/Saving.jsx";
-import Clear from "@/components/automation-studio/Clear.jsx";
+import { ButtonSaveWorkflow } from "@/components/automation-studio/ButtonSaveWorkflow";
+import Publish from "@/components/automation-studio/ButtonPublishWorkflow";
+import Clear from "@/components/automation-studio/Clear";
 import { useLanguage } from "../language/language-provider";
 
 export default function WorkflowHeader({ nodes, edges, setNodes, setEdges }) {
   const [title, setTitle] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef(null);
-
   const { t } = useLanguage();
 
   const handleTitleClick = () => {
@@ -60,7 +61,7 @@ export default function WorkflowHeader({ nodes, edges, setNodes, setEdges }) {
       </div>
       <div className="flex items-center gap-2">
         <Clear nodes={nodes} edges={edges} setNodes={setNodes} setEdges={setEdges} />
-        <Saving nodes={nodes} edges={edges} workflowName={title} />
+        <ButtonSaveWorkflow nodes={nodes} edges={edges} workflowName={title} />
         <Publish nodes={nodes} workflowName={title} />
       </div>
     </header>

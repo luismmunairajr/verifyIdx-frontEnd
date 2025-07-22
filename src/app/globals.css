@@ -2,6 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: #e2e8f0; /* gray-300 */
+    border-radius: 0.5rem; /* padrão arredondado */
+  }
+
+  .dark .skeleton {
+    background-color: #27272a; /* zinc-800 */
+  }
+
+  .skeleton::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: inherit;
+    border-radius: inherit; /* herda o arredondado */
+  }
+
+  .skeleton::after {
+    content: none;
+  }
+
+  /* Pequeno, para retângulos e linhas */
+  .skeleton-sm {
+    animation: pulse-smooth-sm 2.5s ease-in-out infinite;
+    border-radius: 0.375rem; /* 6px arredondado suave */
+  }
+
+  /* Médio, para linhas maiores */
+  .skeleton-md {
+    animation: pulse-smooth-md 3s ease-in-out infinite;
+    border-radius: 0.5rem; /* 8px arredondado */
+  }
+
+  /* Grande, para círculos */
+  .skeleton-lg {
+    animation: pulse-smooth-lg 3s ease-in-out infinite;
+    border-radius: 9999px; /* borda completamente redonda */
+  }
+
+  @keyframes pulse-smooth-sm {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.04);
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes pulse-smooth-md {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.06);
+      opacity: 0.65;
+    }
+  }
+
+  @keyframes pulse-smooth-lg {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.08);
+      opacity: 0.6;
+    }
+  }
+}
 
 
 @layer base {
@@ -68,5 +143,4 @@
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 5px;
-
 }

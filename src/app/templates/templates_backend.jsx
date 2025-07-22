@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-import FilterButtons from "@/components/templates/FilterButtons.jsx";
-import CardTemplate from "@/components/templates/CardTemplate.jsx";
+import FilterButtons from "@/components/templates/FilterButtons";
+import CardTemplate from "@/components/templates/CardTemplate";
 import Loading from "@/components/Loading";
 import { useLanguage } from "@/components/language/language-provider";
 import axiosInstance from "@/app/api/axios/axiosInstance";
@@ -17,9 +17,7 @@ export default function TemplatesPage() {
   useEffect(() => {
     const fetchWorkflows = async () => {
       try {
-        const response = await axiosInstance.get("/api/v1/workflows");
-
-       
+        const response = await axiosInstance.get("/api/axios/templates");
         const data = response.data?.data;
         setWorkflows(Array.isArray(data) ? data : []);
       } catch (error) {
@@ -70,10 +68,10 @@ export default function TemplatesPage() {
               key={workflow.workflowId}
               id={workflow.workflowId}
               name={workflow.workflowName}
-              description={`API Version: ${workflow.apiVersion}`}
+              description={`${t("apiVersion")}: ${workflow.apiVersion}`}
               categories={[
-                `Created: ${new Date(workflow.createdAt).toLocaleDateString()}`,
-                `Updated: ${new Date(workflow.updatedAt).toLocaleDateString()}`
+                `${t("createdAt")}: ${new Date(workflow.createdAt).toLocaleDateString()}`,
+                `${t("updatedAt")}: ${new Date(workflow.updatedAt).toLocaleDateString()}`
               ]}
             />
           ))}

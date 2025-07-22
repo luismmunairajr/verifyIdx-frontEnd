@@ -1,20 +1,10 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import Select from "react-select";
 import { toast } from "sonner";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { useState } from "react";
-import Select from "react-select"
 import Loading from "../Loading";
 
 const categoryOptions = [
@@ -22,16 +12,15 @@ const categoryOptions = [
   { value: "fraud_detection", label: "Fraud Detection" },
   { value: "identity_verification", label: "Identity Verification" },
   { value: "machine_learning", label: "Machine Learning" },
-  { value: "ai_automation", label: "AI Automation" }, // Fixed typo in "AI"
-  { value: "access_control", label: "Access Control" }, // Fixed typo in "Access"
+  { value: "ai_automation", label: "AI Automation" },
+  { value: "access_control", label: "Access Control" },
   { value: "deep_learning", label: "Deep Learning" },
-  { value: "risk_assessment", label: "Risk Assessment" }, // Fixed typo in "Assessment"
+  { value: "risk_assessment", label: "Risk Assessment" },
   { value: "kyc", label: "KYC" },
   { value: "aml", label: "AML" },
 ];
 
-export default function ButtonSaveWorkflow({ nodes, edges }) {
-  const [workflowName, setWorkflowName] = useState("");
+export function ButtonSaveWorkflow({ nodes, edges, workflowName }) {
   const [workflowDescription, setWorkflowDescription] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,14 +30,14 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
       toast.error("Workflow name is required.");
       return;
     }
-  
+
     if (nodes.length === 0 || edges.length === 0) {
       toast.error("Cannot save an empty workflow.");
       return;
     }
-    
+
     setIsSubmitting(true);
-  
+
     const processNodes = nodes.map((node) => ({
       ...node,
       data: {
@@ -56,14 +45,14 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
         iconName: node.data.iconName,
       },
     }));
-    
+
     const categories = selectedCategories.map((category) => category.value);
-  
+
     try {
-      const response = await fetch('/api/workflows', {
-        method: 'POST',
+      const response = await fetch("/api/workflows", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: workflowName,
@@ -73,22 +62,19 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
           categories,
         }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Failed to save workflow');
+        throw new Error(errorData.error || "Failed to save workflow");
       }
-  
+
       const savedWorkflow = await response.json();
-      console.log("Saved workflow response:", savedWorkflow);
-  
-      setWorkflowName("");
+      toast.success(`Workflow "${savedWorkflow.name}" saved successfully!`);
+
       setWorkflowDescription("");
       setSelectedCategories([]);
-  
-      toast.success(`Workflow "${savedWorkflow.name}" saved successfully!`);
     } catch (error) {
-      console.error('Error saving workflow:', error);
+      console.error("Error saving workflow:", error);
       toast.error(`Error saving workflow: ${error.message}`);
     } finally {
       setIsSubmitting(false);
@@ -98,31 +84,26 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button>Save</Button>
+        <Button>{t("salvar")}</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Create Workflow</SheetTitle>
+           <SheetTitle>{t("criarWorkflow")}</SheetTitle>
           <SheetDescription>
-            Provide a name and description for your workflow.
+           {t("adicioneDescricaoECategorias")}
           </SheetDescription>
         </SheetHeader>
-        <div className="pt-4">
-          <Label className="text-sm">Workflow Name</Label>
-          <Input
-            value={workflowName}
-            onChange={(e) => setWorkflowName(e.target.value)}
-          />
-        </div>
+
         <div className="pt-4 pb-4">
-          <Label>Description</Label>
+           <Label>{t("descricao")}</Label>
           <Textarea
             value={workflowDescription}
             onChange={(e) => setWorkflowDescription(e.target.value)}
           />
         </div>
+
         <div className="pt-4 pb-4">
-          <Label>Categories</Label>
+           <Label>{t("categorias")}</Label>
           <Select
             isMulti
             options={categoryOptions}
@@ -132,13 +113,11 @@ export default function ButtonSaveWorkflow({ nodes, edges }) {
             classNamePrefix="select"
           />
         </div>
+
         <SheetFooter>
           <SheetClose asChild>
-            <Button 
-              onClick={handleSave} 
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? <Loading/> : "Save Workflow"}
+            <Button onClick={handleSave} disabled={isSubmitting}>
+              {isSubmitting ? <Loading /> : t("salvarWorkflow")}
             </Button>
           </SheetClose>
         </SheetFooter>

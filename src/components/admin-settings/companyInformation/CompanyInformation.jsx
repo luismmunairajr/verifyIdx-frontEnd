@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/components/language/language-provider";
 import { CountrySelect } from "./CountrySelect";
 import { CitySelect } from "./CitySelect";
-import { TimezoneSelect } from "./TimezoneSelect";
 import { useSession } from "next-auth/react";
 import axiosInstance from "@/app/api/axios/axiosInstance_midleware";
 import { toast } from "sonner";
@@ -21,7 +18,6 @@ export default function CompanyInformation() {
     taxId: "",
     country: "",
     city: "",
-    timeZone: "",
   });
 
   const [contactDetails, setContactDetails] = useState({
@@ -37,12 +33,13 @@ export default function CompanyInformation() {
     const fetchData = async () => {
       try {
         if (!session?.user?.tenantId) {
-          toast.error("Tenant ID not found.");
+          toast.error(t("tenantIdNotFound"));
           return;
         }
 
         const tenantRes = await axiosInstance.get(
-          `/tenants/${session.user.tenantId}`);
+          `/tenants/${session.user.tenantId}`
+        );
         const tenant = tenantRes.data;
 
         setCompanyInfo({
@@ -51,7 +48,6 @@ export default function CompanyInformation() {
           taxId: tenant.taxID || "",
           country: tenant.country || "",
           city: tenant.addressDetails || "",
-          timeZone: tenant.timeZone || "",
         });
 
         if (tenant.accountManagerId) {
@@ -69,7 +65,6 @@ export default function CompanyInformation() {
         }
 
         if (tenant.technicalManagerId) {
-         
           const techRes = await axiosInstance.get(
             `/users/${tenant.technicalManagerId}`
           );
@@ -84,12 +79,12 @@ export default function CompanyInformation() {
         }
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
-        toast.error("Erro ao carregar dados da empresa.");
+        toast.error(t("errorLoadingCompanyData"));
       }
     };
 
     fetchData();
-  }, [session]);
+  }, [session, t]);
 
   function handleCompanyInfoChange(field, value) {
     setCompanyInfo((prev) => ({
@@ -98,131 +93,54 @@ export default function CompanyInformation() {
     }));
   }
 
-  function handleContactDetailsChange(field, value) {
-    setContactDetails((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  }
-
-  const handleUpdate = async () => {
-    try {
-      const payload = {
-        ...companyInfo,
-        ...contactDetails,
-        tenantId: session?.user?.tenantId,
-      };
-
-      const res = await axiosInstance.put("/api/-----", payload);
-
-      if (res.status === 200) {
-        toast.success("Informações atualizadas com sucesso!");
-      } else {
-        toast.error("Falha ao atualizar as informações.");
-      }
-    } catch (error) {
-      console.error("Erro ao atualizar dados:", error);
-      toast.error("Erro ao atualizar os dados.");
-    }
-  };
-
   return (
     <div className="p-6 space-y-4 dark:zinc-900">
       <div className="flex flex-col rounded-xl w-full 2xl:w-[1000px] gap-10">
         <h3 className="text-2xl font-bold">{t("companyInformation")}</h3>
-        <InputGroup
-          label={t("legalName")}
-          desc={t("changeLegal")}
-          value={companyInfo.legalName}
-          onChange={(val) => handleCompanyInfoChange("legalName", val)}
-        />
-        <InputGroup
-          label={t("shortName")}
-          desc={t("changeShort")}
-          value={companyInfo.shortName}
-          onChange={(val) => handleCompanyInfoChange("shortName", val)}
-        />
-        <InputGroup
-          label={t("taxId")}
-          desc={t("changeTax")}
-          value={companyInfo.taxId}
-          onChange={(val) => handleCompanyInfoChange("taxId", val)}
-        />
+
+        <ViewGroup label={t("legalName")} value={companyInfo.legalName} />
+        <ViewGroup label={t("shortName")} value={companyInfo.shortName} />
+        <ViewGroup label={t("taxId")} value={companyInfo.taxId} />
+
         <hr />
         <h3 className="text-2xl font-bold">{t("contactDetails")}</h3>
-        <InputGroup
-          label={t("accountManager")}
-          desc={t("changeAccount")}
-          value={contactDetails.accountManager}
-          onChange={(val) => handleContactDetailsChange("accountManager", val)}
-        />
-        <InputGroup
-          label={t("generalEmail")}
-          desc={t("changeGeneral")}
-          value={contactDetails.generalEmail}
-          onChange={(val) => handleContactDetailsChange("generalEmail", val)}
-        />
-        <InputGroup
-          label={t("phoneNumber")}
-          desc={t("changePhone")}
-          value={contactDetails.phoneNumber}
-          onChange={(val) => handleContactDetailsChange("phoneNumber", val)}
-        />
-        <InputGroup
-          label={t("supportTechnical")}
-          desc={t("changeSupportTechnical")}
-          value={contactDetails.supportTechnical}
-          onChange={(val) => handleContactDetailsChange("supportTechnical", val)}
-        />
-        <InputGroup
-          label={t("supportEmail")}
-          desc={t("changeSupportEmail")}
-          value={contactDetails.supportEmail}
-          onChange={(val) => handleContactDetailsChange("supportEmail", val)}
-        />
-        <InputGroup
+
+        <ViewGroup label={t("accountManager")} value={contactDetails.accountManager} />
+        <ViewGroup label={t("generalEmail")} value={contactDetails.generalEmail} />
+        <ViewGroup label={t("phoneNumber")} value={contactDetails.phoneNumber} />
+        <ViewGroup label={t("supportTechnical")} value={contactDetails.supportTechnical} />
+        <ViewGroup label={t("supportEmail")} value={contactDetails.supportEmail} />
+        <ViewGroup
           label={t("phoneNumberSupportTechnical")}
-          desc={t("changePhoneNumberSupportTechnical")}
           value={contactDetails.phoneNumberSupportTechnical}
-          onChange={(val) =>
-            handleContactDetailsChange("phoneNumberSupportTechnical", val)
-          }
         />
+
         <hr />
         <h3 className="text-2xl font-bold">{t("addressDetails")}</h3>
         <CountrySelect
           defaultValue={companyInfo.country}
-          onChange={(val) => handleCompanyInfoChange("country", val)}
+          disabled
+          onChange={() => {}}
         />
         <CitySelect
           defaultValue={companyInfo.city}
-          onChange={(val) => handleCompanyInfoChange("city", val)}
+          disabled
+          onChange={() => {}}
         />
-        <TimezoneSelect
-          defaultValue={companyInfo.timeZone}
-          onChange={(val) => handleCompanyInfoChange("timeZone", val)}
-        />
-        <div className="pt-10">
-          <Button onClick={handleUpdate}>{t("update")}</Button>
-        </div>
       </div>
     </div>
   );
 }
 
-function InputGroup({ label, desc, value, onChange }) {
+function ViewGroup({ label, value }) {
   return (
     <div className="flex justify-between w-[700px]">
       <div className="w-52">
         <h4 className="font-semibold">{label}</h4>
-        <p className="text-xs">{desc}</p>
       </div>
-      <Input
-        className="w-96"
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
+      <p className="w-96 py-2 px-3 rounded-md bg-gray-100 border text-sm text-gray-700">
+        {value || "—"}
+      </p>
     </div>
   );
 }

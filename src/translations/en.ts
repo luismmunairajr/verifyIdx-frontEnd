@@ -118,13 +118,19 @@ const en = {
   close: "Close",
 
   //Templates
+  
   workflowTemplatespublished: "Workflow Templates Published",
-  workflowTemplatessaved: "Workflow Templates Saved",
-  templatesubtitle:
-    "Choose from our ready-made templates to quickly build your flow.",
+  templatesubtitle: "Explore and reuse shared templates",
+  searchWorkflow: "Search workflow...",
+  apiVersion: "API Version",
+  createdAt: "Created",
+  updatedAt: "Updated",
   noWorkflows: "No workflows found",
+  
+  workflowTemplatessaved: "Workflow Templates Saved",
+  
   trySearching: "Try searching for another name",
-  searchWorkflow: "Search Workflow",
+
   myTemplates: "My Templates",
   artificialIntelligence: "Artificial Intelligence",
   digitalSignature: "Digital Signature",
@@ -135,6 +141,21 @@ const en = {
   security: "Security",
 
   //Automation studio
+    salvar: "Save",
+    salvarWorkflow: "Save Workflow",
+    criarWorkflow: "Create Workflow",
+    adicioneDescricaoECategorias: "Provide a description and categories for this workflow.",
+    descricao: "Description",
+    categorias: "Categories",
+    publicar: "Publish",
+    publicando: "Publishing...",
+    publicarWorkflow: "Publish Workflow",
+    preenchaOsDadosParaPublicar: "Fill in the details to publish your workflow.",
+    nomeDoWorkflow: "Workflow Name",
+
+  development: "Development",
+  production: "Production",
+  unknown: "Unknown",
   untitled: "Untitled",
   saveWorkflow: "Save Workflow",
   saveTheWorkflow: "Save the workflow",
@@ -194,6 +215,17 @@ const en = {
   savePassword: "Save Password",
 
   //Admin settings
+  errorLoadingUsers: "Error loading users.",
+    userDeleted: "User deleted successfully.",
+    errorDeletingUser: "Error deleting user.",
+    userList: "User List",
+    updateUser: "Update User",
+    userUpdated: "User updated successfully!",
+    errorUpdatingUser: "Error updating user's name.",
+    role: "Role",
+    email: "Email",
+    active: "Active",
+    fullname: "Fullname",
   companyInformation: "Company Information",
   legalName: "Legal Name",
   changeLegal: "Change legal name",
@@ -236,7 +268,7 @@ const en = {
   apiKeys: "API KEYS",
   staging:
     "Staging is a full environment for testing and development. Use Production for your live application.",
-  active: "Active",
+
   secretKey: "Secret Key",
   created: "Created",
   expiration: "Expiration",
@@ -249,7 +281,6 @@ const en = {
   userName: "Username",
   branch: "Department",
   roll: "Role",
-  email: "Email",
   inactive: "Inactive",
   addUserSubtitle: "Fill in the details to add a new user to the system.",
   detele: "Delete",
@@ -273,7 +304,16 @@ const en = {
   changePhoneNumberSupportTechnical:"Change Phone Number of Support Technical",
   savekey:"Please save your secret key in a safe place since won't be shown again. if you lose it, you will need to create a new one.",
   department: "Department",
-  role:"Role",
+    errorLoadingCompanyData: "Error loading company data.",
+    tenantIdNotFound: "Tenant ID not found.",
+   missingTenant: "Tenant not found.",
+  keyCreated: "API key created successfully!",
+  invalidKeyResponse: "Invalid response when creating key.",
+  failedCreateKey: "Failed to create API key.",
+  errorCreateKey: "Error while creating the key.",
+ 
+  creating: "Creating...",
+
 
   loadingUsers: "Carregando usuários...",
   //Unauthorized

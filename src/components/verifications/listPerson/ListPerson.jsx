@@ -1,24 +1,35 @@
+"use client";
+
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useProfiles } from "@/hooks/useProfiles";
-import InputSearch from "./Input.jsx";
+import InputSearch from "./Input";
 import ListVerifications from "./ListVerifications";
 import Loading from "@/components/Loading";
-import { useState } from "react";
 import { useLanguage } from "@/components/language/language-provider";
 
 export default function ListPerson({ onSelectPerson }) {
+  const {
+    profiles,
+    meta,
+    isLoading,
+    error,
+    fetchVerificationDetails,
+    isLoadingDetails,
+    errorDetails,
+    loadMore,
+  } = useProfiles(1, 10);
+
+  const { t } = useLanguage();
+
   const [filterText, setFilterText] = useState("");
   const [showPending, setShowPending] = useState(true);
   const [showComplete, setShowComplete] = useState(true);
   const [showRejected, setShowRejected] = useState(true);
 
-  const { profiles, isLoading, error } = useProfiles();
-  const { t } = useLanguage();
-
   const STATUS_PENDING = "Pending";
   const STATUS_COMPLETE = "Complete";
   const STATUS_REJECTED = "Rejected";
 
-  
   const filteredProfiles = [...profiles]
     .sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt))
     .filter((person) => {
@@ -34,14 +45,36 @@ export default function ListPerson({ onSelectPerson }) {
       return matchesText && matchesStatus;
     });
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center w-96 h-screen bg-zinc-100 dark:bg-zinc-800">
-        <Loading />
-        <span className="sr-only">{t("loading")}</span>
-      </div>
-    );
-  }
+  // Scroll infinito
+  const observer = useRef(null);
+
+  const lastProfileRef = useCallback(
+    (node) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (
+          entries[0].isIntersecting &&
+          meta.page < Math.ceil(meta.total / meta.limit)
+        ) {
+          loadMore();
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, loadMore, meta]
+  );
+
+  const handleSelectPerson = async (person) => {
+    try {
+      const details = await fetchVerificationDetails(person.verificationId);
+      onSelectPerson(details);
+    } catch (err) {
+      console.error("Erro ao buscar detalhes:", err);
+    }
+  };
 
   if (error) {
     return (
@@ -69,13 +102,24 @@ export default function ListPerson({ onSelectPerson }) {
 
       <h2 className="text-lg font-medium">{t("verifications")}</h2>
 
+      {isLoadingDetails && <Loading />}
+
       <ListVerifications
-        onSelectPerson={onSelectPerson}
-        profiles={filteredProfiles.map((person) => ({
+        onSelectPerson={handleSelectPerson}
+        profiles={filteredProfiles.map((person, index) => ({
           ...person,
-          statusTranslated: t(`status.${person.status.toLowerCase()}`),
+          ref:
+            index === filteredProfiles.length - 1
+              ? lastProfileRef
+              : null,
         }))}
       />
+
+      {errorDetails && (
+        <div className="text-red-600 dark:text-red-400">
+          {t("error")}: {errorDetails}
+        </div>
+      )}
     </div>
   );
 }

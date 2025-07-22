@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <SessionProvider refetchInterval={4 * 60}>
+    <SessionProvider>
       {children}
     </SessionProvider>
   )

@@ -26,6 +26,8 @@ export default function ApiKeys() {
   const [loading, setLoading] = useState(true);
   const [revokingKey, setRevokingKey] = useState("");
 
+  const stage = process.env.NEXT_PUBLIC_STAGE || "unknown";
+
   const fetchKeys = async () => {
     setLoading(true);
     try {
@@ -43,45 +45,54 @@ export default function ApiKeys() {
   };
 
   const revokeKey = async (apikeyId) => {
-  try {
-    setRevokingKey(apikeyId);
-    const tenantId = session?.user?.tenantId;
-    if (!tenantId || !apikeyId) return;
+    try {
+      setRevokingKey(apikeyId);
+      const tenantId = session?.user?.tenantId;
+      if (!tenantId || !apikeyId) return;
 
-    await axiosInstance.post(
-      `/tenants/${tenantId}/apikeys/${apikeyId}/revoke`);
-    toast.success(t("keyRevoked"));
-    fetchKeys();
-  } catch (error) {
-    toast.error(t("errorRevokingKey"));
-    console.error(error);
-  } finally {
-    setRevokingKey("");
-  }
-};
+      await axiosInstance.delete(`/tenants/${tenantId}/apikeys/${apikeyId}/revoke`);
+      toast.success(t("keyRevoked"));
+      fetchKeys();
+    } catch (error) {
+      toast.error(t("errorRevokingKey"));
+      console.error(error);
+    } finally {
+      setRevokingKey("");
+    }
+  };
 
   useEffect(() => {
     fetchKeys();
   }, [session]);
 
+ 
+  const stageText = (() => {
+    if (stage === "production") return t("production");
+    if (stage === "development") return t("development");
+    if (stage === "staging") return t("staging");
+    return t("unknown");
+  })();
+
   return (
     <div className="p-6 space-y-6 dark:bg-zinc-900 w-full 2xl:w-[1000px]">
       <div className="border flex rounded-xl p-4">
-        <div className="flex space-x-4 p-2">
-          <Image src={cubeicon} alt="" />
+        <div className="flex space-x-4 p-2 items-center">
+          <Image src={cubeicon} alt="Cube Icon" />
           <div className="text-sm w-20">
             <h4>Verify IDX</h4>
-            <p>Staging</p>
+            <p>{stageText}</p> 
           </div>
           <div className="border-l border-gray-400 h-full" />
           <div>
             <h4 className="font-semibold text-sm">Client ID</h4>
             <div className="p-1 bg-zinc-200 rounded">
-              <p className="text-xs text-zinc-500">client_01HYD87QD1Q6S0V4D8P49G4...</p>
+              <p className="text-xs text-zinc-500">
+                {session?.user?.tenantId || "--"}
+              </p>
             </div>
           </div>
           <div className="border-l border-gray-400 h-full" />
-          <p className="text-sm">{t("staging")}</p>
+          <p className="text-sm">{stageText}</p> 
         </div>
       </div>
 
@@ -114,18 +125,20 @@ export default function ApiKeys() {
                 </TableCell>
                 <TableCell>{new Date(key.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell>
-                  {key.revokedAt ? new Date(key.revokedAt).toLocaleDateString() : "-"}
+                  {key.revokedAt
+                    ? new Date(key.revokedAt).toLocaleDateString()
+                    : "-"}
                 </TableCell>
                 <TableCell>
                   {key.status === "ACTIVE" && (
                     <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => revokeKey(key.apikeyId)} 
-                        disabled={revokingKey === key.apikeyId}
-                      >
-                        {revokingKey === key.apikeyId ? t("revoking") : t("revoke")}
-                      </Button>
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => revokeKey(key.apikeyId)}
+                      disabled={revokingKey === key.apikeyId}
+                    >
+                      {revokingKey === key.apikeyId ? t("revoking") : t("revoke")}
+                    </Button>
                   )}
                 </TableCell>
               </TableRow>

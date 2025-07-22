@@ -85,7 +85,7 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
     try {
       setLoading(true);
       const response = await axiosInstance.post(
-        "/api/v1/workflows",
+        "/api/axios/automation-studio",
         newWorkflow
       );
 
@@ -127,18 +127,18 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
     <Sheet>
       <SheetTrigger asChild>
         <Button disabled={loading}>
-          {loading ? "Publishing..." : "Publish"}
+         {loading ? t("publicando") : t("publicar")}
         </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Publish Workflow</SheetTitle>
+           <SheetTitle>{t("publicarWorkflow")}</SheetTitle>
           <SheetDescription>
-            Fill in the details to publish your workflow.
+              {t("preenchaOsDadosParaPublicar")}
           </SheetDescription>
         </SheetHeader>
         <div className="pt-4">
-          <Label className="text-sm">Workflow Name</Label>
+           <Label className="text-sm">{t("nomeDoWorkflow")}</Label>
           <Input
             value={workflowName}
             onChange={(e) => setWorkflowName(e.target.value)}
@@ -148,7 +148,7 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
         <SheetFooter>
           <SheetClose asChild>
             <Button onClick={handlePublish} disabled={loading}>
-              {loading ? "Publishing..." : "Publish Workflow"}
+              {loading ? t("publicando") : t("publicarWorkflow")}
             </Button>
           </SheetClose>
         </SheetFooter>
