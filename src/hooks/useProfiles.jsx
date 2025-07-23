@@ -66,153 +66,82 @@ export function useProfiles(initialPage = 1, limit = 10) {
 };
 
 
-  const fetchVerificationDetails = async (verificationId) => {
-    setIsLoadingDetails(true);
-    setErrorDetails(null);
+ const fetchVerificationDetails = async (verificationId) => {
+  setIsLoadingDetails(true);
+  setErrorDetails(null);
 
-    try {
-      const response = await axiosInstance.get(
-        `/api/axios/verifications/${verificationId}`);
-         console.log("[useProfiles] Detalhes recebidos:", response.data);
-      const verification = response.data?.verification;
-      if (!verification) throw new Error("Verificação não encontrada");
+  try {
+    const response = await axiosInstance.get(`/api/axios/verifications/${verificationId}`);
+    const verification = response.data?.verification;
+    if (!verification) throw new Error("Verificação não encontrada");
 
-      const results = verification?.products?.identity_verification?.results || [];
-      const r0 = results[0] || {};
-      const documentData = r0?.idscanOnly?.documentData
-        ? JSON.parse(r0.idscanOnly.documentData)
-        : null;
-      const additionalData = r0?.additionalSessionData || {};
-      const normalize = (groupIdx, key) =>
-        documentData?.userConfirmedValues?.groups?.[groupIdx]?.fields?.find(f => f.fieldKey === key)?.value || "--";
+    // O ID correto vem de verification.identity_verification.verificationId
+    const identityVerification = verification.identity_verification;
+    if (!identityVerification) throw new Error("identity_verification não encontrada");
 
-      const fullName = normalize(0, "fullName");
-      const dateOfBirth = normalize(0, "dateOfBirth");
-      const placeOfBirth = normalize(0, "placeOfBirth");
-      const fatherFirstName = normalize(0, "fatherFirstName");
-      const motherFirstName = normalize(0, "motherFirstName");
-      const idNumber = normalize(1, "idNumber");
-      const mrzLine1 = normalize(1, "mrzLine1");
-      const mrzLine2 = normalize(1, "mrzLine2");
-      const mrzLine3 = normalize(1, "mrzLine3");
-      const issuingAuthority = normalize(1, "issuingAuthority");
-      const dateOfExpiration = normalize(1, "dateOfExpiration");
-      const dateOfIssue = normalize(1, "dateOfIssue");
-      const address1 = normalize(2, "address1");
-      const address2 = normalize(2, "address2");
-      const address3 = normalize(2, "address3");
-      const height = normalize(3, "height");
-      const sex = normalize(3, "sex");
-      const customField1 = normalize(4, "customField1");
+    const results = identityVerification.results || [];
+    const r0 = results[0] || {};
+    const documentData = r0?.idscanOnly?.documentData
+      ? JSON.parse(r0.idscanOnly.documentData)
+      : null;
+    const additionalData = r0?.idscanOnly?.additionalSessionData || {};
 
-      const documentCountry = documentData?.templateInfo?.documentCountry || "--";
-      const documentState = documentData?.templateInfo?.documentState || "--";
-      const templateName = documentData?.templateInfo?.templateName || "--";
-      const templateType = documentData?.templateInfo?.templateType || "--";
+    const normalize = (groupIdx, key) =>
+      documentData?.userConfirmedValues?.groups?.[groupIdx]?.fields?.find(f => f.fieldKey === key)?.value || "--";
 
-      const verificationIdd = verification?.verificationId || "--";
-      const thirdPartyReference = verification?.thirdPartyReference || "--";
-      const workflowId = verification?.workflowId || "--";
-      const externalDatabaseRefID = r0?.photoIdScanMatch?.externalDatabaseRefID || "--";
-      const startedAt = verification?.products?.identity_verification?.startedAt || "--";
-      const status = verification?.products?.identity_verification?.status || "--";
+    const detailedData = {
+      // Campos do documento
+      fullName: normalize(0, "fullName"),
+      dateOfBirth: normalize(0, "dateOfBirth"),
+      placeOfBirth: normalize(0, "placeOfBirth"),
+      idNumber: normalize(1, "idNumber"),
+      mrzLine1: normalize(1, "mrzLine1"),
+      mrzLine2: normalize(1, "mrzLine2"),
+      mrzLine3: normalize(1, "mrzLine3"),
+      issuingAuthority: normalize(1, "issuingAuthority"),
+      dateOfIssue: normalize(1, "dateOfIssue"),
+      dateOfExpiration: normalize(1, "dateOfExpiration"),
+      address1: normalize(2, "address1"),
+      address2: normalize(2, "address2"),
+      address3: normalize(2, "address3"),
+      sex: normalize(3, "sex"),
+      height: normalize(3, "height"),
+      customField1: normalize(4, "customField1"),
 
-      const platform = additionalData?.platform || "--";
-      const appID = additionalData?.appID || "--";
-      const userAgent = additionalData?.userAgent || "--";
-      const deviceModel = additionalData?.deviceModel || "--";
-      const deviceSDKVersion = additionalData?.deviceSDKVersion || "--";
-      const ipAddress = additionalData?.ipAddress || "--";
+      // Info da verificação
+      verificationId: verification.verificationId || "--", // aqui!
+      workflowId: verification.workflowId || "--",
+      thirdPartyReference: verification.thirdPartyReference || "--",
+      startedAt: identityVerification.startedAt || "--",
+      status: identityVerification.status || "--",
 
-      const photoIDFaceCrop = normalizeBase64(r0?.idscanOnly?.photoIDFaceCrop) ?? unknow.src;
-      const photoIDBackCrop = normalizeBase64(r0?.idscanOnly?.photoIDBackCrop) ?? unknow.src;
-      const photoIDFrontCrop = normalizeBase64(r0?.idscanOnly?.photoIDFrontCrop) ?? unknow.src;
-      const photoIDPrimarySignatureCrop = normalizeBase64(r0?.idscanOnly?.photoIDPrimarySignatureCrop) ?? unknow.src;
-      const auditTrailImage = normalizeBase64(r0?.liveness?.auditTrailImage) ?? unknow.src;
+      // Info adicional
+      platform: additionalData.platform || "--",
+      appID: additionalData.appID || "--",
+      userAgent: additionalData.userAgent || "--",
+      deviceModel: additionalData.deviceModel || "--",
+      deviceSDKVersion: additionalData.deviceSDKVersion || "--",
+      ipAddress: additionalData.ipAddress || "--",
 
-      const watchlistStatus = verification?.products?.watchlist?.status || "--";
-      const matchScore = verification?.products?.watchlist?.results?.matchScore || "--";
-      const matchStrength = verification?.products?.watchlist?.results?.matchStrength || "--";
-      const primaryName = verification?.products?.watchlist?.results?.primaryName || "--";
-      const categories = verification?.products?.watchlist?.results?.categories || "--";
-      const category = verification?.products?.watchlist?.results?.category || "--";
-      const pepStatus = verification?.products?.watchlist?.results?.pepStatus || "--";
-      const matchedDateOfBirth = verification?.products?.watchlist?.results?.secondaryFieldResults?.[0]?.matchedDateTimeValue || "--";
-      const dateOfBirthResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[0]?.fieldResult || "--";
-      const matchedLocation = verification?.products?.watchlist?.results?.secondaryFieldResults?.[1]?.matchedValue || "--";
-      const locationResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[1]?.fieldResult || "--";
-      const matchedGender = verification?.products?.watchlist?.results?.secondaryFieldResults?.[2]?.matchedValue || "--";
-      const genderResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[2]?.fieldResult || "--";
-      const matchedNacionality = verification?.products?.watchlist?.results?.secondaryFieldResults?.[4]?.matchedValue || "--";
-      const nacionalityResult = verification?.products?.watchlist?.results?.secondaryFieldResults?.[4]?.fieldResult || "--";
+      // Fotos (ajuste para tratar base64 depois)
+      photoIDFaceCrop: r0?.idscanOnly?.photoIDFaceCrop || null,
+      photoIDBackCrop: r0?.idscanOnly?.photoIDBackCrop || null,
+      photoIDFrontCrop: r0?.idscanOnly?.photoIDFrontCrop || null,
+    };
 
-      const detailedData = {
-        fullName,
-        dateOfBirth,
-        placeOfBirth,
-        fatherFirstName,
-        motherFirstName,
-        idNumber,
-        mrzLine1,
-        mrzLine2,
-        mrzLine3,
-        issuingAuthority,
-        dateOfExpiration,
-        dateOfIssue,
-        address1,
-        address2,
-        address3,
-        height,
-        sex,
-        customField1,
-        documentCountry,
-        documentState,
-        templateName,
-        templateType,
-        verificationIdd,
-        workflowId,
-        thirdPartyReference,
-        externalDatabaseRefID,
-        status,
-        startedAt,
-        photoIDFaceCrop,
-        photoIDBackCrop,
-        photoIDFrontCrop,
-        photoIDPrimarySignatureCrop,
-        auditTrailImage,
-        platform,
-        deviceModel,
-        userAgent,
-        ipAddress,
-        appID,
-        deviceSDKVersion,
-        watchlistStatus,
-        matchScore,
-        matchStrength,
-        primaryName,
-        categories,
-        category,
-        pepStatus,
-        matchedDateOfBirth,
-        dateOfBirthResult,
-        matchedLocation,
-        locationResult,
-        matchedGender,
-        genderResult,
-        matchedNacionality,
-        nacionalityResult,
-      };
+    console.log("[useProfile] Dados detalhados:", detailedData);
+    setVerificationDetails(detailedData);
+    setIsLoadingDetails(false);
+    return detailedData;
 
-      setVerificationDetails(detailedData);
-      setIsLoadingDetails(false);
+  } catch (err) {
+    console.error("[useProfile] Erro ao buscar verificação:", err);
+    setErrorDetails(err.message || "Erro ao buscar detalhes.");
+    setIsLoadingDetails(false);
+    throw err;
+  }
+};
 
-      return detailedData;
-    } catch (err) {
-      setErrorDetails(err.message || "Erro ao buscar detalhes.");
-      setIsLoadingDetails(false);
-      throw err;
-    }
-  };
 
   return {
     profiles,
