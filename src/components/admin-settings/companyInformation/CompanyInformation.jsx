@@ -5,7 +5,7 @@ import { useLanguage } from "@/components/language/language-provider";
 import { CountrySelect } from "./CountrySelect";
 import { CitySelect } from "./CitySelect";
 import { useSession } from "next-auth/react";
-import axiosInstance from "@/app/api/axios/axiosInstance_midleware";
+import axiosInstance from "@/app/api/axios/axiosInstance";
 import { toast } from "sonner";
 
 export default function CompanyInformation() {
@@ -32,14 +32,10 @@ export default function CompanyInformation() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!session?.user?.tenantId) {
-          toast.error(t("tenantIdNotFound"));
-          return;
-        }
+        
+        const tenantRes = await axiosInstance.get('/api/axios/admin-settings/companyinformation');
 
-        const tenantRes = await axiosInstance.get(
-          `/tenants/${session.user.tenantId}`
-        );
+        
         const tenant = tenantRes.data;
 
         setCompanyInfo({

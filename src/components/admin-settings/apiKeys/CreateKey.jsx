@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { useLanguage } from "@/components/language/language-provider";
 import { useSession } from "next-auth/react";
-import axiosInstance from "@/app/api/axios/axiosInstance_midleware";
+import axiosInstance from "@/app/api/axios/axiosInstance";
 import { toast } from "sonner";
 
 export default function CreateKey({ onCreated }) {
@@ -37,16 +37,11 @@ export default function CreateKey({ onCreated }) {
   };
 
   const handleCreateKey = async () => {
-    const tenantId = session?.user?.tenantId;
-
-    if (!tenantId) {
-      toast.error(t("missingTenant")); // Ex: "Tenant não encontrado"
-      return;
-    }
+   
 
     try {
       setLoading(true);
-      const response = await axiosInstance.post(`/tenants/${tenantId}/apikeys`);
+      const response = await axiosInstance.post(`/api/axios/admin-settings/apikeys`);
 
       if (response.status === 201 || response.status === 200) {
         const newKey = response.data?.key?.key;

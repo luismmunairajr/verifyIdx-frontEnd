@@ -13,7 +13,7 @@ import cubeicon from "@/assets/cubeicon.svg";
 import Image from "next/image";
 import CreateKey from "@/components/admin-settings/apiKeys/CreateKey";
 import { useLanguage } from "@/components/language/language-provider";
-import axiosInstance from "@/app/api/axios/axiosInstance_midleware";
+import axiosInstance from "@/app/api/axios/axiosInstance";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -31,10 +31,9 @@ export default function ApiKeys() {
   const fetchKeys = async () => {
     setLoading(true);
     try {
-      const tenantId = session?.user?.tenantId;
-      if (!tenantId) return;
+     
 
-      const response = await axiosInstance.get(`/tenants/${tenantId}/apikeys`);
+      const response = await axiosInstance.get(`/api/axios/admin-settings/apikeys`);
       setApiKeys(response.data);
     } catch (error) {
       toast.error(t("errorLoadingKeys"));
@@ -47,10 +46,10 @@ export default function ApiKeys() {
   const revokeKey = async (apikeyId) => {
     try {
       setRevokingKey(apikeyId);
-      const tenantId = session?.user?.tenantId;
-      if (!tenantId || !apikeyId) return;
+      
 
-      await axiosInstance.delete(`/tenants/${tenantId}/apikeys/${apikeyId}/revoke`);
+    await axiosInstance.delete(`/api/axios/admin-settings/apikeys?apikeyId=${apikeyId}`);
+
       toast.success(t("keyRevoked"));
       fetchKeys();
     } catch (error) {
@@ -87,7 +86,7 @@ export default function ApiKeys() {
             <h4 className="font-semibold text-sm">Client ID</h4>
             <div className="p-1 bg-zinc-200 rounded">
               <p className="text-xs text-zinc-500">
-                {session?.user?.tenantId || "--"}
+       
               </p>
             </div>
           </div>
