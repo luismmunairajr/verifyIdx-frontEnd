@@ -1,23 +1,24 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NextResponse, NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
+import { jwtDecode } from "jwt-decode";
+
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
 
 interface DecodedToken {
   tenantId?: string;
 }
 
-async function getSessionAndTenantId() {
-  const session = await getServerSession(authOptions);
+async function getAccessAndTenantId(req: NextRequest) {
+ 
+  const token = await getToken({ req});
 
-  if (!session || !session.accessToken) {
+  if (!token || !token.accessToken) {
     return { error: "Não autenticado ou token não encontrado", status: 401 };
   }
 
   let decoded: DecodedToken;
   try {
-    decoded = jwtDecode(session.accessToken as string);
+    decoded = jwtDecode(token.accessToken as string);
   } catch {
     return { error: "Token inválido", status: 401 };
   }
@@ -26,22 +27,23 @@ async function getSessionAndTenantId() {
     return { error: "tenantId não encontrado no token", status: 401 };
   }
 
-  return { session, tenantId: decoded.tenantId };
+  return { accessToken: token.accessToken, tenantId: decoded.tenantId };
 }
 
-export async function GET(req: Request) {
-  const sessionData = await getSessionAndTenantId();
-  if ("error" in sessionData) {
-    return NextResponse.json({ error: sessionData.error }, { status: sessionData.status });
+// === GET ===
+export async function GET(req: NextRequest) {
+  const tokenData = await getAccessAndTenantId(req);
+  if ("error" in tokenData) {
+    return NextResponse.json({ error: tokenData.error }, { status: tokenData.status });
   }
-  const { session, tenantId } = sessionData;
+
+  const { accessToken, tenantId } = tokenData;
 
   try {
-    // Chamada para middleware buscando apikeys do tenant
     const response = await axios.get(
       `${process.env.MIDLEWARE_BASE_URL}/tenants/${tenantId}/apikeys`,
       {
-        headers: { Authorization: `Bearer ${session.accessToken}` },
+        headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
     return NextResponse.json(response.data);
@@ -51,20 +53,21 @@ export async function GET(req: Request) {
   }
 }
 
-
-export async function POST(req: Request) {
-  const sessionData = await getSessionAndTenantId();
-  if ("error" in sessionData) {
-    return NextResponse.json({ error: sessionData.error }, { status: sessionData.status });
+// === POST ===
+export async function POST(req: NextRequest) {
+  const tokenData = await getAccessAndTenantId(req);
+  if ("error" in tokenData) {
+    return NextResponse.json({ error: tokenData.error }, { status: tokenData.status });
   }
-  const { session, tenantId } = sessionData;
+
+  const { accessToken, tenantId } = tokenData;
 
   try {
     const response = await axios.post(
       `${process.env.MIDLEWARE_BASE_URL}/tenants/${tenantId}/apikeys`,
-      {}, // corpo vazio, você pode adicionar dados aqui se necessário
+      {},
       {
-        headers: { Authorization: `Bearer ${session.accessToken}` },
+        headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
     return NextResponse.json(response.data);
@@ -74,25 +77,27 @@ export async function POST(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
-  const sessionData = await getSessionAndTenantId();
-  if ("error" in sessionData) {
-    return NextResponse.json({ error: sessionData.error }, { status: sessionData.status });
+// === DELETE ===
+export async function DELETE(req: NextRequest) {
+  const tokenData = await getAccessAndTenantId(req);
+  if ("error" in tokenData) {
+    return NextResponse.json({ error: tokenData.error }, { status: tokenData.status });
   }
-  const { session, tenantId } = sessionData;
+
+  const { accessToken, tenantId } = tokenData;
 
   const url = new URL(req.url);
   const apikeyId = url.searchParams.get("apikeyId");
+
   if (!apikeyId) {
     return NextResponse.json({ error: "apikeyId é obrigatório" }, { status: 400 });
   }
 
   try {
-    // Chamada para middleware para revogar a chave
     await axios.delete(
       `${process.env.MIDLEWARE_BASE_URL}/tenants/${tenantId}/apikeys/${apikeyId}/revoke`,
       {
-        headers: { Authorization: `Bearer ${session.accessToken}` },
+        headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
     return NextResponse.json({ success: true });

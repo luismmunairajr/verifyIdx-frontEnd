@@ -1,26 +1,28 @@
 // src/app/api/company-info/route.ts
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getToken } from "next-auth/jwt";
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+
+const secret = process.env.NEXTAUTH_SECRET!;
 
 interface DecodedToken {
   tenantId?: string;
 }
 
-export async function GET() {
-  // Pega sessão e token server side
-  const session = await getServerSession(authOptions);
+import type { NextRequest } from "next/server";
 
-  if (!session || !session.accessToken) {
-    return NextResponse.json({ error: "Não autenticado ou token não encontrado" }, { status: 401 });
+export async function GET(req: NextRequest) {
+  const token = await getToken({ req, secret });
+
+  if (!token || !token.accessToken) {
+    return NextResponse.json({ error: "Não autenticado ou token ausente" }, { status: 401 });
   }
 
-  // Decodifica token para pegar tenantId
+  // Decodifica accessToken no servidor
   let decoded: DecodedToken;
   try {
-    decoded = jwtDecode(session.accessToken as string);
+    decoded = jwtDecode(token.accessToken as string);
   } catch {
     return NextResponse.json({ error: "Token inválido" }, { status: 401 });
   }
@@ -32,14 +34,12 @@ export async function GET() {
   const tenantId = decoded.tenantId;
 
   try {
-    // Faz chamada para o middleware, usando tenantId no caminho ou query params
     const response = await axios.get(`${process.env.MIDLEWARE_BASE_URL}/tenants/${tenantId}`, {
       headers: {
-        Authorization: `Bearer ${session.accessToken}`,
+        Authorization: `Bearer ${token.accessToken}`,
       },
     });
 
-    // Retorna os dados do middleware para o frontend
     return NextResponse.json(response.data);
   } catch (error) {
     console.error("Erro ao buscar dados da empresa no middleware:", error);

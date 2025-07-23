@@ -1,3 +1,4 @@
+
 import NextAuth, { AuthOptions } from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
 import { jwtDecode } from "jwt-decode";
@@ -41,20 +42,17 @@ export const authOptions: AuthOptions = {
         token.tenantId = decoded.tenantId;
         token.clientId = decoded.azp;
       }
+
       return token;
     },
 
     async session({ session, token }) {
-      // Retorna dados seguros para o frontend, sem expor accessToken
+     
       return {
-        ...session,
-        user: {
-          ...session.user,
-          roles: token.roles ?? [],
-          clientId: token.clientId,
-          // NÃO incluir accessToken aqui!
-        },
         expires: session.expires,
+         roles: token.roles ?? [],
+
+        clientId: token.clientId,
       };
     },
   },

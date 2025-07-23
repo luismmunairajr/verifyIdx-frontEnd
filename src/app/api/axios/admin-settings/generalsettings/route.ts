@@ -1,24 +1,22 @@
-// app/api/tenant/users/route.ts
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NextResponse, NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
   tenantId?: string;
 }
 
-async function getSessionAndTenantId() {
-  const session = await getServerSession(authOptions);
+async function getAccessTokenAndTenantId(req: NextRequest) {
+  const token = await getToken({ req });
 
-  if (!session || !session.accessToken) {
+  if (!token || !token.accessToken) {
     return { error: "Não autenticado ou token não encontrado", status: 401 };
   }
 
   let decoded: DecodedToken;
   try {
-    decoded = jwtDecode(session.accessToken as string);
+    decoded = jwtDecode(token.accessToken as string);
   } catch {
     return { error: "Token inválido", status: 401 };
   }
@@ -27,19 +25,19 @@ async function getSessionAndTenantId() {
     return { error: "tenantId não encontrado no token", status: 401 };
   }
 
-  return { session, tenantId: decoded.tenantId };
+  return { accessToken: token.accessToken, tenantId: decoded.tenantId };
 }
 
-export async function GET(req: Request) {
-  const sessionData = await getSessionAndTenantId();
-  if ("error" in sessionData) {
-    return NextResponse.json({ error: sessionData.error }, { status: sessionData.status });
+export async function GET(req: NextRequest) {
+  const data = await getAccessTokenAndTenantId(req);
+  if ("error" in data) {
+    return NextResponse.json({ error: data.error }, { status: data.status });
   }
-  const { session, tenantId } = sessionData;
+  const { accessToken, tenantId } = data;
 
   try {
     const response = await axios.get(`${process.env.MIDLEWARE_BASE_URL}/tenant/users`, {
-      headers: { Authorization: `Bearer ${session.accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
       params: { tenantId },
     });
     return NextResponse.json(response.data.users || []);
@@ -49,12 +47,12 @@ export async function GET(req: Request) {
   }
 }
 
-export async function PUT(req: Request) {
-  const sessionData = await getSessionAndTenantId();
-  if ("error" in sessionData) {
-    return NextResponse.json({ error: sessionData.error }, { status: sessionData.status });
+export async function PUT(req: NextRequest) {
+  const data = await getAccessTokenAndTenantId(req);
+  if ("error" in data) {
+    return NextResponse.json({ error: data.error }, { status: data.status });
   }
-  const { session, tenantId } = sessionData;
+  const { accessToken, tenantId } = data;
 
   const url = new URL(req.url);
   const email = url.searchParams.get("email");
@@ -68,7 +66,7 @@ export async function PUT(req: Request) {
     const response = await axios.put(
       `${process.env.MIDLEWARE_BASE_URL}/tenant/users?email=${email}`,
       { ...body, tenantId },
-      { headers: { Authorization: `Bearer ${session.accessToken}` } }
+      { headers: { Authorization: `Bearer ${accessToken}` } }
     );
     return NextResponse.json(response.data);
   } catch (error) {
@@ -77,12 +75,12 @@ export async function PUT(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
-  const sessionData = await getSessionAndTenantId();
-  if ("error" in sessionData) {
-    return NextResponse.json({ error: sessionData.error }, { status: sessionData.status });
+export async function DELETE(req: NextRequest) {
+  const data = await getAccessTokenAndTenantId(req);
+  if ("error" in data) {
+    return NextResponse.json({ error: data.error }, { status: data.status });
   }
-  const { session, tenantId } = sessionData;
+  const { accessToken, tenantId } = data;
 
   const url = new URL(req.url);
   const email = url.searchParams.get("email");
@@ -94,8 +92,8 @@ export async function DELETE(req: Request) {
     const response = await axios.delete(
       `${process.env.MIDLEWARE_BASE_URL}/tenant/users?email=${email}`,
       {
-        headers: { Authorization: `Bearer ${session.accessToken}` },
-        data: { tenantId }, // caso middleware exija no body
+        headers: { Authorization: `Bearer ${accessToken}` },
+        data: { tenantId }, // caso middleware exija tenantId no body da requisição DELETE
       }
     );
     return NextResponse.json(response.data);
