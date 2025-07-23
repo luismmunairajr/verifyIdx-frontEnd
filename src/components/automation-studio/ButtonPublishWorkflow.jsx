@@ -15,12 +15,13 @@ import {
 } from "@/components/ui/sheet";
 import axiosInstance from "@/app/api/axios/axiosInstance";
 import { useSession } from "next-auth/react";
+import { useLanguage } from "../language/language-provider";
 
 export default function ButtonPublishWorkflow({ nodes = [] }) {
   const [workflowName, setWorkflowName] = useState("");
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-
+  const { t } = useLanguage();
   const handlePublish = async () => {
     if (!workflowName.trim()) {
       toast.error("Workflow name is required.");
@@ -79,6 +80,15 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
       clientId: session?.user?.clientId,
       tenantId: session?.user?.tenantId,
       requiredProducts,
+      verifications: [
+        {
+          products: {
+            identity_verification: {
+              steps: steps,
+            },
+          },
+        },
+      ],
       tags: [],
     };
 

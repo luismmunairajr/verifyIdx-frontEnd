@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useProfiles } from "@/hooks/useProfiles";
 import InputSearch from "./Input";
 import ListVerifications from "./ListVerifications";
@@ -30,6 +30,7 @@ export default function ListPerson({ onSelectPerson }) {
   const STATUS_COMPLETE = "Complete";
   const STATUS_REJECTED = "Rejected";
 
+  // Filtragem e ordenação
   const filteredProfiles = [...profiles]
     .sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt))
     .filter((person) => {
@@ -45,9 +46,8 @@ export default function ListPerson({ onSelectPerson }) {
       return matchesText && matchesStatus;
     });
 
-  // Scroll infinito
-  const observer = useRef(null);
-
+  // Scroll infinito - observe o último perfil renderizado
+  const observer = useRef();
   const lastProfileRef = useCallback(
     (node) => {
       if (isLoading) return;
@@ -67,9 +67,19 @@ export default function ListPerson({ onSelectPerson }) {
     [isLoading, loadMore, meta]
   );
 
+  // Handler para selecionar pessoa
   const handleSelectPerson = async (person) => {
     try {
+      // Busca os detalhes da verificação pelo ID
       const details = await fetchVerificationDetails(person.verificationId);
+
+      // Garante que o objeto de detalhes está presente
+      if (!details) {
+        console.warn("Detalhes da verificação não encontrados");
+        return;
+      }
+
+      // Passa o objeto completo para o componente pai
       onSelectPerson(details);
     } catch (err) {
       console.error("Erro ao buscar detalhes:", err);
@@ -102,16 +112,17 @@ export default function ListPerson({ onSelectPerson }) {
 
       <h2 className="text-lg font-medium">{t("verifications")}</h2>
 
-      {isLoadingDetails && <Loading />}
+      {isLoadingDetails && (
+        <div className="mb-2">
+          <Loading />
+        </div>
+      )}
 
       <ListVerifications
         onSelectPerson={handleSelectPerson}
         profiles={filteredProfiles.map((person, index) => ({
           ...person,
-          ref:
-            index === filteredProfiles.length - 1
-              ? lastProfileRef
-              : null,
+          ref: index === filteredProfiles.length - 1 ? lastProfileRef : null,
         }))}
       />
 

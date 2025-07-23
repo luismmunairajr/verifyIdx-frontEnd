@@ -6,6 +6,7 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHe
 import Select from "react-select";
 import { toast } from "sonner";
 import Loading from "../Loading";
+import { useLanguage } from "../language/language-provider";
 
 const categoryOptions = [
   { value: "security", label: "Security" },
@@ -24,7 +25,7 @@ export function ButtonSaveWorkflow({ nodes, edges, workflowName }) {
   const [workflowDescription, setWorkflowDescription] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const { t } = useLanguage();
   const handleSave = async () => {
     if (!workflowName.trim()) {
       toast.error("Workflow name is required.");

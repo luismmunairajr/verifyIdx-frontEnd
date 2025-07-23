@@ -59,11 +59,12 @@ export function useProfiles(initialPage = 1, limit = 10) {
 
   // Função para carregar próxima página
   const loadMore = () => {
-    if (meta.page < Math.ceil(meta.total / meta.limit) && !isLoading) {
-      fetchProfiles(meta.page + 1);
-      setMeta((old) => ({ ...old, page: old.page + 1 }));
-    }
-  };
+  if (meta.page < meta.totalPages && !isLoading) {
+    fetchProfiles(meta.page + 1);
+    setMeta((old) => ({ ...old, page: old.page + 1 }));
+  }
+};
+
 
   const fetchVerificationDetails = async (verificationId) => {
     setIsLoadingDetails(true);
@@ -73,7 +74,7 @@ export function useProfiles(initialPage = 1, limit = 10) {
       const response = await axiosInstance.get(
         `/api/axios/verifications/${verificationId}`);
          console.log("[useProfiles] Detalhes recebidos:", response.data);
-      const verification = response.data?.data;
+      const verification = response.data?.verification;
       if (!verification) throw new Error("Verificação não encontrada");
 
       const results = verification?.products?.identity_verification?.results || [];
@@ -109,7 +110,7 @@ export function useProfiles(initialPage = 1, limit = 10) {
       const templateName = documentData?.templateInfo?.templateName || "--";
       const templateType = documentData?.templateInfo?.templateType || "--";
 
-      const verificationId = verification?.verificationId || "--";
+      const verificationIdd = verification?.verificationId || "--";
       const thirdPartyReference = verification?.thirdPartyReference || "--";
       const workflowId = verification?.workflowId || "--";
       const externalDatabaseRefID = r0?.photoIdScanMatch?.externalDatabaseRefID || "--";
@@ -168,7 +169,7 @@ export function useProfiles(initialPage = 1, limit = 10) {
         documentState,
         templateName,
         templateType,
-        verificationId,
+        verificationIdd,
         workflowId,
         thirdPartyReference,
         externalDatabaseRefID,

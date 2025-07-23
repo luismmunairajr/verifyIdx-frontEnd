@@ -1,3 +1,6 @@
+"use client";
+
+import React from "react";
 import PersonVerifications from "./PersonVerifications";
 import unknow from "@/assets/unknowProfile.svg";
 import { useLanguage } from "@/components/language/language-provider";
@@ -13,9 +16,9 @@ export default function ListVerifications({ onSelectPerson, profiles }) {
             key={person.verificationId}
             name={person.fullName}
             status={person.status}
-            image={person.auditTrailImage || unknow}
+            image={person.auditTrailImage || unknow.src}
             onClick={() => onSelectPerson(person)}
-            ref={person.ref} // usado para scroll infinito
+            ref={person.ref} // repassa ref para scroll infinito
           />
         ))
       ) : (
