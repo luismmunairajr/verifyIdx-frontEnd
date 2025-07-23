@@ -215,6 +215,7 @@ const en = {
   savePassword: "Save Password",
 
   //Admin settings
+  createUser: "Create User",
   errorLoadingUsers: "Error loading users.",
     userDeleted: "User deleted successfully.",
     errorDeletingUser: "Error deleting user.",

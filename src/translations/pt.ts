@@ -209,6 +209,7 @@ noPersonsAvailable:"Sem pessoas disponiveis",
   savePassword: "Salvar Senha",
 
   //Admin Settings
+  createUser: "Criar Usuário",
    companyInformation: "Informações da Empresa",
     legalName: "Nome Legal",
     shortName: "Nome Abreviado",

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -24,6 +23,13 @@ import { useLanguage } from "@/components/language/language-provider";
 import axiosInstance from "@/app/api/axios/axiosInstance";
 import { toast } from "sonner";
 import { TableRowSkeleton } from "./TableRowSkeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function CustomerTable() {
   const { t } = useLanguage();
@@ -42,16 +48,17 @@ export function CustomerTable() {
   const [newUser, setNewUser] = useState({
     fullname: "",
     email: "",
-    sex: "",
-    role: "",
+    sex: "M",
+    role: "ADMIN",
     password: "",
   });
 
-  // Fetch users
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`/api/axios/admin-settings/generalsettings`);
+      const response = await axiosInstance.get(
+        `/api/axios/admin-settings/generalsettings`
+      );
       const users = response.data || [];
 
       const formatted = users.map((user, idx) => ({
@@ -71,7 +78,6 @@ export function CustomerTable() {
     }
   };
 
-  // Handle edit button click
   const handleEdit = (user) => {
     setEditName(user.fullname);
     setEditRole(user.role);
@@ -79,7 +85,6 @@ export function CustomerTable() {
     setDialogOpen(true);
   };
 
-  // Update user (only fullname editable)
   const updateUser = async () => {
     try {
       await axiosInstance.put(
@@ -97,10 +102,11 @@ export function CustomerTable() {
     }
   };
 
-  // Delete user
   const deleteUser = async (email) => {
     try {
-      await axiosInstance.delete(`/api/axios/admin-settings/generalsettings?email=${email}`);
+      await axiosInstance.delete(
+        `/api/axios/admin-settings/generalsettings?email=${email}`
+      );
       toast.success(t("userDeleted"));
       await fetchUsers();
     } catch (error) {
@@ -108,24 +114,38 @@ export function CustomerTable() {
     }
   };
 
-  // Create new user
   const createUser = async () => {
-    try {
-      // Validações básicas
-      if (!newUser.fullname || !newUser.email || !newUser.password) {
-        toast.error(t("pleaseFillRequiredFields"));
-        return;
-      }
+    const validGenders = ["M", "F"];
+    const validRoles = ["ADMIN", "ANALIST", "MANAGER"];
 
-      await axiosInstance.post(`/api/axios/admin-settings/generalsettings`, newUser);
+    if (!newUser.fullname || !newUser.email || !newUser.password) {
+      toast.error(t("pleaseFillRequiredFields"));
+      return;
+    }
+
+    if (!validGenders.includes(newUser.sex)) {
+      toast.error(t("invalidGender"));
+      return;
+    }
+
+    if (!validRoles.includes(newUser.role)) {
+      toast.error(t("invalidRole"));
+      return;
+    }
+
+    try {
+      await axiosInstance.post(
+        `/api/axios/admin-settings/generalsettings`,
+        newUser
+      );
 
       toast.success(t("userCreated"));
       setCreateDialogOpen(false);
       setNewUser({
         fullname: "",
         email: "",
-        sex: "",
-        role: "",
+        sex: "M",
+        role: "ADMIN",
         password: "",
       });
       await fetchUsers();
@@ -164,7 +184,6 @@ export function CustomerTable() {
 
   return (
     <div className="space-y-4">
-      {/* Título e botão criar usuário */}
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold">{t("userList")}</h2>
         <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
@@ -173,42 +192,62 @@ export function CustomerTable() {
           </DialogTrigger>
           <DialogContent className="space-y-4">
             <DialogHeader>
-              <DialogTitle>{t("registerUser")}</DialogTitle>
+              <DialogTitle>{t("createUser")}</DialogTitle>
             </DialogHeader>
-
             <Input
-              placeholder={t("fullname")}
+              placeholder={t("name")}
               value={newUser.fullname}
-              onChange={(e) => setNewUser({ ...newUser, fullname: e.target.value })}
+              onChange={(e) =>
+                setNewUser({ ...newUser, fullname: e.target.value })
+              }
             />
             <Input
               placeholder={t("email")}
               value={newUser.email}
-              onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+              onChange={(e) =>
+                setNewUser({ ...newUser, email: e.target.value })
+              }
             />
             <Input
               placeholder={t("password")}
               type="password"
               value={newUser.password}
-              onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+              onChange={(e) =>
+                setNewUser({ ...newUser, password: e.target.value })
+              }
             />
-            <Input
-              placeholder={t("gender")}
+            <Select
               value={newUser.sex}
-              onChange={(e) => setNewUser({ ...newUser, sex: e.target.value })}
-            />
-            <Input
-              placeholder={t("role")}
+              onValueChange={(value) => setNewUser({ ...newUser, sex: value })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t("gender")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="M">M</SelectItem>
+                <SelectItem value="F">F</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select
               value={newUser.role}
-              onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-            />
+              onValueChange={(value) => setNewUser({ ...newUser, role: value })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t("role")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ADMIN">ADMIN</SelectItem>
+                <SelectItem value="ANALIST">ANALIST</SelectItem>
+                <SelectItem value="MANAGER">MANAGER</SelectItem>
+              </SelectContent>
+            </Select>
 
             <Button onClick={createUser}>{t("save")}</Button>
           </DialogContent>
         </Dialog>
       </div>
 
-      {/* Tabela */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -255,7 +294,6 @@ export function CustomerTable() {
         </Table>
       </div>
 
-      {/* Edit user modal */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="space-y-4">
           <DialogHeader>
@@ -266,11 +304,7 @@ export function CustomerTable() {
             value={editName}
             onChange={(e) => setEditName(e.target.value)}
           />
-          <Input
-            placeholder={t("role")}
-            value={editRole}
-            disabled
-          />
+          <Input placeholder={t("role")} value={editRole} disabled />
           <Button onClick={updateUser}>{t("save")}</Button>
         </DialogContent>
       </Dialog>

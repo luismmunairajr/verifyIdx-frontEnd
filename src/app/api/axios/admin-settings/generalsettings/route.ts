@@ -102,3 +102,42 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "Erro ao deletar usuário" }, { status: 500 });
   }
 }
+
+export async function POST(req: NextRequest) {
+  const data = await getAccessTokenAndTenantId(req);
+  if ("error" in data) {
+    return NextResponse.json({ error: data.error }, { status: data.status });
+  }
+  const { accessToken, tenantId } = data;
+
+  const body = await req.json();
+
+  if (!body.fullname || !body.email || !body.password || !body.sex || !body.role) {
+    return NextResponse.json({ error: "Todos os campos são obrigatórios" }, { status: 400 });
+  }
+
+  if (!["M", "F"].includes(body.sex)) {
+    return NextResponse.json({ error: "Sexo inválido (somente M ou F)" }, { status: 400 });
+  }
+
+  if (!["ADMIN", "ANALIST", "MANAGER"].includes(body.role)) {
+    return NextResponse.json({ error: "Cargo inválido" }, { status: 400 });
+  }
+
+  try {
+    const response = await axios.post(
+      `${process.env.MIDLEWARE_BASE_URL}/tenant/auth/register`,
+      {
+        ...body,
+        tenantId,
+      },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return NextResponse.json(response.data);
+  } catch (error) {
+    console.error("Erro ao criar usuário:", error);
+    return NextResponse.json({ error: "Erro ao criar usuário" }, { status: 500 });
+  }
+}
