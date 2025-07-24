@@ -26,7 +26,7 @@ export default function ApiKeys() {
   const [loading, setLoading] = useState(true);
   const [revokingKey, setRevokingKey] = useState("");
 
-  const stage = process.env.NEXT_PUBLIC_STAGE || "unknown";
+  const stage = process.env.TEXT_STAGE || "unknown";
 
   const fetchKeys = async () => {
     setLoading(true);
