@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -37,13 +37,11 @@ export function CustomerTable() {
   const [customerList, setCustomerList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Edit user modal states
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editName, setEditName] = useState("");
   const [editRole, setEditRole] = useState("");
   const [editEmail, setEditEmail] = useState("");
 
-  // Create user modal states
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [newUser, setNewUser] = useState({
     fullname: "",
@@ -53,12 +51,10 @@ export function CustomerTable() {
     password: "",
   });
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(
-        `/api/axios/admin-settings/generalsettings`
-      );
+      const response = await axiosInstance.get("/api/axios/admin-settings/generalsettings");
       const users = response.data || [];
 
       const formatted = users.map((user, idx) => ({
@@ -71,12 +67,12 @@ export function CustomerTable() {
       }));
 
       setCustomerList(formatted);
-    } catch (error) {
+    } catch {
       toast.error(t("errorLoadingUsers"));
     } finally {
       setLoading(false);
     }
-  };
+  }, [t]);
 
   const handleEdit = (user) => {
     setEditName(user.fullname);
@@ -87,29 +83,24 @@ export function CustomerTable() {
 
   const updateUser = async () => {
     try {
-      await axiosInstance.put(
-        `/api/axios/admin-settings/generalsettings?email=${editEmail}`,
-        {
-          fullname: editName,
-        }
-      );
+      await axiosInstance.put(`/api/axios/admin-settings/generalsettings?email=${editEmail}`, {
+        fullname: editName,
+      });
 
       toast.success(t("userUpdated"));
       setDialogOpen(false);
-      await fetchUsers();
-    } catch (error) {
+      fetchUsers();
+    } catch {
       toast.error(t("errorUpdatingUser"));
     }
   };
 
   const deleteUser = async (email) => {
     try {
-      await axiosInstance.delete(
-        `/api/axios/admin-settings/generalsettings?email=${email}`
-      );
+      await axiosInstance.delete(`/api/axios/admin-settings/generalsettings?email=${email}`);
       toast.success(t("userDeleted"));
-      await fetchUsers();
-    } catch (error) {
+      fetchUsers();
+    } catch {
       toast.error(t("errorDeletingUser"));
     }
   };
@@ -134,29 +125,19 @@ export function CustomerTable() {
     }
 
     try {
-      await axiosInstance.post(
-        `/api/axios/admin-settings/generalsettings`,
-        newUser
-      );
-
+      await axiosInstance.post("/api/axios/admin-settings/generalsettings", newUser);
       toast.success(t("userCreated"));
       setCreateDialogOpen(false);
-      setNewUser({
-        fullname: "",
-        email: "",
-        sex: "M",
-        role: "ADMIN",
-        password: "",
-      });
-      await fetchUsers();
-    } catch (error) {
+      setNewUser({ fullname: "", email: "", sex: "M", role: "ADMIN", password: "" });
+      fetchUsers();
+    } catch {
       toast.error(t("errorCreatingUser"));
     }
   };
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   if (loading) {
     return (
@@ -197,24 +178,18 @@ export function CustomerTable() {
             <Input
               placeholder={t("name")}
               value={newUser.fullname}
-              onChange={(e) =>
-                setNewUser({ ...newUser, fullname: e.target.value })
-              }
+              onChange={(e) => setNewUser({ ...newUser, fullname: e.target.value })}
             />
             <Input
               placeholder={t("email")}
               value={newUser.email}
-              onChange={(e) =>
-                setNewUser({ ...newUser, email: e.target.value })
-              }
+              onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
             />
             <Input
               placeholder={t("password")}
               type="password"
               value={newUser.password}
-              onChange={(e) =>
-                setNewUser({ ...newUser, password: e.target.value })
-              }
+              onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
             />
             <Select
               value={newUser.sex}
@@ -228,7 +203,6 @@ export function CustomerTable() {
                 <SelectItem value="F">F</SelectItem>
               </SelectContent>
             </Select>
-
             <Select
               value={newUser.role}
               onValueChange={(value) => setNewUser({ ...newUser, role: value })}
@@ -242,7 +216,6 @@ export function CustomerTable() {
                 <SelectItem value="MANAGER">MANAGER</SelectItem>
               </SelectContent>
             </Select>
-
             <Button onClick={createUser}>{t("save")}</Button>
           </DialogContent>
         </Dialog>
@@ -273,11 +246,7 @@ export function CustomerTable() {
                   </span>
                 </TableCell>
                 <TableCell className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleEdit(user)}
-                  >
+                  <Button variant="outline" size="icon" onClick={() => handleEdit(user)}>
                     <Pencil className="w-4 h-4" />
                   </Button>
                   <Button
@@ -299,11 +268,7 @@ export function CustomerTable() {
           <DialogHeader>
             <DialogTitle>{t("updateUser")}</DialogTitle>
           </DialogHeader>
-          <Input
-            placeholder={t("fullname")}
-            value={editName}
-            onChange={(e) => setEditName(e.target.value)}
-          />
+          <Input placeholder={t("fullname")} value={editName} onChange={(e) => setEditName(e.target.value)} />
           <Input placeholder={t("role")} value={editRole} disabled />
           <Button onClick={updateUser}>{t("save")}</Button>
         </DialogContent>
