@@ -14,10 +14,6 @@ export default function Resume({ person, hidePictures }) {
         <Image
           src={
             person.auditTrailImage
-              ? `data:image/png;base64,${person.auditTrailImage}`
-              : person.profileImage
-              ? `data:image/png;base64,${person.profileImage}`
-              : unknow
           }
           alt="Profile Picture"
           width={100}

@@ -21,6 +21,7 @@ export default function CreateKey({ onCreated }) {
   const [copied, setCopied] = useState(false);
   const [hasCopied, setHasCopied] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [nameInput, setNameInput] = useState(""); // Novo campo para nome da chave
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const { t } = useLanguage();
@@ -37,26 +38,31 @@ export default function CreateKey({ onCreated }) {
   };
 
   const handleCreateKey = async () => {
-   
+    if (!nameInput.trim()) {
+      toast.error(t("nameRequired") || "Nome da chave é obrigatório.");
+      return;
+    }
 
     try {
       setLoading(true);
-      const response = await axiosInstance.post(`/api/axios/admin-settings/apikeys`);
+      const response = await axiosInstance.post(`/api/axios/admin-settings/apikeys`, {
+        name: nameInput.trim(),
+      });
 
       if (response.status === 201 || response.status === 200) {
         const newKey = response.data?.key?.key;
         if (newKey) {
           setInputValue(newKey);
-          toast.success(t("keyCreated")); // Ex: "Chave criada com sucesso"
+          toast.success(t("keyCreated") || "Chave criada com sucesso");
         } else {
-          toast.error(t("invalidKeyResponse")); // Ex: "Resposta inválida ao criar chave"
+          toast.error(t("invalidKeyResponse") || "Resposta inválida ao criar chave");
         }
       } else {
-        toast.error(t("failedCreateKey")); // Ex: "Falha ao criar chave"
+        toast.error(t("failedCreateKey") || "Falha ao criar chave");
       }
     } catch (error) {
       console.error("Erro ao criar chave:", error);
-      toast.error(t("errorCreateKey")); // Ex: "Erro ao criar a chave"
+      toast.error(t("errorCreateKey") || "Erro ao criar a chave");
     } finally {
       setLoading(false);
     }
@@ -66,21 +72,35 @@ export default function CreateKey({ onCreated }) {
     <Dialog
       onOpenChange={(isOpen) => {
         if (!isOpen && hasCopied) {
-          onCreated?.(); 
+          onCreated?.();
           setHasCopied(false);
+          setNameInput("");
+          setInputValue("");
         }
       }}
     >
       <DialogTrigger asChild>
-        <Button onClick={handleCreateKey} disabled={loading}>
-          {loading ? t("creating") : t("createKey")} {/* Ex: "Criando..." ou "Criar chave" */}
+        <Button disabled={loading}>
+          {loading ? t("creating") : t("createKey")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md space-y-4">
         <DialogHeader>
           <DialogTitle>{t("createKey")}</DialogTitle>
           <DialogDescription>{t("createKeySubtitle")}</DialogDescription>
         </DialogHeader>
+
+        {/* Nome da Chave */}
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium">{t("keyName") || "Nome da chave"}</label>
+          <Input
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+            placeholder={t("enterKeyName") || "Digite um nome para a chave"}
+          />
+        </div>
+
+        {/* Resultado */}
         <div className="flex items-center space-x-2">
           <Input value={inputValue} disabled className="flex-1" />
           <Button
@@ -88,6 +108,7 @@ export default function CreateKey({ onCreated }) {
             variant="outline"
             size="icon"
             className="h-10 w-10"
+            disabled={!inputValue}
           >
             {copied ? (
               <Check className="h-4 w-4 text-green-500" />
@@ -96,9 +117,18 @@ export default function CreateKey({ onCreated }) {
             )}
           </Button>
         </div>
+
         {copied && (
-          <p className="text-sm mt-2 text-red-500">{t("savekey")}</p> // Ex: "Copie e salve sua chave"
+          <p className="text-sm mt-2 text-red-500">
+            {t("savekey") || "Copie e salve sua chave, ela não será mostrada novamente!"}
+          </p>
         )}
+
+        <div className="flex justify-end">
+          <Button onClick={handleCreateKey} disabled={loading || !nameInput.trim()}>
+            {loading ? t("creating") || "Criando..." : t("createKey") || "Criar chave"}
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

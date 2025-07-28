@@ -1,5 +1,6 @@
 import { Calendar, Hash } from "lucide-react";
 import Badges from "./Badges";
+import Image from "next/image"
 import Pictures from "./Pictures.jsx";
 import unknow from "@/assets/unknowProfile.svg";
 import { useFormattedDate } from "@/hooks/useFormattedDate";
@@ -18,28 +19,13 @@ export default function Resume({ person, hidePictures }) {
     return null;
   };
 
-  // Obtem a string base64 normalizada das imagens
-  const auditTrail = normalizeBase64(person?.auditTrailImage);
-  const profileImage = normalizeBase64(person?.profileImage);
-
-  // Monta a URL para src da imagem: base64 ou fallback
-  let profileSrc = unknow.src;
-  if (auditTrail) {
-    profileSrc = `data:image/png;base64,${auditTrail}`;
-  } else if (profileImage) {
-    profileSrc = `data:image/png;base64,${profileImage}`;
-  }
+ 
 
   return (
     <div className="flex flex-col space-y-10 dark:text-white">
       <div className="flex space-x-10 w-full">
-        <img
-          src={profileSrc}
-          alt={person?.fullName}
-          width={160}
-          height={160}
-          className="w-40 h-40 rounded-full object-cover aspect-square"
-        />
+        <Image src={person.auditTrailImage ? normalizeBase64(person.auditTrailImage) : unknow.src} 
+         alt="" width={100} height={100} className="size-40 aspect-square rounded-full object-cover" />
         <div className="space-y-4 flex flex-col items-start justify-center w-full">
           <h2 className="font-semibold text-lg">{person.fullName}</h2>
           <div className="flex space-x-4 items-center">

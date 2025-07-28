@@ -30,7 +30,7 @@ export function useProfiles(initialPage = 1, limit = 10) {
   `/api/axios/verifications?page=${page}&limit=${limit}`
 );
 
-        console.log("[useProfiles] Resposta recebida:", response.data);
+        
       const data = response.data?.data || [];
       const metaResponse = response.data?.meta || {};
 
@@ -42,7 +42,12 @@ export function useProfiles(initialPage = 1, limit = 10) {
         startedAt: item.startedAt || new Date().toISOString(), // se tiver startedAt
       }));
 
-      setProfiles((old) => [...old, ...profilesData]); // acumula páginas
+          setProfiles((old) =>
+        [...old, ...profilesData].sort(
+          (a, b) => new Date(b.startedAt) - new Date(a.startedAt)
+        )
+      );
+      // acumula páginas
       setMeta(metaResponse);
     } catch (err) {
       setError(err.message || "Erro ao buscar os dados.");
@@ -107,6 +112,8 @@ export function useProfiles(initialPage = 1, limit = 10) {
       sex: normalize(3, "sex"),
       height: normalize(3, "height"),
       customField1: normalize(4, "customField1"),
+      fatherName: normalize(4, "customField2"),
+      motherName: normalize(4, "customField3"),
 
       // Info da verificação
       verificationId: verification.verificationId || "--", // aqui!
@@ -124,6 +131,7 @@ export function useProfiles(initialPage = 1, limit = 10) {
       ipAddress: additionalData.ipAddress || "--",
 
       // Fotos (ajuste para tratar base64 depois)
+      auditTrailImage: normalizeBase64(r0?.liveness?.auditTrailImage) || null,
       photoIDFaceCrop: r0?.idscanOnly?.photoIDFaceCrop || null,
       photoIDBackCrop: r0?.idscanOnly?.photoIDBackCrop || null,
       photoIDFrontCrop: r0?.idscanOnly?.photoIDFrontCrop || null,

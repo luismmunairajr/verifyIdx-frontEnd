@@ -52,7 +52,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Erro ao buscar API Keys" }, { status: 500 });
   }
 }
-
 // === POST ===
 export async function POST(req: NextRequest) {
   const tokenData = await getAccessAndTenantId(req);
@@ -63,20 +62,32 @@ export async function POST(req: NextRequest) {
   const { accessToken, tenantId } = tokenData;
 
   try {
+    // Extrair o body JSON da requisição
+    const body = await req.json();
+
+    // Validar campo 'name'
+    if (!body.name || typeof body.name !== "string" || body.name.trim() === "") {
+      return NextResponse.json(
+        { error: "Missing or invalid 'name' in request body" },
+        { status: 400 }
+      );
+    }
+
+    // Enviar para o middleware, incluindo o 'name'
     const response = await axios.post(
       `${process.env.MIDLEWARE_BASE_URL}/tenants/${tenantId}/apikeys`,
-      {},
+      { name: body.name.trim() },
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
+
     return NextResponse.json(response.data);
   } catch (error) {
     console.error("Erro ao criar API Key:", error);
     return NextResponse.json({ error: "Erro ao criar API Key" }, { status: 500 });
   }
 }
-
 // === DELETE ===
 export async function DELETE(req: NextRequest) {
   const tokenData = await getAccessAndTenantId(req);

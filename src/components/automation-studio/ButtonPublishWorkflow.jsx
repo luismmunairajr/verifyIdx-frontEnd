@@ -77,18 +77,8 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
 
     const newWorkflow = {
       workflowName,
-      clientId: session?.user?.clientId,
-      tenantId: session?.user?.tenantId,
+      webhookUrl : process.env.WEBHOOKURL || "https://webhook.site/cac47fb0-14df-439f-81a9-0017802ddeef",
       requiredProducts,
-      verifications: [
-        {
-          products: {
-            identity_verification: {
-              steps: steps,
-            },
-          },
-        },
-      ],
       tags: [],
     };
 

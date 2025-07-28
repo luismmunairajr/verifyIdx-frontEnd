@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import cubeicon from "@/assets/cubeicon.svg";
 import Image from "next/image";
-import CreateKey from "@/components/admin-settings/apiKeys/CreateKey";
+import CreateKey from "./CreateKey";
 import { useLanguage } from "@/components/language/language-provider";
 import axiosInstance from "@/app/api/axios/axiosInstance";
 import { useSession } from "next-auth/react";
@@ -27,7 +27,7 @@ export default function ApiKeys() {
   const [loading, setLoading] = useState(true);
   const [revokingKey, setRevokingKey] = useState("");
 
-  const stage = process.env.NEXT_PUBLIC_STAGE || "unknown";
+  const stage = process.env.TEXT_STAGE || "unknown";
 
   const fetchKeys = useCallback(async () => {
     setLoading(true);
@@ -87,7 +87,7 @@ export default function ApiKeys() {
           <div>
             <h4 className="font-semibold text-sm">Client ID</h4>
             <div className="p-1 bg-zinc-200 rounded">
-              <p className="text-xs text-zinc-500">{"-"}</p>
+              <p className="text-xs text-zinc-500">{ session?.tenantId ?? "-"}</p>
             </div>
           </div>
           <div className="border-l border-gray-400 h-full" />

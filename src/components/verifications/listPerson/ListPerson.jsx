@@ -118,13 +118,15 @@ export default function ListPerson({ onSelectPerson }) {
         </div>
       )}
 
-      <ListVerifications
-        onSelectPerson={handleSelectPerson}
-        profiles={filteredProfiles.map((person, index) => ({
-          ...person,
-          ref: index === filteredProfiles.length - 1 ? lastProfileRef : null,
-        }))}
-      />
+          <ListVerifications
+      isLoading={isLoading}
+      onSelectPerson={handleSelectPerson}
+      profiles={filteredProfiles.map((person, index) => ({
+        ...person,
+        ref: index === filteredProfiles.length - 1 ? lastProfileRef : null,
+      }))}
+    />
+
 
       {errorDetails && (
         <div className="text-red-600 dark:text-red-400">

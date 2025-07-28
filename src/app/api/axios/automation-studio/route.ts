@@ -1,32 +1,83 @@
-
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
+interface DecodedToken {
+  tenantId?: string;
+  clientId?: string;
+}
 
-  if (!session) {
-    return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
+async function getAccessAndTenantId(req: NextRequest) {
+  const token = await getToken({ req });
+
+  if (!token || !token.accessToken) {
+    return { error: "Não autenticado ou token não encontrado", status: 401 };
   }
+
+  let decoded: DecodedToken;
+  try {
+    decoded = jwtDecode(token.accessToken as string);
+  } catch {
+    return { error: "Token inválido", status: 402 };
+  }
+
+  if (!decoded.tenantId) {
+    return {
+      error: "tenantId e clientId não encontrado no token",
+      status: 403,
+    };
+  }
+
+  return {
+    accessToken: token.accessToken,
+    tenantId: decoded.tenantId,
+    clientId: decoded.tenantId,
+  };
+}
+
+export async function POST(req: NextRequest) {
+  const tokenData = await getAccessAndTenantId(req);
+
+  if ("error" in tokenData) {
+    return NextResponse.json(
+      { error: tokenData.error },
+      { status: tokenData.status }
+    );
+  }
+
+  const { accessToken, tenantId, clientId } = tokenData;
+  const body = await req.json();
+
+  const { workflowName, webhookUrl ,requiredProducts, tags } = body;
+
+  // Ordem personalizada do payload
+  const payload = {
+    workflowName,     // 1º
+    tenantId,         // 2º
+    clientId,         // 3º
+    webhookUrl,       // 4º
+    requiredProducts, // 5º
+    tags              // 6º
+  };
 
   try {
     const response = await axios.post(
       `${process.env.BACKEND_BASE_URL}/api/v1/workflows`,
+      payload,
       {
         headers: {
-          Authorization: `Bearer ${session.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
 
     return NextResponse.json(response.data);
-  } catch (error) {
-    console.error("Erro ao buscar templates:", error);
+  } catch (e: any) {
+    console.error("Erro ao publicar workflow:", e.response?.data || e.message);
     return NextResponse.json(
-      { error: "Erro ao buscar templates" },
-      { status: 500 }
+      { error: "Erro ao publicar workflow" },
+      { status: e.response?.status || 500 }
     );
   }
 }
