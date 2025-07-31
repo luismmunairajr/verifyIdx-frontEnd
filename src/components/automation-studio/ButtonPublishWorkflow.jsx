@@ -22,6 +22,7 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const { t } = useLanguage();
+
   const handlePublish = async () => {
     if (!workflowName.trim()) {
       toast.error("Workflow name is required.");
@@ -33,20 +34,28 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
       return;
     }
 
-    // Extrair opções do nó "Identity Verification"
+ 
     const identityVerificationNode = nodes.find(
       (node) => node.data.title === "Identity Verification"
     );
     const identityVerificationOptions =
       identityVerificationNode?.data?.options || {};
 
-    // Mapear steps esperados
     const steps = [];
     if (identityVerificationOptions.liveness) steps.push("livenessDetection");
     if (identityVerificationOptions.idscan) steps.push("idscanOnly");
     if (identityVerificationOptions.photoIDMatch) steps.push("photoIDMatch");
+    if (identityVerificationOptions.enrolment) steps.push("enrollment");
 
-    // Mapeamento de títulos para produtos
+   
+    const governmentScreeningNode = nodes.find(
+      (node) => node.data.title === "governmentScreening"
+    );
+    const governmentScreeningOptions = governmentScreeningNode?.data?.options || {};
+    const governmentScreeningServices = Object.entries(governmentScreeningOptions)
+      .filter(([_, isEnabled]) => isEnabled)
+      .map(([key]) => ({ name: key }));
+
     const productTitleMap = {
       identityVerification: "identity_verification",
       "Credit Score": "credit_score",
@@ -58,15 +67,21 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
       "Deceased Check": "deceased_api",
     };
 
-    // Construir lista de produtos obrigatórios
+   
     const requiredProducts = nodes.map((node, index) => {
       const originalTitle = node?.data?.title;
       const product = productTitleMap[originalTitle] ?? "";
 
-      const options = node?.data?.options || {};
-      const services = Object.entries(options)
-        .filter(([_, isEnabled]) => isEnabled)
-        .map(([key]) => ({ name: key }));
+      let services = [];
+
+      if (originalTitle === "governmentScreening") {
+        services = governmentScreeningServices; 
+      } else {
+        const options = node?.data?.options || {};
+        services = Object.entries(options)
+          .filter(([_, isEnabled]) => isEnabled)
+          .map(([key]) => ({ name: key }));
+      }
 
       return {
         order: index + 1,
@@ -77,7 +92,9 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
 
     const newWorkflow = {
       workflowName,
-      webhookUrl : process.env.WEBHOOKURL || "https://webhook.site/cac47fb0-14df-439f-81a9-0017802ddeef",
+      webhookUrl:
+        process.env.WEBHOOKURL ||
+        "https://webhook.site/cac47fb0-14df-439f-81a9-0017802ddeef",
       requiredProducts,
       tags: [],
     };
@@ -127,18 +144,16 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
     <Sheet>
       <SheetTrigger asChild>
         <Button disabled={loading}>
-         {loading ? t("publicando") : t("publicar")}
+          {loading ? t("publicando") : t("publicar")}
         </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-           <SheetTitle>{t("publicarWorkflow")}</SheetTitle>
-          <SheetDescription>
-              {t("preenchaOsDadosParaPublicar")}
-          </SheetDescription>
+          <SheetTitle>{t("publicarWorkflow")}</SheetTitle>
+          <SheetDescription>{t("preenchaOsDadosParaPublicar")}</SheetDescription>
         </SheetHeader>
         <div className="pt-4">
-           <Label className="text-sm">{t("nomeDoWorkflow")}</Label>
+          <Label className="text-sm">{t("nomeDoWorkflow")}</Label>
           <Input
             value={workflowName}
             onChange={(e) => setWorkflowName(e.target.value)}

@@ -236,9 +236,8 @@ noPersonsAvailable:"Sem pessoas disponiveis",
 
     active: "Ativo",
     fullname: "Nome completo",
-
-  development: "Desenvolvimento",
-  production: "Produção",
+  development: "Desenvolvimento é  um ambiente para testes e desenvolvimento. Use Produção para sua aplicação ao vivo.",
+  production: "Produção é o ambiente ao vivo para sua aplicação.",
   unknown: "Desconhecido",
   changeLegal: "Alterar nome legal",
   changeShort: "Alterar nome curto",
@@ -318,7 +317,10 @@ noPersonsAvailable:"Sem pessoas disponiveis",
   errorCreateKey: "Erro ao criar a chave.",
   
   creating: "Criando...",
- 
+  admin: "Administrador",
+  analist: "Analista",
+  manager: "Gestor",
+
 
 
   //Unauthorized

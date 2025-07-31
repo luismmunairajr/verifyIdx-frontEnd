@@ -153,8 +153,8 @@ const en = {
     preenchaOsDadosParaPublicar: "Fill in the details to publish your workflow.",
     nomeDoWorkflow: "Workflow Name",
 
-  development: "Development",
-  production: "Production",
+  development: "Development is a full environment for testing and development. Use Production for your live application.",
+  production: "Production is the live environment for your application.",
   unknown: "Unknown",
   untitled: "Untitled",
   saveWorkflow: "Save Workflow",
@@ -314,6 +314,10 @@ const en = {
   errorCreateKey: "Error while creating the key.",
  
   creating: "Creating...",
+  admin: "Administrator",
+  analist: "Analyst",
+  manager: "Manager",
+ 
 
 
   loadingUsers: "Carregando usuários...",

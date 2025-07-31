@@ -171,53 +171,84 @@ export function CustomerTable() {
           <DialogTrigger asChild>
             <Button>{t("addUser")}</Button>
           </DialogTrigger>
-          <DialogContent className="space-y-4">
-            <DialogHeader>
-              <DialogTitle>{t("createUser")}</DialogTitle>
-            </DialogHeader>
-            <Input
-              placeholder={t("name")}
-              value={newUser.fullname}
-              onChange={(e) => setNewUser({ ...newUser, fullname: e.target.value })}
-            />
-            <Input
-              placeholder={t("email")}
-              value={newUser.email}
-              onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-            />
-            <Input
-              placeholder={t("password")}
-              type="password"
-              value={newUser.password}
-              onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-            />
-            <Select
-              value={newUser.sex}
-              onValueChange={(value) => setNewUser({ ...newUser, sex: value })}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t("gender")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="M">M</SelectItem>
-                <SelectItem value="F">F</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select
-              value={newUser.role}
-              onValueChange={(value) => setNewUser({ ...newUser, role: value })}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t("role")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="ADMIN">ADMIN</SelectItem>
-                <SelectItem value="ANALIST">ANALIST</SelectItem>
-                <SelectItem value="MANAGER">MANAGER</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button onClick={createUser}>{t("save")}</Button>
-          </DialogContent>
+          <DialogContent className="space-y-2 p-4">
+              <DialogHeader>
+                <DialogTitle className="text-base">{t("createUser")}</DialogTitle>
+              </DialogHeader>
+
+              <div className="grid grid-cols-1 gap-2">
+                <div>
+                  <label className="text-sm font-medium">{t("name")}</label>
+                  <Input
+                    className="h-9"
+                    placeholder={t("name")}
+                    value={newUser.fullname}
+                    onChange={(e) => setNewUser({ ...newUser, fullname: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">{t("email")}</label>
+                  <Input
+                    className="h-9"
+                    placeholder={t("email")}
+                    value={newUser.email}
+                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">{t("password")}</label>
+                  <Input
+                    className="h-9"
+                    type="password"
+                    placeholder={t("password")}
+                    value={newUser.password}
+                    onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">{t("gender")}</label>
+                  <Select
+                    value={newUser.sex}
+                    onValueChange={(value) => setNewUser({ ...newUser, sex: value })}
+                  >
+                    <SelectTrigger className="h-9">
+                      <SelectValue placeholder={t("gender")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="M">{t("male")}</SelectItem>
+                      <SelectItem value="F">{t("female")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">{t("role")}</label>
+                  <Select
+                    value={newUser.role}
+                    onValueChange={(value) => setNewUser({ ...newUser, role: value })}
+                  >
+                    <SelectTrigger className="h-9">
+                      <SelectValue placeholder={t("role")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ADMIN">{t("admin")}</SelectItem>
+                      <SelectItem value="ANALIST">{t("analyst")}</SelectItem>
+                      <SelectItem value="MANAGER">{t("manager")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <Button className="w-full" onClick={createUser}>
+                  {t("save")}
+                </Button>
+              </div>
+            </DialogContent>
+      
         </Dialog>
       </div>
 

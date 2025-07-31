@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback , useRef } from "react";
 import axiosInstance from "@/app/api/axios/axiosInstance";
 import unknow from "@/assets/unknowProfile.svg";
 
@@ -9,12 +9,13 @@ export function useProfiles(initialPage = 1, limit = 10) {
   const [meta, setMeta] = useState({ page: initialPage, limit, total: 0 });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const hasFetched = useRef(false); 
 
   const [verificationDetails, setVerificationDetails] = useState(null);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [errorDetails, setErrorDetails] = useState(null);
 
-  // Normaliza a imagem base64 ou retorna default
+
   const normalizeBase64 = (value) => {
     if (!value) return unknow.src;
     if (value.startsWith("data:image")) return value;
@@ -39,15 +40,15 @@ export function useProfiles(initialPage = 1, limit = 10) {
         fullName: item.fullname || "--",
         status: item.status || "--",
         auditTrailImage: normalizeBase64(item.auditTrailImage),
-        startedAt: item.startedAt || new Date().toISOString(), // se tiver startedAt
+        startedAt: item.startedAt || new Date().toISOString(), 
       }));
 
-          setProfiles((old) =>
-        [...old, ...profilesData].sort(
-          (a, b) => new Date(b.startedAt) - new Date(a.startedAt)
-        )
-      );
-      // acumula páginas
+                setProfiles((old) => {
+          const combined = [...old, ...profilesData];
+          combined.sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt));
+          return combined;
+        });
+   
       setMeta(metaResponse);
     } catch (err) {
       setError(err.message || "Erro ao buscar os dados.");
@@ -56,13 +57,16 @@ export function useProfiles(initialPage = 1, limit = 10) {
     }
   }, [limit]);
 
-  // Inicia na página inicial
+ 
   useEffect(() => {
+
+     if (hasFetched.current) return; // Evita chamada duplicada
+    hasFetched.current = true;
     setProfiles([]);
     fetchProfiles(initialPage);
   }, [initialPage, fetchProfiles]);
 
-  // Função para carregar próxima página
+  
   const loadMore = () => {
   if (meta.page < meta.totalPages && !isLoading) {
     fetchProfiles(meta.page + 1);
@@ -80,7 +84,7 @@ export function useProfiles(initialPage = 1, limit = 10) {
     const verification = response.data?.verification;
     if (!verification) throw new Error("Verificação não encontrada");
 
-    // O ID correto vem de verification.identity_verification.verificationId
+   
     const identityVerification = verification.identity_verification;
     if (!identityVerification) throw new Error("identity_verification não encontrada");
 
@@ -114,6 +118,10 @@ export function useProfiles(initialPage = 1, limit = 10) {
       customField1: normalize(4, "customField1"),
       fatherName: normalize(4, "customField2"),
       motherName: normalize(4, "customField3"),
+      documentCountry: documentData?.templateInfo?.documentCountry || "--",
+      templateName: documentData?.templateInfo?.templateName || "--",
+      templateType: documentData?.templateInfo?.templateType || "--",
+    
 
       // Info da verificação
       verificationId: verification.verificationId || "--", // aqui!
@@ -137,13 +145,13 @@ export function useProfiles(initialPage = 1, limit = 10) {
       photoIDFrontCrop: r0?.idscanOnly?.photoIDFrontCrop || null,
     };
 
-    console.log("[useProfile] Dados detalhados:", detailedData);
+ 
     setVerificationDetails(detailedData);
     setIsLoadingDetails(false);
     return detailedData;
 
   } catch (err) {
-    console.error("[useProfile] Erro ao buscar verificação:", err);
+   
     setErrorDetails(err.message || "Erro ao buscar detalhes.");
     setIsLoadingDetails(false);
     throw err;

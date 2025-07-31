@@ -69,6 +69,7 @@ export default function TemplatesPage() {
               name={workflow.name}
               description={workflow.description}
               categories={workflow.categories}
+              source="mongo"
             />
           ))}
         </div>

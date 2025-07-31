@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import axios from "axios";
 
+interface Params {
+  templateId: string;
+}
+
 export async function GET(
   req: NextRequest,
-  { params }: { params: { verificationId: string } }
+  { params }: { params: Params }
 ) {
   const token = await getToken({ req });
 
@@ -12,11 +16,11 @@ export async function GET(
     return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
   }
 
-  try {
-    const { verificationId } = params;
+  const { templateId } = params;
 
+  try {
     const response = await axios.get(
-      `${process.env.BACKEND_BASE_URL}/api/v1/verifications/${verificationId}`,
+      `${process.env.BACKEND_BASE_URL}/api/v1/workflows/${templateId}`,
       {
         headers: {
           Authorization: `Bearer ${token.accessToken}`,
@@ -26,9 +30,9 @@ export async function GET(
 
     return NextResponse.json(response.data);
   } catch (error: any) {
-    console.error(`Erro ao buscar detalhes da verificação ${params.verificationId}:`, error?.response?.data || error.message);
+    console.error("Erro ao buscar template:", error?.response?.data || error.message);
     return NextResponse.json(
-      { error: "Erro ao buscar detalhes da verificação" },
+      { error: "Erro ao buscar template" },
       { status: error?.response?.status || 500 }
     );
   }

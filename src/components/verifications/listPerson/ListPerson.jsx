@@ -32,7 +32,7 @@ export default function ListPerson({ onSelectPerson }) {
 
   // Filtragem e ordenação
   const filteredProfiles = [...profiles]
-    .sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt))
+   
     .filter((person) => {
       const matchesText = (person.fullName || "")
         .toLowerCase()

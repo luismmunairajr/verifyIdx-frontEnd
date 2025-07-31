@@ -81,7 +81,7 @@ export default function ApiKeys() {
           <Image src={cubeicon} alt="Cube Icon" />
           <div className="text-sm w-20">
             <h4>Verify IDX</h4>
-            <p>{stageText}</p>
+            <p>{stage}</p>
           </div>
           <div className="border-l border-gray-400 h-full" />
           <div>

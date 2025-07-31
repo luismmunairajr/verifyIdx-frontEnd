@@ -73,6 +73,7 @@ export default function TemplatesPage() {
                 `${t("createdAt")}: ${new Date(workflow.createdAt).toLocaleDateString()}`,
                 `${t("updatedAt")}: ${new Date(workflow.updatedAt).toLocaleDateString()}`
               ]}
+              source="backend"
             />
           ))}
         </div>

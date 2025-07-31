@@ -12,6 +12,7 @@ function CustomNode({ data, selected }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isIdentityVerification = title === "identityVerification";
+  const isGovernmentScreening = title === "governmentScreening";
 
   const handleOptionChange = (option) => {
     const newOptions = {
@@ -42,7 +43,7 @@ function CustomNode({ data, selected }) {
           </div>
         </div>
 
-        {isIdentityVerification && (
+        {(isIdentityVerification || isGovernmentScreening) && (
           <button
             className="absolute right-4 top-1 text-white dark:text-zinc-400 hover:bg-zinc-100 bg-blue-500 dark:hover:bg-zinc-800 p-1 rounded"
             onClick={() => setIsExpanded(!isExpanded)}
@@ -53,34 +54,67 @@ function CustomNode({ data, selected }) {
         )}
       </div>
 
-      {isIdentityVerification && isExpanded && (
+      {isExpanded && (
         <div className="mt-4 pt-3 border-t border-zinc-200 dark:border-zinc-700">
-          <div className="text-sm font-semibold mb-2 text-zinc-700 dark:text-zinc-300">
-            {t("verificationMethods")}:
-          </div>
+          {isIdentityVerification && (
+            <>
+              <div className="text-sm font-semibold mb-2 text-zinc-700 dark:text-zinc-300">
+                {t("verificationMethods")}:
+              </div>
+              <div className="space-y-2">
+                <Checkbox
+                  id={`liveness-${data.id}`}
+                  checked={options.liveness}
+                  label={t("livenessDetection")}
+                  onChange={() => handleOptionChange("liveness")}
+                />
 
-          <div className="space-y-2">
-            <Checkbox
-              id={`liveness-${data.id}`}
-              checked={options.liveness}
-              label={t("livenessDetection")}
-              onChange={() => handleOptionChange("liveness")}
-            />
+                <Checkbox
+                  id={`idscan-${data.id}`}
+                  checked={options.idscan}
+                  label={t("idScan")}
+                  onChange={() => handleOptionChange("idscan")}
+                />
 
-            <Checkbox
-              id={`idscan-${data.id}`}
-              checked={options.idscan}
-              label={t("idScan")}
-              onChange={() => handleOptionChange("idscan")}
-            />
+                <Checkbox
+                  id={`photoIDMatch-${data.id}`}
+                  checked={options.photoIDMatch}
+                  label={t("photoIDMatch")}
+                  onChange={() => handleOptionChange("photoIDMatch")}
+                />
 
-            <Checkbox
-              id={`photoIDMatch-${data.id}`}
-              checked={options.photoIDMatch}
-              label={t("photoIDMatch")}
-              onChange={() => handleOptionChange("photoIDMatch")}
-            />
-          </div>
+                <Checkbox
+                  id={`enrollment-${data.id}`}
+                  checked={options.enrolment}
+                  label={t("enrollment")}
+                  onChange={() => handleOptionChange("enrollment")}
+                />
+              </div>
+            </>
+          )}
+
+          {isGovernmentScreening && (
+            <>
+              <div className="text-sm font-semibold mb-2 text-zinc-700 dark:text-zinc-300">
+                {t("governmentChecks")}:
+              </div>
+              <div className="space-y-2">
+                <Checkbox
+                  id={`nuit-${data.id}`}
+                  checked={options.nuit}
+                  label={t("nuit")}
+                  onChange={() => handleOptionChange("nuit")}
+                />
+
+                <Checkbox
+                  id={`nuib-${data.id}`}
+                  checked={options.nuib}
+                  label={t("nuib")}
+                  onChange={() => handleOptionChange("nuib")}
+                />
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -90,7 +124,7 @@ function CustomNode({ data, selected }) {
   );
 }
 
-// Component checkbox reutilizável
+// Checkbox component reutilizável
 function Checkbox({ id, checked, label, onChange }) {
   return (
     <div className="flex items-center">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useLanguage } from "@/components/language/language-provider";
-
+import axiosInstance from "@/app/api/axios/axiosInstance";
+import { toast } from "sonner";
 
 function SelectGender({ value, onChange, disabled }: { value: string; onChange: (v: string) => void; disabled?: boolean }) {
   return (
@@ -16,9 +17,9 @@ function SelectGender({ value, onChange, disabled }: { value: string; onChange: 
       disabled={disabled}
       className="w-full p-2 border rounded"
     >
-      <option value="male">{value === "male" ? "Male" : "Male"}</option>
-      <option value="female">{value === "female" ? "Female" : "Female"}</option>
-      <option value="other">{value === "other" ? "Other" : "Other"}</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
     </select>
   );
 }
@@ -29,8 +30,7 @@ export default function HomeComponent() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [avatarPreview, setAvatarPreview] = useState(session?.user?.image || "");
-
+  const [avatarPreview, setAvatarPreview] = useState("");
 
   const [fullName, setFullName] = useState("");
   const [country, setCountry] = useState("");
@@ -38,6 +38,29 @@ export default function HomeComponent() {
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const [timezone, setTimezone] = useState("");
+
+
+  const fetchUserProfile = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get("/api/axios/settings");
+      const user = response.data;
+
+      setFullName(user.fullname || "");
+      setCountry(user.country || "");
+      setGender(user.sex || " ");
+      setCity(user.city || "");
+      setPhone(user.phone || "");
+      setTimezone(user.timezone || "");
+      setAvatarPreview(user.avatarUrl || "");
+    } catch (error) {
+      console.error("Erro ao carregar perfil:", error);
+      toast.error(t("errorLoadingProfile"));
+    }
+  }, [t]);
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, [fetchUserProfile]);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -60,21 +83,21 @@ export default function HomeComponent() {
     }
 
     try {
-      const res = await fetch("/api/user/update-profile", {
-        method: "POST",
-        body: formData,
+      const res = await axiosInstance.put("/api/user/update-profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      const data = await res.json();
-      if (res.ok) {
-        alert(t("profileUpdateSuccess"));
+      if (res.status === 200) {
+        toast.success(t("profileUpdateSuccess"));
         setIsEditing(false);
       } else {
-        alert(t("profileUpdateError") + ": " + data.message);
+        toast.error(t("profileUpdateError") + ": " + res.statusText);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert(t("networkError"));
+      toast.error(t("networkError"));
     }
   };
 
@@ -83,18 +106,13 @@ export default function HomeComponent() {
       <div className="flex justify-between">
         <div className="flex space-x-4 relative">
           <Avatar className="md:size-12 size-6 relative">
-            <AvatarImage src={avatarPreview} />
+            <AvatarImage src={avatarPreview || session?.user?.image || ""} />
             <AvatarFallback>{t("initialsFallback")}</AvatarFallback>
           </Avatar>
           {isEditing && (
             <label className="absolute bottom-0 right-0 bg-gray-200 p-1 rounded-full cursor-pointer">
               <Camera size={16} />
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleAvatarChange}
-                accept="image/*"
-              />
+              <input type="file" className="hidden" onChange={handleAvatarChange} accept="image/*" />
             </label>
           )}
           <div>
@@ -102,10 +120,7 @@ export default function HomeComponent() {
             <p className="text-xs text-zinc-500">{session?.user?.email ?? t("loading")}</p>
           </div>
         </div>
-        <Button
-          className="w-28 h-8"
-          onClick={isEditing ? handleSave : () => setIsEditing(true)}
-        >
+        <Button className="w-28 h-8" onClick={isEditing ? handleSave : () => setIsEditing(true)}>
           {isEditing ? t("save") : t("edit")}
         </Button>
       </div>
@@ -113,61 +128,27 @@ export default function HomeComponent() {
       <div className="grid grid-cols-2 gap-5 w-full">
         <div className="w-full">
           <Label>{t("fullName")}</Label>
-          <Input
-            type="text"
-            placeholder={t("yourFullName")}
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            disabled={!isEditing}
-          />
+          <Input type="text" placeholder={t("yourFullName")} value={fullName} onChange={(e) => setFullName(e.target.value)} disabled={!isEditing} />
         </div>
         <div className="w-full">
           <Label>{t("country")}</Label>
-          <Input
-            type="text"
-            placeholder={t("yourCountry")}
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            disabled={!isEditing}
-          />
+          <Input type="text" placeholder={t("yourCountry")} value={country} onChange={(e) => setCountry(e.target.value)} disabled={!isEditing} />
         </div>
         <div className="w-full">
           <Label>{t("gender")}</Label>
-          <SelectGender
-            value={gender}
-            onChange={setGender}
-            disabled={!isEditing}
-          />
+          <SelectGender value={gender} onChange={setGender} disabled={!isEditing} />
         </div>
         <div className="w-full">
           <Label>{t("city")}</Label>
-          <Input
-            type="text"
-            placeholder={t("yourCity")}
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            disabled={!isEditing}
-          />
+          <Input type="text" placeholder={t("yourCity")} value={city} onChange={(e) => setCity(e.target.value)} disabled={!isEditing} />
         </div>
         <div className="w-full">
           <Label>{t("phoneNumber")}</Label>
-          <Input
-            type="tel"
-            placeholder={t("yourPhoneNumber")}
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            disabled={!isEditing}
-          />
+          <Input type="tel" placeholder={t("yourPhoneNumber")} value={phone} onChange={(e) => setPhone(e.target.value)} disabled={!isEditing} />
         </div>
         <div className="w-full">
           <Label>{t("timeZone")}</Label>
-          <Input
-            type="text"
-            placeholder={t("yourTimeZone")}
-            value={timezone}
-            onChange={(e) => setTimezone(e.target.value)}
-            disabled={!isEditing}
-          />
+          <Input type="text" placeholder={t("yourTimeZone")} value={timezone} onChange={(e) => setTimezone(e.target.value)} disabled={!isEditing} />
         </div>
       </div>
     </div>
