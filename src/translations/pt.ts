@@ -320,7 +320,7 @@ noPersonsAvailable:"Sem pessoas disponiveis",
   admin: "Administrador",
   analist: "Analista",
   manager: "Gestor",
-
+  livenessFailed: "Falha na Verificação de Liveness",
 
 
   //Unauthorized

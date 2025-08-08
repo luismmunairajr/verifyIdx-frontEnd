@@ -7,6 +7,7 @@ import { DnDProvider, useDnD } from '@/components/automation-studio/DnDContext';
 import CustomNode from '@/components/automation-studio/nodes/customNode';
 import { TabSidebar } from '@/components/automation-studio/TabSidebar';
 import "@/components/automation-studio/nodes/index.css";
+import WorkflowHeader from "./WorkflowHeader.jsx";
 
 let id = 0;
 const getId = () => `node_${id++}`;
@@ -84,8 +85,10 @@ const DnDFlow = ({ workflow }) => {
   );
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-96px)]">
-      <div
+     <div className="flex flex-col h-full">
+        <WorkflowHeader nodes={nodes} edges={edges} setNodes={setNodes} setEdges={setEdges} />
+          <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+         <div
         className="h-full overflow-hidden w-full bg-zinc-100 dark:bg-zinc-950"
         ref={reactFlowWrapper}>
         <ReactFlow
@@ -106,6 +109,7 @@ const DnDFlow = ({ workflow }) => {
         </ReactFlow>
       </div>
       <TabSidebar nodes={nodes} edges={edges} />
+    </div>
     </div>
   );
 };

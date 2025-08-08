@@ -2,20 +2,21 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import axiosInstance from '@/app/api/axios/axiosInstance';
 import {
   ReactFlow,
+  ReactFlowProvider,
   Background,
   Controls,
   MiniMap,
   useNodesState,
   useEdgesState,
   useReactFlow,
-  ReactFlowProvider,
 } from '@xyflow/react';
 import CustomNode from '@/components/automation-studio/nodes/customNode';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import TemplatePageSkeleton from '../TemplatePageSkeleton';
+import TemplatePageSkeleton from '../../TemplatePageSkeleton';
 import { useLanguage } from '@/components/language/language-provider';
 
 function TemplatePageInner({ id }) {
@@ -26,16 +27,46 @@ function TemplatePageInner({ id }) {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-  const { fitView } = useReactFlow(); // Só funciona dentro do provider
+  const { fitView } = useReactFlow();
 
   function normalizeWorkflow(data) {
+    const nodes = [];
+    const edges = [];
+
+    if (Array.isArray(data.requiredProducts)) {
+      data.requiredProducts.forEach((product, index) => {
+        const nodeId = `node_${index}`;
+        nodes.push({
+          id: nodeId,
+          type: 'custom',
+          position: { x: 100, y: index * 200 },
+          data: {
+            title: product.product,
+            description: `Serviços: ${product.services.map(s => s.name).join(', ')}`,
+            iconName: 'ScanEye',
+          },
+        });
+
+        if (index > 0) {
+          edges.push({
+            id: `edge_${index - 1}_${index}`,
+            source: `node_${index - 1}`,
+            target: nodeId,
+            animated: true,
+            style: { stroke: '#3b82f6', strokeWidth: 2 },
+            markerEnd: { type: 'arrowclosed' },
+          });
+        }
+      });
+    }
+
     return {
-      id: data._id || data.id || '',
-      name: data.name || '',
+      id: data.workflowId,
+      name: data.workflowName,
       description: data.description || '',
       categories: data.categories || [],
-      nodes: data.nodes || [],
-      edges: data.edges || [],
+      nodes,
+      edges,
       tags: data.tags || [],
     };
   }
@@ -43,10 +74,8 @@ function TemplatePageInner({ id }) {
   useEffect(() => {
     async function fetchWorkflow() {
       try {
-        const response = await fetch(`/api/workflows/${id}`);
-        if (!response.ok) throw new Error('Workflow not found');
-        const data = await response.json();
-        const normalized = normalizeWorkflow(data);
+        const response = await axiosInstance.get(`/api/axios/templates/${id}`);
+        const normalized = normalizeWorkflow(response.data);
         setWorkflow(normalized);
         setNodes(normalized.nodes);
         setEdges(normalized.edges);
@@ -76,9 +105,7 @@ function TemplatePageInner({ id }) {
     <div className="flex items-center justify-center gap-2 w-full" style={{ height: '85vh' }}>
       <div className="border-2 h-full w-1/4 rounded-xl shadow-xl p-4 flex flex-col gap-4 overflow-auto">
         <h1 className="text-xl font-bold mb-4">{workflow.name}</h1>
-        {workflow.description && (
-          <p className="text-gray-600 text-xs">{workflow.description}</p>
-        )}
+        {workflow.description && <p className="text-gray-600 text-xs">{workflow.description}</p>}
 
         <div>
           <h1>CATEGORIES</h1>
@@ -95,16 +122,8 @@ function TemplatePageInner({ id }) {
           </div>
         </div>
 
-        <Button
-          onClick={() => {
-            // Recarregar workflow ou fazer alguma ação
-            // fitView({ padding: 0.3 }); // exemplo de uso
-          }}
-        >
-          Use Workflow
-        </Button>
-
-        <Button variant="secondary" onClick={() => router.push(`/automation-studio/${id}`)}>
+        <Button>Use Workflow</Button>
+        <Button variant="secondary" onClick={() => router.push(`/automation-studio/identifier/${id}`)}>
           Copy Workflow
         </Button>
       </div>

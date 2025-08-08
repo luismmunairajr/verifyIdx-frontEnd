@@ -1,11 +1,8 @@
-import TemplatePage from "./Templates";
 
-export const metadata = {
-  title: "Template - Verify IDX"
-}
+'use client';
 
-export default function Page({params}) {
-  return(
-    <TemplatePage params={params}/>
-  )
+import TemplatePageContent from './Templates';
+
+export default function TemplatePage({ params }) {
+  return <TemplatePageContent id={params.id} />;
 }

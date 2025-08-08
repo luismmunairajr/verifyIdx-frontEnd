@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
+
 export default function ApiKeys() {
   const { t } = useLanguage();
   const { data: session } = useSession();
@@ -27,7 +28,8 @@ export default function ApiKeys() {
   const [loading, setLoading] = useState(true);
   const [revokingKey, setRevokingKey] = useState("");
 
-  const stage = process.env.TEXT_STAGE || "unknown";
+  const envirinment_text = process.env.NEXT_PUBLIC_ENVIRONMENT || "unknown";
+  
 
   const fetchKeys = useCallback(async () => {
     setLoading(true);
@@ -60,8 +62,8 @@ export default function ApiKeys() {
     if (session) fetchKeys();
   }, [session, fetchKeys]);
 
-  const stageText = (() => {
-    switch (stage) {
+  const env_Text = (() => {
+    switch (envirinment_text) {
       case "production":
         return t("production");
       case "development":
@@ -81,17 +83,17 @@ export default function ApiKeys() {
           <Image src={cubeicon} alt="Cube Icon" />
           <div className="text-sm w-20">
             <h4>Verify IDX</h4>
-            <p>{stage}</p>
+            <p>{envirinment_text}</p>
           </div>
           <div className="border-l border-gray-400 h-full" />
           <div>
-            <h4 className="font-semibold text-sm">Client ID</h4>
+            <h4 className="font-semibold text-sm">Tenant ID</h4>
             <div className="p-1 bg-zinc-200 rounded">
               <p className="text-xs text-zinc-500">{ session?.tenantId ?? "-"}</p>
             </div>
           </div>
           <div className="border-l border-gray-400 h-full" />
-          <p className="text-sm">{stageText}</p>
+          <p className="text-sm">{env_Text}</p>
         </div>
       </div>
 
@@ -120,7 +122,7 @@ export default function ApiKeys() {
           <TableBody>
             {apiKeys.map((key) => (
               <TableRow key={key.id}>
-                <TableCell>Secret Key</TableCell>
+                 <TableCell>{key.name || ""}</TableCell>
                 <TableCell>
                   {key.status === "ACTIVE"
                     ? "**********************"

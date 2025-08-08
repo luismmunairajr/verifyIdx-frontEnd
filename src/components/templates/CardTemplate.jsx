@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { Card } from "@/components/ui/card"
 import { ScanEye, Fingerprint, Sparkles, List, Bot } from 'lucide-react';
@@ -22,7 +22,11 @@ export default function CardTemplate({ id, name, description, categories, source
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/templates/${id}?source=${source}`);
+    if (source === 'backend') {
+      router.push(`/templates/identifier/${id}`);
+    } else {
+      router.push(`/templates/${id}`);
+    }
   };
 
   const categoryArray = Array.isArray(categories) ? categories : [];

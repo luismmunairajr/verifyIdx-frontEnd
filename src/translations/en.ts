@@ -317,7 +317,7 @@ const en = {
   admin: "Administrator",
   analist: "Analyst",
   manager: "Manager",
- 
+  livenessFailed: "Liveness Check Failed",
 
 
   loadingUsers: "Carregando usuários...",
