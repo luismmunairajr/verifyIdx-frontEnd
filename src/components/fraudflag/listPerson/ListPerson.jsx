@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useProfiles } from "@/hooks/useProfiles";
 import InputSearch from "./Input";
 import ListVerifications from "./ListVerifications";
@@ -14,7 +14,6 @@ export default function ListPerson({ onSelectPerson }) {
     isLoading,
     error,
     fetchVerificationDetails,
-    isLoadingDetails,
     errorDetails,
     loadMore,
   } = useProfiles(1, 10);
@@ -25,28 +24,29 @@ export default function ListPerson({ onSelectPerson }) {
   const [showPending, setShowPending] = useState(true);
   const [showComplete, setShowComplete] = useState(true);
   const [showRejected, setShowRejected] = useState(true);
+  const [resetScroll, setResetScroll] = useState(false);
 
   const STATUS_PENDING = "Pending";
   const STATUS_COMPLETE = "Complete";
   const STATUS_REJECTED = "Rejected";
 
-  // Filtragem e ordenação
-  const filteredProfiles = [...profiles]
-    .sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt))
-    .filter((person) => {
-      const matchesText = (person.fullName || "")
-        .toLowerCase()
-        .includes(filterText.toLowerCase());
+  const filteredProfiles = profiles.filter((person) => {
+    const matchesText = (person.fullName || "")
+      .toLowerCase()
+      .includes(filterText.toLowerCase());
 
-      const matchesStatus =
-        (showPending && person.status === STATUS_PENDING) ||
-        (showComplete && person.status === STATUS_COMPLETE) ||
-        (showRejected && person.status === STATUS_REJECTED);
+    const matchesStatus =
+      (showPending && person.status === STATUS_PENDING) ||
+      (showComplete && person.status === STATUS_COMPLETE) ||
+      (showRejected && person.status === STATUS_REJECTED);
 
-      return matchesText && matchesStatus;
-    });
+    return matchesText && matchesStatus;
+  });
 
-  // Scroll infinito - observe o último perfil renderizado
+  useEffect(() => {
+    setResetScroll(true);
+  }, [filterText, showPending, showComplete, showRejected]);
+
   const observer = useRef();
   const lastProfileRef = useCallback(
     (node) => {
@@ -56,7 +56,7 @@ export default function ListPerson({ onSelectPerson }) {
       observer.current = new IntersectionObserver((entries) => {
         if (
           entries[0].isIntersecting &&
-          meta.page < Math.ceil(meta.total / meta.limit)
+          meta.page < meta.totalPages
         ) {
           loadMore();
         }
@@ -67,22 +67,18 @@ export default function ListPerson({ onSelectPerson }) {
     [isLoading, loadMore, meta]
   );
 
-  // Handler para selecionar pessoa
   const handleSelectPerson = async (person) => {
     try {
-      // Busca os detalhes da verificação pelo ID
+      onSelectPerson({ loading: true }); // ativa skeleton
       const details = await fetchVerificationDetails(person.verificationId);
-
-      // Garante que o objeto de detalhes está presente
       if (!details) {
-        console.warn("Detalhes da verificação não encontrados");
+        onSelectPerson(null);
         return;
       }
-
-      // Passa o objeto completo para o componente pai
-      onSelectPerson(details);
+      onSelectPerson(details); // envia os detalhes para o pai
     } catch (err) {
       console.error("Erro ao buscar detalhes:", err);
+      onSelectPerson(null);
     }
   };
 
@@ -112,21 +108,16 @@ export default function ListPerson({ onSelectPerson }) {
 
       <h2 className="text-lg font-medium">{t("verifications")}</h2>
 
-      {isLoadingDetails && (
-        <div className="mb-2">
-          <Loading />
-        </div>
-      )}
-
-          <ListVerifications
-      isLoading={isLoading}
-      onSelectPerson={handleSelectPerson}
-      profiles={filteredProfiles.map((person, index) => ({
-        ...person,
-        ref: index === filteredProfiles.length - 1 ? lastProfileRef : null,
-      }))}
-    />
-
+      <ListVerifications
+        isLoading={isLoading}
+        onSelectPerson={handleSelectPerson}
+        profiles={filteredProfiles.map((person, index) => ({
+          ...person,
+          ref: index === filteredProfiles.length - 1 ? lastProfileRef : null,
+        }))}
+        resetScroll={resetScroll}
+        onScrollReseted={() => setResetScroll(false)}
+      />
 
       {errorDetails && (
         <div className="text-red-600 dark:text-red-400">

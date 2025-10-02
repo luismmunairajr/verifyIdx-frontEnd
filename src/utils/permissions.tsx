@@ -23,4 +23,10 @@ export const roleBasedLinks: Record<string, string[]> = {
     "fraudlist",
     "settings",
   ],
+  MANAGER: [
+    "dashboard",
+    "verifications",
+    "fraudlist",
+    "settings",
+  ],
 };

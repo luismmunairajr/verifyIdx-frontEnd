@@ -18,10 +18,10 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
   const routeConfig = [
     {
       path: "/dashboard",
-      roles: ["ADMIN", "USER", "ANALYST"],
+      roles: ["ADMIN", "USER", "ANALYST", "MANAGER"], 
       render: (children: React.ReactNode) => (
         <div className="flex h-screen">
-          <AuthGuard allowedRoles={["ADMIN", "USER", "ANALYST"]}>
+          <AuthGuard allowedRoles={["ADMIN", "USER", "ANALYST", "MANAGER"]}>
             <SidebarDemo>
               <Header />
               {children}
@@ -33,10 +33,10 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     },
     {
       path: "/verifications",
-      roles: ["ADMIN", "USER"],
+      roles: ["ADMIN", "USER", "MANAGER"], 
       render: (children: React.ReactNode) => (
         <div className="flex h-screen">
-          <AuthGuard allowedRoles={["ADMIN", "USER"]}>
+          <AuthGuard allowedRoles={["ADMIN", "USER", "MANAGER"]}>
             <SidebarDemo>
               {children}
               <IaAgent />
@@ -48,7 +48,7 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     },
     {
       path: "/fraudflag",
-      roles: ["ADMIN", "USER"],
+      roles: ["ADMIN", "USER"], 
       render: (children: React.ReactNode) => (
         <div className="flex h-screen">
           <AuthGuard allowedRoles={["ADMIN", "USER"]}>
@@ -59,10 +59,10 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     },
     {
       path: "/fraudlist",
-      roles: ["ADMIN", "USER", "ANALYST"],
+      roles: ["ADMIN", "USER", "ANALYST", "MANAGER"], 
       render: (children: React.ReactNode) => (
         <div className="flex h-screen">
-          <AuthGuard allowedRoles={["ADMIN", "USER", "ANALYST"]}>
+          <AuthGuard allowedRoles={["ADMIN", "USER", "ANALYST", "MANAGER"]}>
             <SidebarDemo><Header />{children}<SupportButton /></SidebarDemo>
           </AuthGuard>
         </div>
@@ -70,7 +70,7 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     },
     {
       path: "/templates",
-      roles: ["ADMIN"],
+      roles: ["ADMIN"], 
       render: (children: React.ReactNode) => (
         <div className="flex h-screen">
           <AuthGuard allowedRoles={["ADMIN"]}>
@@ -81,10 +81,10 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     },
     {
       path: "/settings",
-      roles: ["USER", "ANALYST"],
+      roles: ["USER", "ANALYST", "MANAGER"],
       render: (children: React.ReactNode) => (
         <div className="flex h-screen">
-          <AuthGuard allowedRoles={["USER", "ANALYST"]}>
+          <AuthGuard allowedRoles={["USER", "ANALYST", "MANAGER"]}>
             <SidebarDemo>{children}</SidebarDemo>
           </AuthGuard>
         </div>
@@ -92,7 +92,7 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     },
     {
       path: "/admin-settings",
-      roles: ["ADMIN"],
+      roles: ["ADMIN"], 
       render: (children: React.ReactNode) => (
         <div className="flex h-screen">
           <AuthGuard allowedRoles={["ADMIN"]}>
@@ -103,7 +103,7 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     },
     {
       path: "/automation-studio",
-      roles: ["ADMIN"],
+      roles: ["ADMIN"], 
       render: (children: React.ReactNode) => (
         <div className="flex h-screen">
           <AuthGuard allowedRoles={["ADMIN"]}>

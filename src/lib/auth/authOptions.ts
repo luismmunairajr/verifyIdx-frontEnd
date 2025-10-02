@@ -47,8 +47,9 @@ export const authOptions: AuthOptions = {
         token.roles = roles.map((r) => r.toUpperCase());
         token.tenantId = decoded.tenantId;
         token.clientId = decoded.azp;
-
+        console.log(token.accessToken);
         return token;
+       
       }
 
       if (token.expiresAt && token.expiresAt > now) {

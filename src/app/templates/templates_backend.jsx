@@ -18,7 +18,8 @@ export default function TemplatesPage() {
     const fetchWorkflows = async () => {
       try {
         const response = await axiosInstance.get("/api/axios/templates");
-        const data = response.data?.data;
+        // O backend retorna a lista diretamente ou dentro de data.data?
+        const data = response.data?.data || response.data;
         setWorkflows(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching workflows:", error);
@@ -65,13 +66,13 @@ export default function TemplatesPage() {
         <div className="grid grid-cols-2 gap-4 p-4">
           {filteredWorkflows.map((workflow) => (
             <CardTemplate
-              key={workflow.workflowId}
-              id={workflow.workflowId}
+              key={workflow.id}
+              id={workflow.id}
               name={workflow.workflowName}
-              description={`${t("apiVersion")}: ${workflow.apiVersion}`}
+              description={`${t("version")}: ${workflow.version}`}
               categories={[
                 `${t("createdAt")}: ${new Date(workflow.createdAt).toLocaleDateString()}`,
-                `${t("updatedAt")}: ${new Date(workflow.updatedAt).toLocaleDateString()}`
+                `${t("updatedAt")}: ${new Date(workflow.updatedAt).toLocaleDateString()}`,
               ]}
               source="backend"
             />

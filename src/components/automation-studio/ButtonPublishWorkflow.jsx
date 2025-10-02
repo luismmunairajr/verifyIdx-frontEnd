@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -34,107 +36,46 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
       return;
     }
 
- 
-    const identityVerificationNode = nodes.find(
-      (node) => node.data.title === "Identity Verification"
-    );
-    const identityVerificationOptions =
-      identityVerificationNode?.data?.options || {};
+    // Identifica os nodes
+    const identityNode = nodes.find((node) => node.data.title === "identityVerification");
+    const governmentNode = nodes.find((node) => node.data.title === "governmentScreening");
 
-    const steps = [];
-    if (identityVerificationOptions.liveness) steps.push("livenessDetection");
-    if (identityVerificationOptions.idscan) steps.push("idscanOnly");
-    if (identityVerificationOptions.photoIDMatch) steps.push("photoIDMatch");
-    if (identityVerificationOptions.enrolment) steps.push("enrollment");
+    // Identity Verification Steps
+    const identityOptions = identityNode?.data?.options || {};
+    const identityVerificationSteps = [];
+    if (identityOptions.liveness) identityVerificationSteps.push("liveness");
+    if (identityOptions.idscan) identityVerificationSteps.push("idScan");
+    if (identityOptions.photoIDMatch) identityVerificationSteps.push("matchId");
+    if (identityOptions.enrollment) identityVerificationSteps.push("enrollment");
 
-   
-    const governmentScreeningNode = nodes.find(
-      (node) => node.data.title === "governmentScreening"
-    );
-    const governmentScreeningOptions = governmentScreeningNode?.data?.options || {};
-    const governmentScreeningServices = Object.entries(governmentScreeningOptions)
-      .filter(([_, isEnabled]) => isEnabled)
-      .map(([key]) => ({ name: key }));
+    // Required Products
+    const requiredProducts = ["identity_verification"];
+    const governmentOptions = governmentNode?.data?.options || {};
+    if (governmentOptions.nuit) requiredProducts.push("nuit");
+    if (governmentOptions.nuib) requiredProducts.push("nuib");
 
-    const productTitleMap = {
-      identityVerification: "identity_verification",
-      "Credit Score": "credit_score",
-      governmentScreening: "governemnt_database",
-      "AI Assistant": "ai_recommendation_assistant",
-      Watchlist: "watchlist",
-      "Address Lookup": "address_lookup",
-      "Digital Signature": "digital_signature",
-      "Deceased Check": "deceased_api",
-    };
-
-   
-    const requiredProducts = nodes.map((node, index) => {
-      const originalTitle = node?.data?.title;
-      const product = productTitleMap[originalTitle] ?? "";
-
-      let services = [];
-
-      if (originalTitle === "governmentScreening") {
-        services = governmentScreeningServices; 
-      } else {
-        const options = node?.data?.options || {};
-        services = Object.entries(options)
-          .filter(([_, isEnabled]) => isEnabled)
-          .map(([key]) => ({ name: key }));
-      }
-
-      return {
-        order: index + 1,
-        product,
-        services,
-      };
-    });
-
+    // Monta payload
     const newWorkflow = {
       workflowName,
-      webhookUrl:
-        process.env.WEBHOOKURL ||
-        "https://webhook.site/cac47fb0-14df-439f-81a9-0017802ddeef",
+      webhookUrl: process.env.WEBHOOKURL || "https://webhook.site/cac47fb0-14df-439f-81a9-0017802ddeef",
       requiredProducts,
+      identityVerificationSteps,
       tags: [],
     };
 
     try {
       setLoading(true);
-      const response = await axiosInstance.post(
-        "/api/axios/automation-studio",
-        newWorkflow
-      );
+      const response = await axiosInstance.post("/api/axios/automation-studio", newWorkflow);
 
       if (response.status === 201 || response.status === 200) {
-        toast.success(
-          `Workflow "${workflowName}" has been published successfully.`
-        );
+        toast.success(`Workflow "${workflowName}" has been published successfully.`);
         setWorkflowName("");
       } else {
         toast.error(`Failed to publish workflow. Status: ${response.status}`);
       }
     } catch (error) {
       console.error("Erro ao publicar workflow:", error);
-
-      let errorMessage = "An error occurred while publishing the workflow.";
-
-      if (error?.response?.data?.message) {
-        if (typeof error.response.data.message === "string") {
-          errorMessage = error.response.data.message;
-        } else if (typeof error.response.data.message === "object") {
-          const msg = error.response.data.message;
-          if (msg.message) {
-            errorMessage = msg.message;
-          } else {
-            errorMessage = JSON.stringify(msg);
-          }
-        }
-      } else if (error.message) {
-        errorMessage = error.message;
-      }
-
-      toast.error(errorMessage);
+      toast.error(error.message || "Erro ao publicar workflow");
     } finally {
       setLoading(false);
     }
@@ -143,9 +84,7 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button disabled={loading}>
-          {loading ? t("publicando") : t("publicar")}
-        </Button>
+        <Button disabled={loading}>{loading ? t("publicando") : t("publicar")}</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -154,11 +93,7 @@ export default function ButtonPublishWorkflow({ nodes = [] }) {
         </SheetHeader>
         <div className="pt-4">
           <Label className="text-sm">{t("nomeDoWorkflow")}</Label>
-          <Input
-            value={workflowName}
-            onChange={(e) => setWorkflowName(e.target.value)}
-            disabled={loading}
-          />
+          <Input value={workflowName} onChange={(e) => setWorkflowName(e.target.value)} disabled={loading} />
         </div>
         <SheetFooter>
           <SheetClose asChild>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useProfiles } from "@/hooks/useProfiles";
@@ -14,7 +14,6 @@ export default function ListPerson({ onSelectPerson }) {
     isLoading,
     error,
     fetchVerificationDetails,
-    isLoadingDetails,
     errorDetails,
     loadMore,
   } = useProfiles(1, 10);
@@ -25,7 +24,6 @@ export default function ListPerson({ onSelectPerson }) {
   const [showPending, setShowPending] = useState(true);
   const [showComplete, setShowComplete] = useState(true);
   const [showRejected, setShowRejected] = useState(true);
-
   const [resetScroll, setResetScroll] = useState(false);
 
   const STATUS_PENDING = "Pending";
@@ -45,7 +43,6 @@ export default function ListPerson({ onSelectPerson }) {
     return matchesText && matchesStatus;
   });
 
-  // Sempre que o filtro mudar, queremos resetar scroll
   useEffect(() => {
     setResetScroll(true);
   }, [filterText, showPending, showComplete, showRejected]);
@@ -72,14 +69,16 @@ export default function ListPerson({ onSelectPerson }) {
 
   const handleSelectPerson = async (person) => {
     try {
+      onSelectPerson({ loading: true }); // ativa skeleton
       const details = await fetchVerificationDetails(person.verificationId);
       if (!details) {
-        console.warn("Detalhes da verificação não encontrados");
+        onSelectPerson(null);
         return;
       }
-      onSelectPerson(details);
+      onSelectPerson(details); // envia os detalhes para o pai
     } catch (err) {
       console.error("Erro ao buscar detalhes:", err);
+      onSelectPerson(null);
     }
   };
 
@@ -108,12 +107,6 @@ export default function ListPerson({ onSelectPerson }) {
       />
 
       <h2 className="text-lg font-medium">{t("verifications")}</h2>
-
-      {isLoadingDetails && (
-        <div className="mb-2">
-          <Loading />
-        </div>
-      )}
 
       <ListVerifications
         isLoading={isLoading}

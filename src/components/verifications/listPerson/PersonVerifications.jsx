@@ -1,5 +1,3 @@
-"use client";
-
 import React, { forwardRef } from "react";
 import Image from "next/image";
 import unknow from "@/assets/unknowProfile.svg";
@@ -23,7 +21,5 @@ const PersonVerifications = forwardRef(({ name, status, image, onClick }, ref) =
     </div>
   </div>
 ));
-
-PersonVerifications.displayName = "PersonVerifications";
 
 export default PersonVerifications;

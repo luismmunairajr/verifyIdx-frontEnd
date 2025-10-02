@@ -50,7 +50,7 @@ export default function CreateKey({ onCreated }) {
       });
 
       if (response.status === 201 || response.status === 200) {
-        const newKey = response.data?.key?.key;
+        const newKey = response.data?.apiKey?.key;
         if (newKey) {
           setInputValue(newKey);
           toast.success(t("keyCreated") || "Chave criada com sucesso");

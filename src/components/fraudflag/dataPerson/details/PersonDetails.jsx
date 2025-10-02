@@ -8,8 +8,8 @@ export default function PersonDetails({ person }) {
         <div className="p-10 w-full grid grid-cols-3">
             <div className="space-y-6">
                 <DetailField label={t("fullName")} value={person.fullName} />
-                <DetailField label={t("fatherFirstName")} value={person.fatherFirstName} />
-                <DetailField label={t("motherFirstName")} value={person.motherFirstName} />
+                <DetailField label={t("fatherFirstName")} value={person.fatherName} />
+                <DetailField label={t("motherFirstName")} value={person.motherName} />
                 <DetailField label={t("idNumber")} value={person.idNumber} />
                 <DetailField label={t("sex")} value={person.sex} />
             </div>

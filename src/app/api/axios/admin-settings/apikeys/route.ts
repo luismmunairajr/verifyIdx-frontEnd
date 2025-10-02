@@ -98,15 +98,15 @@ export async function DELETE(req: NextRequest) {
   const { accessToken, tenantId } = tokenData;
 
   const url = new URL(req.url);
-  const apikeyId = url.searchParams.get("apikeyId");
+  const apiKeyId = url.searchParams.get("apiKeyId");
 
-  if (!apikeyId) {
-    return NextResponse.json({ error: "apikeyId é obrigatório" }, { status: 400 });
+  if (!apiKeyId) {
+    return NextResponse.json({ error: "apiKeyId é obrigatório" }, { status: 400 });
   }
 
   try {
     await axios.delete(
-      `${process.env.MIDLEWARE_BASE_URL}/tenants/${tenantId}/apikeys/${apikeyId}/revoke`,
+      `${process.env.MIDLEWARE_BASE_URL}/tenants/${tenantId}/apikeys/${apiKeyId}/revoke`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }

@@ -17,16 +17,16 @@ export default function DataPerson({ selectedPerson }) {
         const { t } = useLanguage();
         const renderContent = () => {
             if (!selectedPerson) {
-                return <div>Select a person to see the details</div>;
-            }
+            return <div>{t("selectPersonToSeeDetails")}</div>;
+        }
 
         switch (activeTab) {
             case "personDetails":
                 return <PersonDetails person={selectedPerson} />;
-            case "thirdPartyReference":
-                return <ThirdPartVerification person={selectedPerson}/>;
+           {/*     case "thirdPartyReference":
+                return <ThirdPartVerification person={selectedPerson} />;
             case "sanctionScreening":
-                return <SanctionScreening person={selectedPerson}/>;
+                return <SanctionScreening person={selectedPerson} />; */}
             case "addressVerification":
                 return <AddressVerification person={selectedPerson}/>;
             case "otherInfo":
@@ -54,8 +54,8 @@ export default function DataPerson({ selectedPerson }) {
 
     const details = [
         "personDetails",
-        "thirdPartyReference",
-        "sanctionScreening",
+       // "thirdPartyReference",
+      //  "sanctionScreening",
         "addressVerification",
         "otherInfo",
         "sessionInfo",

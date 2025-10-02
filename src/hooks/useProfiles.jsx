@@ -134,6 +134,7 @@ export function useProfiles(initialPage = 1, limit = 10) {
         photoIDFaceCrop: r0?.idscanOnly?.photoIDFaceCrop || null,
         photoIDBackCrop: r0?.idscanOnly?.photoIDBackCrop || null,
         photoIDFrontCrop: r0?.idscanOnly?.photoIDFrontCrop || null,
+        photoIDPrimarySignatureCrop: r0?.idscanOnly?.photoIDPrimarySignatureCrop || null,
       };
 
       setVerificationDetails(detailedData);

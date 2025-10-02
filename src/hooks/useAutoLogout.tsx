@@ -11,7 +11,7 @@ export function useAutoLogout(inactivityTime = 5 * 60 * 1000) {
     if (timerRef.current) clearTimeout(timerRef.current);
 
     timerRef.current = window.setTimeout(() => {
-      federatedLogout(); //  logout completo com id_token_hint
+      federatedLogout(); 
     }, inactivityTime);
   };
 

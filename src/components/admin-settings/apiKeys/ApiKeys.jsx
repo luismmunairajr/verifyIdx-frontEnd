@@ -44,19 +44,27 @@ export default function ApiKeys() {
     }
   }, [t]);
 
-  const revokeKey = async (apikeyId) => {
-    try {
-      setRevokingKey(apikeyId);
-      await axiosInstance.delete(`/api/axios/admin-settings/apikeys?apikeyId=${apikeyId}`);
-      toast.success(t("keyRevoked"));
-      await fetchKeys();
-    } catch (error) {
-      toast.error(t("errorRevokingKey"));
-      console.error(error);
-    } finally {
-      setRevokingKey("");
-    }
-  };
+  const revokeKey = async (apiKeyId) => {
+  if (!apiKeyId) return toast.error("API Key inválida");
+
+  try {
+    setRevokingKey(apiKeyId);
+
+    // Call the API to revoke the key
+    await axiosInstance.delete("/api/axios/admin-settings/apikeys", {
+      params: { apiKeyId }
+    });
+
+    toast.success(t("keyRevoked"));
+    await fetchKeys();
+  } catch (error) {
+    toast.error(t("errorRevokingKey"));
+    console.error(error);
+  } finally {
+    setRevokingKey("");
+  }
+};
+
 
   useEffect(() => {
     if (session) fetchKeys();
@@ -121,7 +129,7 @@ export default function ApiKeys() {
           </TableHeader>
           <TableBody>
             {apiKeys.map((key) => (
-              <TableRow key={key.id}>
+              <TableRow key={key.apiKeyId}>
                  <TableCell>{key.name || ""}</TableCell>
                 <TableCell>
                   {key.status === "ACTIVE"
@@ -139,10 +147,10 @@ export default function ApiKeys() {
                     <Button
                       variant="destructive"
                       size="sm"
-                      onClick={() => revokeKey(key.apikeyId)}
-                      disabled={revokingKey === key.apikeyId}
+                      onClick={() => revokeKey(key.apiKeyId)}
+                      disabled={revokingKey === key.apiKeyId}
                     >
-                      {revokingKey === key.apikeyId ? t("revoking") : t("revoke")}
+                      {revokingKey === key.apiKeyId ? t("revoking") : t("revoke")}
                     </Button>
                   )}
                 </TableCell>
